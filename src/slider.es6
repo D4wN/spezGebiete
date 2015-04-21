@@ -1,108 +1,126 @@
 /**
- * Created by Merlen on 20.04.2015.
+ * Created by Marv
  */
-/*
 
-
-
-*/
 let context = document.getElementById('puzzle').getContext('2d');
 
-let img = new Image();
-img.src = "../data/dimetrodon.jpg";
-img.addEventListener('load', drawTiles, false);
-
-
-let boardSize = document.getElementById('puzzle').width;
-let tileCount = document.getElementById('scale').value;
-
-let clickLoc = new Point();
-let emptyLoc = new Point();
-
-let tileSize = boardSize / tileCount;
-
-let solved = false;
-let solved_Triggered = false;
-
-let boardParts;
-
-setBoard();
-
-document.getElementById('scale').onchange = function() {
-    tileCount = this.value;
-    tileSize = boardSize / tileCount;
-    setBoard();
-    drawTiles();
-};
-
-document.getElementById('puzzle').onclick = function(e) {
-    clickLoc.x = Math.floor((e.pageX - this.offsetLeft) / tileSize);
-    clickLoc.y = Math.floor((e.pageY - this.offsetTop) / tileSize);
-    if (distance(clickLoc.x, clickLoc.y, emptyLoc.x, emptyLoc.y) == 1) {
-        slideTile(emptyLoc, clickLoc);
-        drawTiles();
+class GameHandler{
+    constructor(gameObject){
+        this.go = gameObject;
     }
-    if (solved) {
-        if (!solved_Triggered){
-            setTimeout(function() {alert("You solved it!");}, 500);
-            solved_Triggered = true;
+
+    scaleOnchange(){
+        this.go.tileCount = this.value;
+        this.go.reCalculateTileSize();
+        //go.tileSize = go.boardSize / go.tileCount;
+        this.go.setBoard();
+        this.go.drawTiles();
+    }
+
+    puzzleOnclick(e, htmlElement){
+        this.go.clickLoc.x = Math.floor((e.pageX - htmlElement.offsetLeft) / this.go.tileSize);
+        this.go.clickLoc.y = Math.floor((e.pageY - htmlElement.offsetTop) / this.go.tileSize);
+        if (distance(this.go.clickLoc.x, this.go.clickLoc.y, this.go.emptyLoc.x, this.go.emptyLoc.y) == 1) {
+            this.go.slideTile(this.go.emptyLoc, this.go.clickLoc);
+            this.go.drawTiles();
         }
-    }
-};
-
-function setBoard() {
-    boardParts = new Array(tileCount);
-    for (var i = 0; i < tileCount; ++i) {
-        boardParts[i] = new Array(tileCount);
-        for (var j = 0; j < tileCount; ++j) {
-            boardParts[i][j] = new Point;
-            boardParts[i][j].x = (tileCount - 1) - i;
-            boardParts[i][j].y = (tileCount - 1) - j;
-        }
-    }
-    emptyLoc.x = boardParts[tileCount - 1][tileCount - 1].x;
-    emptyLoc.y = boardParts[tileCount - 1][tileCount - 1].y;
-    solved = false;
-}
-
-function drawTiles() {
-    context.clearRect ( 0 , 0 , boardSize , boardSize );
-    for (let i = 0; i < tileCount; ++i) {
-        for (let j = 0; j < tileCount; ++j) {
-            let x = boardParts[i][j].x;
-            let y = boardParts[i][j].y;
-            if(i != emptyLoc.x || j != emptyLoc.y || solved == true) {
-                context.drawImage(img, x * tileSize, y * tileSize, tileSize, tileSize,
-                    i * tileSize, j * tileSize, tileSize, tileSize);
+        if (this.go.solved) {
+            if (!this.go.solved_Triggered){
+                setTimeout(function() {alert("You solved it!");}, 500);
+                this.go.solved_Triggered = true;
             }
         }
     }
 }
 
-function slideTile(toLoc, fromLoc) {
-    if (!solved) {
-        boardParts[toLoc.x][toLoc.y].x = boardParts[fromLoc.x][fromLoc.y].x;
-        boardParts[toLoc.x][toLoc.y].y = boardParts[fromLoc.x][fromLoc.y].y;
-        boardParts[fromLoc.x][fromLoc.y].x = tileCount - 1;
-        boardParts[fromLoc.x][fromLoc.y].y = tileCount - 1;
-        toLoc.x = fromLoc.x;
-        toLoc.y = fromLoc.y;
-        checkSolved();
-    }
-}
+class GameObject {
+    constructor() {
+        this.boardParts;
+        this.tileCount = document.getElementById('scale').value;
+        this.boardSize = document.getElementById('puzzle').width;
+        this.emptyLoc = new Point();
+        this.clickLoc = new Point();
+        this.solved = false;
+        this.solved_Triggered = false;
+        //this.context = document.getElementById('puzzle').getContext('2d');
+        this.tileSize;
+        this.reCalculateTileSize();
 
-function checkSolved() {
-    var flag = true;
-    for (var i = 0; i < tileCount; ++i) {
-        for (var j = 0; j < tileCount; ++j) {
-            if (boardParts[i][j].x != i || boardParts[i][j].y != j) {
-                flag = false;
+        this.img = new Image();
+        this.img.src = "../data/dimetrodon.jpg";
+        this.img.onload = function() {go.drawTiles();}
+        //this.img.addEventListener('load', this.drawTiles(), false);
+
+
+        this.setBoard(); //init func
+    }
+
+    reCalculateTileSize(){
+        this.tileCount = document.getElementById('scale').value;
+        this.boardSize = document.getElementById('puzzle').width;
+        this.tileSize = this.boardSize / this.tileCount;
+    }
+
+    setBoard() {
+        this.solved_Triggered = false;
+        this.boardParts = new Array(this.tileCount);
+        for (var i = 0; i < this.tileCount; ++i) {
+            this.boardParts[i] = new Array(this.tileCount);
+            for (var j = 0; j < this.tileCount; ++j) {
+                this.boardParts[i][j] = new Point;
+                this.boardParts[i][j].x = (this.tileCount - 1) - i;
+                this.boardParts[i][j].y = (this.tileCount - 1) - j;
+            }
+        }
+        this.emptyLoc.x = this.boardParts[this.tileCount - 1][this.tileCount - 1].x;
+        this.emptyLoc.y = this.boardParts[this.tileCount - 1][this.tileCount - 1].y;
+        this.solved = false;
+    }
+
+    drawTiles() {
+        context.clearRect(0, 0, this.boardSize, this.boardSize);
+        for (let i = 0; i < this.tileCount; ++i) {
+            for (let j = 0; j < this.tileCount; ++j) {
+                let x = this.boardParts[i][j].x;
+                let y = this.boardParts[i][j].y;
+                if (i != this.emptyLoc.x || j != this.emptyLoc.y || this.solved == true) {
+                    context.drawImage(this.img, x * this.tileSize, y * this.tileSize, this.tileSize, this.tileSize,
+                        i * this.tileSize, j * this.tileSize, this.tileSize, this.tileSize);
+                }
             }
         }
     }
-    solved = flag;
+
+    slideTile(toLoc, fromLoc) {
+        if (!this.solved) {
+            this.boardParts[toLoc.x][toLoc.y].x = this.boardParts[fromLoc.x][fromLoc.y].x;
+            this.boardParts[toLoc.x][toLoc.y].y = this.boardParts[fromLoc.x][fromLoc.y].y;
+            this.boardParts[fromLoc.x][fromLoc.y].x = this.tileCount - 1;
+            this.boardParts[fromLoc.x][fromLoc.y].y = this.tileCount - 1;
+            toLoc.x = fromLoc.x;
+            toLoc.y = fromLoc.y;
+            this.checkSolved();
+        }
+    }
+
+    checkSolved() {
+        var flag = true;
+        for (var i = 0; i < this.tileCount; ++i) {
+            for (var j = 0; j < this.tileCount; ++j) {
+                if (this.boardParts[i][j].x != i || this.boardParts[i][j].y != j) {
+                    flag = false;
+                }
+            }
+        }
+        this.solved = flag;
+    }
 }
 
+let go = new GameObject();
+let gh = new GameHandler(go);
+document.getElementById('scale').onchange = function(){ gh.scaleOnchange(); }
+let pz = document.getElementById('puzzle');
+pz.onclick = function(e){ gh.puzzleOnclick(e, pz); }
 
 /*Distance func as arrow*/
 let distance = (x1, y1, x2, y2) => Math.abs(x1 - x2) + Math.abs(y1 - y2);
@@ -110,5 +128,3 @@ let distance = (x1, y1, x2, y2) => Math.abs(x1 - x2) + Math.abs(y1 - y2);
 function Point(x = 0, y = 0){
    return {x, y};
 }
-
-

@@ -141,9 +141,9 @@ classRun();
 //Numercial Literals
 {
     console.log("7. Numerical Literals");
-    let bin = 0b0;
-    let oct = 0o0;
-    console.log("Binary: " + bin +" equals Oct: " + oct + " = " + bin == oct);
+    let bin = 0b1;
+    let oct = 0o1;
+    console.log("Binary: " + bin +" equals Oct: " + oct + " = " + (bin == oct));
     console.log("##############################################");
 }
 
@@ -184,7 +184,7 @@ classRun();
         });
     }
     let res = [];
-    push(res, 1, 2, 3);
+    push(res, "START", 1, 2, 3, 4, 5, "ENDE");
 
     console.log(res);
     console.log("##############################################");
