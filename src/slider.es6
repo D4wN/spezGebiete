@@ -22,6 +22,7 @@ let emptyLoc = new Point();
 let tileSize = boardSize / tileCount;
 
 let solved = false;
+let solved_Triggered = false;
 
 let boardParts;
 
@@ -42,7 +43,10 @@ document.getElementById('puzzle').onclick = function(e) {
         drawTiles();
     }
     if (solved) {
-        setTimeout(function() {alert("You solved it!");}, 500);
+        if (!solved_Triggered){
+            setTimeout(function() {alert("You solved it!");}, 500);
+            solved_Triggered = true;
+        }
     }
 };
 
