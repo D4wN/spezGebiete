@@ -1,25 +1,43 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
-
-<polymer-element name="my-palindrom">
+<polymer-element name="my-palindrom" attributes="url">
 
     <template>
         <style>
         </style>
 
         <div>
+
             Geben sie Ihr Wort ein:
-            <input type="text" value="{{word}}">
-            <paper-button raised onclick="{{checkMe}}">Check</paper-button>
+            <input type="text" value="{{word}}" on-keypress="{{keyPress}}">
+            <paper-button raised on-click="{{checkMe}}">Check</paper-button><br>
+                <p>Ihr Wort ist {{result}} Palindrom!</p>
         </div>
 
     </template>
     <script>
         Palindrom = Polymer({
             word : "Kekse",
+            result : "kein",
             checkMe : function(){
-                alert("Ist Palindrom!");
+                length = this.word.length;
+
+                for(i = 0; i < length / 2; i++){
+                    j = (length-i-1);
+
+                    if(this.word.charAt(i).toLowerCase() != this.word.charAt(j).toLowerCase()){
+                        this.result = "kein";
+                        return;
+                    }
+                }
+                this.result = "ein";
+            },
+            keyPress : function(e){
+                //13 = Enter
+                if(e.keyCode == 13){
+                    this.checkMe();
+                }
             }
         });
     </script>
