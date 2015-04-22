@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
-<polymer-element name="my-palindrom" attributes="url">
+<polymer-element name="my-palindrom-comp">
 
     <template>
         <style>
@@ -12,32 +12,97 @@
             Geben sie Ihr Wort ein:
             <input type="text" value="{{word}}" on-keypress="{{keyPress}}">
             <paper-button raised on-click="{{checkMe}}">Check</paper-button><br>
-                <p>Ihr Wort ist {{result}} Palindrom!</p>
+                <p>Ihr Wort ist {{result}} Palindrom! Rueckwaerts: {{word_back}}</p>
         </div>
 
     </template>
     <script>
         Palindrom = Polymer({
             word : "Kekse",
+            word_back : "eskeK",
             result : "kein",
             checkMe : function(){
                 length = this.word.length;
 
-                for(i = 0; i < length / 2; i++){
+                isPalim = true;
+                this.word_back = "";
+
+                for(i = 0; i < length; i++){
                     j = (length-i-1);
 
-                    if(this.word.charAt(i).toLowerCase() != this.word.charAt(j).toLowerCase()){
-                        this.result = "kein";
-                        return;
+                    letter1 = this.word.charAt(i);
+                    letter2 = this.word.charAt(j);
+
+                    if(letter1.toLowerCase() != letter2.toLowerCase()){
+                        isPalim = false;
                     }
+                    this.word_back += letter2;
                 }
-                this.result = "ein";
+
+                if(isPalim){
+                    this.result = "ein";
+                } else {
+                    this.result = "kein";
+                }
+
             },
             keyPress : function(e){
                 //13 = Enter
                 if(e.keyCode == 13){
                     this.checkMe();
                 }
+            }
+        });
+    </script>
+</polymer-element>
+
+<polymer-element name="my-palindrom-onetime" attributes="word">
+
+    <template>
+        <style>
+        </style>
+
+        <div>
+            Gegebenes Wort: {{word}}<b>
+            Rueckwaerts   : {{word_back}}<b>
+            Ihr Wort ist {{result}} Palindrom! Rueckwaerts: {{word_back}}
+            <p></p>
+        </div>
+
+    </template>
+    <script>
+        Palindrom = Polymer({
+            word : "",
+            word_back : "",
+            result : "kein",
+            checkMe : function(){
+                length = this.word.length;
+
+                isPalim = true;
+                this.word_back = "";
+
+                for(i = 0; i < length; i++){
+                    j = (length-i-1);
+
+                    letter1 = this.word.charAt(i);
+                    letter2 = this.word.charAt(j);
+
+                    if(letter1.toLowerCase() != letter2.toLowerCase()){
+                        isPalim = false;
+                    }
+                    this.word_back += letter2;
+                }
+
+                if(isPalim){
+                    this.result = "ein";
+                } else {
+                    this.result = "kein";
+                }
+
+            },
+            ready: function () {
+                //fires when the component is ready
+                this.checkMe();
             }
         });
     </script>
