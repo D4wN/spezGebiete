@@ -81,9 +81,8 @@ http.createServer(function (req, res) {
 //Iterators and For Of + Generators
 
 {
-    /*
         console.log("6. Iterators and For Of + Generators");
-        let arr = [1,2,3,4,5]
+        let arr = [1,2,3,4,5];
         console.log("For of");
         for(let i of arr){
             console.log("i="+i);
@@ -144,7 +143,7 @@ http.createServer(function (req, res) {
         for(let itm of myGenerator(ar)){
             console.log("Item Label:"+itm);
         }
-*/
+
         console.log("##############################################");
     }
 
@@ -166,7 +165,7 @@ http.createServer(function (req, res) {
             toString(){
                 return this.param;
             }
-        }
+        };
         console.log(obj.toString() == num);
         console.log("##############################################");
     }
@@ -257,65 +256,32 @@ http.createServer(function (req, res) {
 
         console.log(object[s] == 420);
         console.log("##############################################");
-    }
-*/
-//Async Function
+    }*/
+
     {
-        console.log("15. Async Functions not includes in ES6");
-        /*
-         function timeout(ms) {
-         return new Promise((resolve) => {
-         setTimeout(resolve, ms);
-         });
-         }
+        function* fakOfString(path) { //fakultaet of String size
+            console.log(path + "");
+            let total = 0;
+            let count = 0;
+            for (let i = 0; i < path.length; i++) {
+                total += i;
+            }
 
-         async function asyncValue(value) {
-         await timeout(50);
-         return value;
-         }
+            return total;
+        }
 
-         (async function() {
-         let value = await asyncValue(42).catch(console.error.bind(console));
-         assert.equal(42, value);
-         done();
-         })();
-         */
-        console.log("##############################################");
+        function* lineFaks() {
+            var total = 0;
+            total += yield* fakOfString('../src');
+            total += yield* fakOfString('../data');
+            total += yield* fakOfString('../lib');
+            console.log('TOTAL: ' + total);
+            return total;
+        }
+
+        for (let i of lineFaks()){}
     }
 
-//Async Generators
-    {
-        console.log("16. Async Generators  not includes in ES6");
-        /*
-         function timeout(ms) {
-         return new Promise((resolve) => {
-         setTimeout(resolve, ms);
-         });
-         }
-
-         async function* asyncStream() {
-         let i = 0;
-         while (true) {
-         await timeout(50);
-         yield i;
-         ++i;
-         }
-         }
-
-         (async function() {
-         let count = 0;
-         for (value on asyncStream()) {
-         count += value;
-         if (value === 10) {
-         break;
-         }
-         }
-         assert.equal(count, 55); // 55 = 1 + 2 + ... + 10
-         done();
-         })();
-         */
-        console.log("##############################################");
-    }
 
     console.log("END REQUEST-----------------------------------------------------");
 }).listen(1337, '127.0.0.1');
