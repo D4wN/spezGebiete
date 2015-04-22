@@ -1,0 +1,26 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+
+<polymer-element name="my-palindrom">
+
+    <template>
+        <style>
+        </style>
+
+        <div>
+            Geben sie Ihr Wort ein:
+            <input type="text" value="{{word}}">
+            <paper-button raised onclick="{{checkMe}}">Check</paper-button>
+        </div>
+
+    </template>
+    <script>
+        Palindrom = Polymer({
+            word : "Kekse",
+            checkMe : function(){
+                alert("Ist Palindrom!");
+            }
+        });
+    </script>
+</polymer-element>
