@@ -1,17 +1,11 @@
-require("babel/polyfill"); //..\WebstormProjects\node_modules\babel\polyfill.js   needed for generators
+/*require("babel/polyfill"); //..\WebstormProjects\node_modules\babel\polyfill.js   needed for generators
 var cl = require("./classes"); //require not client side
                                 // so generators and module are not possible
-
+*/
 /*
  Async Functions (ES7) not in ES6
  Async Generators (ES7)not in ES6
  */
-
-var http = require('http');
-http.createServer(function (req, res) {
-    console.log("START REQUEST-----------------------------------------------------");
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Praktikum 1\n');
 
     let output = "Aufgabenblatt 1: Ecmascript6, Typescript, Dart\n" +
         "##############################################";
@@ -44,9 +38,7 @@ http.createServer(function (req, res) {
         }
         //console.log(tmp); //ReferenceError: tmp is not defined
     }
-//Classes, Import/Module, etc
-    //import {classRun} from "./classes";
-    cl.classRun();
+
 //Computed Property Names
     {
         console.log("4. Computed Property Names");
@@ -59,6 +51,13 @@ http.createServer(function (req, res) {
         console.log("obj[2]="+obj[2]);
         console.log("##############################################");
     }
+
+//Classes, Import/Module, etc
+{
+    console.log("Classes and modules needs requie //not client side without plugins");
+    console.log("##############################################");
+
+}
 //Destructuring Assignment
     {
         console.log("5. Destructuring Assignment");
@@ -78,75 +77,14 @@ http.createServer(function (req, res) {
         console.log("y="+y);
         console.log("##############################################");
     }
+
 //Iterators and For Of + Generators
 
 {
-    /*
-        console.log("6. Iterators and For Of + Generators");
-        let arr = [1,2,3,4,5]
-        console.log("For of");
-        for(let i of arr){
-            console.log("i="+i);
-        }
+    console.log("6. Iterators and For Of + Generators // not without babel+plugin");
+    console.log("##############################################");
+}
 
-        console.log("Iterator");
-        function iterateElements(array) {
-            return {
-                [Symbol.iterator]: function() {
-                    var index = 0;
-                    var current;
-                    return {
-                        next: function() {
-                            if (index < array.length) {
-                                current = array[index++];
-                                return {
-                                    value: current,
-                                    done: false
-                                };
-                            }
-                            return {
-                                value: undefined,
-                                done: true
-                            }
-                        }
-                    };
-                }
-            };
-        }
-        for(let it of iterateElements(arr)){
-            console.log("it="+it);
-        }
-
-        console.log("Generator ");
-
-        function Item(left, label, right) {
-            this.left = left;
-            this.label = label;
-            this.right = right;
-        }
-
-
-        function* myGenerator(t){
-            if (t) {
-                yield* myGenerator(t.left);
-                yield t.label;
-                yield* myGenerator(t.right);
-            }
-        }
-
-        function make(array) {
-            if (array.length == 1) return new Item(null, array[0], null);
-            return new Item(make(array[0]), array[1], make(array[2]));
-        }
-
-        let ar = make([['item1'],'item2',['item3']]);
-
-        for(let itm of myGenerator(ar)){
-            console.log("Item Label:"+itm);
-        }
-*/
-        console.log("##############################################");
-    }
 
 //Numercial Literals
     {
@@ -247,18 +185,17 @@ http.createServer(function (req, res) {
         console.log("##############################################");
     }
 
-//Symbols, not in client side becaue polyfill.js is needed
-/*
+//Symbols
     {
-        console.log("14. Symbols");
-        let s = Symbol();
-        let object = {};
-        object[s] = 420;
+        console.log("14. Symbols not client side");
+        //let s = Symbol();
+        //let object = {};
+        //object[s] = 420;
 
-        console.log(object[s] == 420);
+        //console.log(object[s] == 420);
         console.log("##############################################");
     }
-*/
+
 //Async Function
     {
         console.log("15. Async Functions not includes in ES6");
@@ -316,10 +253,6 @@ http.createServer(function (req, res) {
          */
         console.log("##############################################");
     }
-
-    console.log("END REQUEST-----------------------------------------------------");
-}).listen(1337, '127.0.0.1');
-console.log('Server running at http://127.0.0.1:1337/');
 
 
 //Last output
