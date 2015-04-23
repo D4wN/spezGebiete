@@ -1,10 +1,9 @@
 <template>
 
 
-    <input id="txtfield" type="text"/>
-    <button id="btn" onclick="checkString()">Send</button>
-    <input id="rev" type="text" disabled>
-
+    <!--<output id="rev"  disabled/>
+    <!--<input type="text" id="txtfield">
+    <button id="btn">Send</button>-->
     <style></style>
 
 </template>
@@ -20,17 +19,22 @@
 
         var shadowRoot = this.createShadowRoot();
         var template = thisDoc.querySelector('template').content;
+
         var clone = thatDoc.importNode(template, true);
+
+
         shadowRoot.appendChild(clone);
 
         PalProto.txtfield = shadowRoot.getElementById("txtfield");
-        this.btn = shadowRoot.getElementById("btn");
+        //this.btn = shadowRoot.getElementById("btn");
         this.rev =shadowRoot.getElementById("rev");
 
-        var val = document.getElementsByTagName("palindrom-check")[0];
-        for (var i = 0; val.size(); i++){
-            console.log(i);
-            checkString(i,this.rev);
+        var val = document.getElementsByTagName("palindrom-check");
+        //var test = val;
+        console.log(val.length)
+        for (var i = 0; i < val.length; i++){
+            //console.log(val[i].innerHTML);
+            checkString(val[i].innerHTML,this.rev, this.isPal);
         }
 
         /*
@@ -47,17 +51,19 @@
     };
 
     function checkString(texte, field){
-        console.log("checke " + texte);
+        //console.log("checke " + texte);
         var wordlength = texte.length;
-        console.log(wordlength);
+        //console.log(wordlength);
         if(wordlength >0){
             var reverseWord = "";
             for(var i = wordlength; i >= 0; i--){
                 reverseWord += texte.charAt(i);
             }
-            //field.value = reverseWord;
 
-            checkPalindrom(texte, reverseWord);
+            field.value += reverseWord + checkPalindrom(texte.toLowerCase(), reverseWord.toLowerCase()) + " ";
+            field.innerHtml += "'</br>'";
+
+            //checkPalindrom(texte, reverseWord, isPal);
         }
     }
 
@@ -73,7 +79,10 @@
                 }
 
         }
-        if(bool) alert(orig + " is a Palindrom");
+
+        if(bool){
+            return " ist ein Palindrom";
+        } else return " ist kein Palindrom"
     }
 
     var palindrom = thisDoc.registerElement('palindrom-check', {prototype: PalProto});
