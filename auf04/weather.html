@@ -51,6 +51,7 @@
                         var level = Math.round((temp + 8) / 8);
                         level = level < 0 ? 0 : level;
                         level = level > 6 ? 6 : level;
+                        console.log(level);
                         return level
                     }
                     this.data = {
@@ -59,8 +60,8 @@
                         sunrise: dateHelper(sunrise.getHours()) + ":" + dateHelper(sunrise.getMinutes()),
                         sunset: dateHelper(sunset.getHours()) + ":" + dateHelper(sunset.getMinutes()),
                         currentTemp: Math.round(res.main.temp),
-                        minTemp: Math.round(res.main.temp_min),
-                        maxTemp: Math.round(res.main.temp_max),
+                        minTemp: getTempLevel(res.main.temp_min, this.imperial),
+                        maxTemp: getTempLevel(res.main.temp_max, this.imperial),
                         windSpeed: res.wind.speed,
                         windDirection: this.windDirections[Math.round(res.wind.deg / 45) % 8],
                         cloudiness: res.clouds.all,
