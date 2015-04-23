@@ -8,11 +8,11 @@
         </style>
 
         <div>
-
             Geben sie Ihr Wort ein:
             <input type="text" value="{{word}}" on-keypress="{{keyPress}}">
             <paper-button raised on-click="{{checkMe}}">Check</paper-button><br>
-                <p>Ihr Wort ist {{result}} Palindrom! Rueckwaerts: {{word_back}}</p>
+            Rueckwaerts: {{word_back}}<br>
+            Ihr Wort ist {{result}} Palindrom!
         </div>
 
     </template>
@@ -33,7 +33,7 @@
                     letter1 = this.word.charAt(i);
                     letter2 = this.word.charAt(j);
 
-                    if(letter1.toLowerCase() != letter2.toLowerCase()){
+                    if(letter1.toLowerCase() != letter2.toLowerCase() && isPalim){
                         isPalim = false;
                     }
                     this.word_back += letter2;
@@ -56,16 +56,15 @@
     </script>
 </polymer-element>
 
-<polymer-element name="my-palindrom-onetime" attributes="word">
+<polymer-element name="my-palindrom-onetime">
 
     <template>
         <style>
         </style>
-
-        <div>
-            Gegebenes Wort: {{word}}<b>
-            Rueckwaerts   : {{word_back}}<b>
-            Ihr Wort ist {{result}} Palindrom! Rueckwaerts: {{word_back}}
+            <h3>Als Attribut uebergebn</h3>
+            Gegebenes Wort: <b>{{word}}</b><br>
+            Rueckwaerts   : <b>{{word_back}}</b><br>
+            Ihr Wort ist {{result}} Palindrom!
             <p></p>
         </div>
 
@@ -87,7 +86,7 @@
                     letter1 = this.word.charAt(i);
                     letter2 = this.word.charAt(j);
 
-                    if(letter1.toLowerCase() != letter2.toLowerCase()){
+                    if(letter1.toLowerCase() != letter2.toLowerCase() && isPalim){
                         isPalim = false;
                     }
                     this.word_back += letter2;
@@ -100,8 +99,11 @@
                 }
 
             },
-            ready: function () {
+            created: function () {
                 //fires when the component is ready
+                if(this.innerHTML != undefined || this.innerHTML != null){
+                   this.word = this.innerHTML;
+                }
                 this.checkMe();
             }
         });
