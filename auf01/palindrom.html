@@ -1,0 +1,80 @@
+<template>
+
+
+    <input id="txtfield" type="text"/>
+    <button id="btn" onclick="checkString()">Send</button>
+    <input id="rev" type="text" disabled>
+
+    <style></style>
+
+</template>
+
+
+<script>
+    var thatDoc = document;
+    var thisDoc = (thatDoc._currentScript || thatDoc.currentScript).ownerDocument;
+
+    var PalProto = Object.create(HTMLElement.prototype);
+
+    PalProto.createdCallback = function () {
+
+        var shadowRoot = this.createShadowRoot();
+        var template = thisDoc.querySelector('template').content;
+        var clone = thatDoc.importNode(template, true);
+        shadowRoot.appendChild(clone);
+
+        PalProto.txtfield = shadowRoot.getElementById("txtfield");
+        this.btn = shadowRoot.getElementById("btn");
+        this.rev =shadowRoot.getElementById("rev");
+
+        var val = document.getElementsByTagName("palindrom-check")[0];
+        for (var i = 0; val.size(); i++){
+            console.log(i);
+            checkString(i,this.rev);
+        }
+
+        /*
+        this.btn.addEventListener("click",function (e){
+            checkString(PalProto.txtfield.value, this.rev);
+        });
+
+        this.txtfield.onkeypress = function (e) {
+            if(e.keyCode == 13) {
+                checkString(PalProto.txtfield.value, this.rev);
+            }
+        }*/
+
+    };
+
+    function checkString(texte, field){
+        console.log("checke " + texte);
+        var wordlength = texte.length;
+        console.log(wordlength);
+        if(wordlength >0){
+            var reverseWord = "";
+            for(var i = wordlength; i >= 0; i--){
+                reverseWord += texte.charAt(i);
+            }
+            //field.value = reverseWord;
+
+            checkPalindrom(texte, reverseWord);
+        }
+    }
+
+    function checkPalindrom(orig, rev){
+        console.log("checke " + orig + " " + rev);
+        var bool = false;
+        for(var i = 0; i <= orig.length; i++){
+                if(orig.charAt(i) == rev.charAt(i)) {
+                    bool = true;
+                } else{
+                    bool = false;
+                    break;
+                }
+
+        }
+        if(bool) alert(orig + " is a Palindrom");
+    }
+
+    var palindrom = thisDoc.registerElement('palindrom-check', {prototype: PalProto});
+</script>
