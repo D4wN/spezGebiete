@@ -56,12 +56,11 @@
     </script>
 </polymer-element>
 
-<polymer-element name="my-palindrom-onetime" attributes="word">
+<polymer-element name="my-palindrom-onetime">
 
     <template>
         <style>
         </style>
-        <div>
             <h3>Als Attribut uebergebn</h3>
             Gegebenes Wort: <b>{{word}}</b><br>
             Rueckwaerts   : <b>{{word_back}}</b><br>
@@ -100,8 +99,11 @@
                 }
 
             },
-            ready: function () {
+            created: function () {
                 //fires when the component is ready
+                if(this.innerHTML != undefined || this.innerHTML != null){
+                   this.word = this.innerHTML;
+                }
                 this.checkMe();
             }
         });
