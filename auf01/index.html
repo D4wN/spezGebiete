@@ -2,7 +2,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="import" href="palindrom.html">
+    <script>
+        var PalProto = Object.create(HTMLElement.prototype);
+        PalProto.createdCallback = function () {
+            checkString(this);
+        };
+
+        function checkString(string){
+            var newText = "";
+            if(string.innerHTML.length >0){
+                var reverseWord = "";
+                for(var i =  string.innerHTML.length; i >= 0; i--){
+                    reverseWord += string.innerHTML.charAt(i);
+                }
+
+                string.innerHTML = '<h3>'+ string.innerHTML + '</h3> <li>' +"Rückwärts gelesen: "
+                        + reverseWord +'</li> <li>' +"Ist es eine Palindrom ?"+ checkPalindrom(string.innerHTML.toLowerCase(), reverseWord.toLowerCase()) +  '</li>' ;
+            }
+        }
+
+        function checkPalindrom(origWord, revWord){
+            var bool = false;
+            for(var i = 0; i <= origWord.length; i++){
+                if(origWord.charAt(i) == revWord.charAt(i)) {
+                    bool = true;
+                } else{
+                    bool = false;
+                    break;
+                }
+
+            }
+            if(bool) return " JA";
+                else return " NEIN";
+        }
+
+        var palindrom = document.registerElement('x-palindrom-check', {prototype: PalProto});
+
+    </script>
+
     <style>
         html{
             background-size: 100% 100%;
@@ -34,8 +71,11 @@
             right: 0;
         }
     </style>
+
 </head>
 <body>
-<footer><palindrom-check>Lagerregal</palindrom-check></footer>
+<div id="main"><x-palindrom-check>Lagerregal</x-palindrom-check> <x-palindrom-check>Polster</x-palindrom-check>
+    <my-element></my-element>
+</div>
 </body>
 </html>
