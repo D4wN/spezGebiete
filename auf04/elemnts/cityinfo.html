@@ -6,7 +6,7 @@
 <link rel="import" href="../../auf03/elements/synonym-list.html">
 <link rel="import" href="../elemnts/longlat.html">
 <link rel="import" href="../elemnts/static-map.html">
-<!--<link rel="import" href="../elemnts/WAETHER_TODO.html">-->
+<link rel="import" href="../weather.html">
 
 <polymer-element name="city-info" attributes="city">
 
@@ -31,7 +31,7 @@
                 <static-map id="staticmap" lat="" lng="" zoom="10" height="400" width="400"></static-map>
             </div>
             <div name="weather-info">
-                TODO
+                <weather-element id="weatherelement" lat="" lon=""></weather-element>
             </div>
         </div>
 
@@ -52,7 +52,7 @@
                     this.longlatDone();
                 });
                 this.staticMap = this.$.staticmap;
-                //this.weather = this.$.TODO;
+                this.weather = this.$.weatherelement;
             },
             longlatDone : function(){
                 tmpLat = this.longlat.reLat;
@@ -63,8 +63,8 @@
                 this.staticMap.lng = tmpLng;
 
                 //weather
-                /*this.weather.lat = tmpLat;
-                this.weather.lon = tmpLng;*/
+                this.weather.lat = tmpLat;
+                this.weather.lon = tmpLng;
             }
         });
     </script>

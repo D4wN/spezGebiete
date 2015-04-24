@@ -6,7 +6,7 @@
         <h3>Weather Information</h3>
         Name: {{data.name}}<br>
         Condition: {{data.conditiontext}}<br>
-        Temperature: {{data.minTemp}}-{{data.maxTemp}}
+        Temperature: {{data.minTemp}}-{{data.maxTemp}}<br>
         Long: {{lon}}<br>
         Lat: {{lat}}<br>
 
@@ -16,7 +16,11 @@
         </core-ajax>
         </div>
 
-    <style></style>
+    <style>
+        #weather{
+            background-color: limegreen;
+        }
+    </style>
 
         </template>
 
@@ -33,6 +37,8 @@
             units: "metric",
             temperatureUnit:  "C",
             speedUnit: "km/h",
+            lat: "",
+            lon: "",
             windDirections: ["N","NE","E","SE","S","SW","W","NW"],
             data: null,
 
