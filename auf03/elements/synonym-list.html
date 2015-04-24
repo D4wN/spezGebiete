@@ -1,27 +1,27 @@
-<link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="../../bower_components/core-shared-lib/core-shared-lib.html">
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+<link rel="import" src="../Respo.js"/>
 
 <polymer-element name="synonym-list">
     <template>
         <input type="text" value="{{word}}">
-        <paper-button raised on-click="{{sendRequest}}">Search</paper-button><br>
+        <paper-button raised on-click="{{search}}">Search</paper-button><br>
 
-        <core-ajax id="ajax" on-core-response="{{ajaxResponse}}"></core-ajax>
+        <core-shared-lib
+                id="ajax"
+                auto
+                callbackName = handleResponse>
+        </core-shared-lib>
+
     </template>
     <script>
         <!-- Script goes here -->
         Synonym = Polymer({
             word : "",
-            ajaxResponse: function(event, response) {
-                console.log("Request for: "+ this.word);
-                console.log(response);
-            },
-            sendRequest: function(){
-                this.$.ajax.url = "https://www.openthesaurus.de/synonyme/search?q="+this.word+"&format=text/xml";
-                this.$.ajax.handleAs = "text";
-
-                this.$.ajax.go();
+            search: function(){
+                this.$.ajax.url = "https://www.openthesaurus.de/synonyme/search?q="+this.word+"&format=application/json&callback=handleResponse";
             }
         });
     </script>
