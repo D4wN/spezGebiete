@@ -31,7 +31,13 @@
                 }
                 synonyms += "<br/><br/>";
             }
-            document.getElementById("resultOutput").innerHTML = synonyms;
+            element = document.getElementById("resultOutput");
+            if(element != undefined){
+                element.innerHTML = synonyms;
+            }else{
+                console.log("Can't find the div-box, but here is the result:")
+                console.log(synonyms)
+            }
         }
 
         Synonym = Polymer({
@@ -40,6 +46,47 @@
             search: function(){
                 this.$.ajax.url = "https://www.openthesaurus.de/synonyme/search?q="+this.word+"&format=application/json&callback=handleResponse";
             }
+        });
+    </script>
+</polymer-element>
+
+<polymer-element name="synonym-list-onetime" attributes="word">
+    <template>
+        <br>
+        <div id="resultOutput">{{resultSynonyme}}</div>
+
+        <core-shared-lib
+                id="ajax"
+                auto
+                url = "https://www.openthesaurus.de/synonyme/search?q={{word}}&format=application/json&callback=handleResponse"
+                callbackName = this.handleResponse>
+        </core-shared-lib>
+    </template>
+    <script>
+        function handleResponse(result){
+            var synonyms = "";
+            for (var synsetCount = 0; synsetCount < result.synsets.length; synsetCount++) {
+                for (var termCount = 0; termCount < result.synsets[synsetCount].terms.length; termCount++) {
+                    var termObj = result.synsets[synsetCount].terms[termCount];
+                    synonyms += termObj.term
+                    if (termObj.level) {
+                        synonyms += " (" + termObj.level + ")";
+                    }
+                    synonyms += ", "
+                }
+                synonyms += "<br/><br/>";
+            }
+            element = document.getElementById("resultOutput");
+            if(element != undefined){
+                element.innerHTML = synonyms;
+            }else{
+                console.log("Can't find the div-box, but here is the result:")
+                console.log(synonyms)
+            }
+        }
+
+        Synonym = Polymer({
+            word : ""
         });
     </script>
 </polymer-element>
