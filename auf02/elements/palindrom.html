@@ -56,12 +56,16 @@
     </script>
 </polymer-element>
 
-<polymer-element name="my-palindrom-onetime">
+<polymer-element name="my-palindrom-onetime" attributes="word">
 
     <template>
         <style>
+            #palindrom{
+                background-color: orange;
+            }
         </style>
-            <h3>Als Attribut uebergebn</h3>
+        <div id="palindrom">
+            <h3>Palindrom</h3>
             Gegebenes Wort: <b>{{word}}</b><br>
             Rueckwaerts   : <b>{{word_back}}</b><br>
             Ihr Wort ist {{result}} Palindrom!
@@ -72,6 +76,10 @@
     <script>
         Palindrom = Polymer({
             word : "",
+            wordChanged: function(oldValue, newValue) {
+                this.word = newValue;
+                this.checkMe();
+            },
             word_back : "",
             result : "kein",
             checkMe : function(){

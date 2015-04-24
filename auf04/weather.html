@@ -1,0 +1,80 @@
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+<polymer-element name="weather-element"  attributes="lat lon">
+
+    <template>
+    <div id="weather">
+        <h3>Weather Information</h3>
+        Name: {{data.name}}<br>
+        Condition: {{data.conditiontext}}<br>
+        Temperature: {{data.minTemp}}-{{data.maxTemp}}
+        Long: {{lon}}<br>
+        Lat: {{lat}}<br>
+
+        <core-ajax id="ajax" auto
+                   url="http://api.openweathermap.org/data/2.5/weather?lat={{lat}}&lon={{lon}}&lang={{language}}"
+                   handleAs="json">
+        </core-ajax>
+        </div>
+
+    <style></style>
+
+        </template>
+
+
+    <script>
+        Polymer('weather-element',{
+            language: "de",
+            minmax: true,
+            name: true,
+            imperial: true,
+            conditiontext: true,
+            wind: true,
+            suntimes: true,
+            units: "metric",
+            temperatureUnit:  "C",
+            speedUnit: "km/h",
+            windDirections: ["N","NE","E","SE","S","SW","W","NW"],
+            data: null,
+
+            ready: function() {
+                console.log(this.$.ajax);
+                this.$.ajax.addEventListener('core-response', function(e){
+                    var res = e.detail.response;
+                    console.log(e);
+                    var sunrise = new Date(res.sys.sunrise*1000);
+                    var sunset = new Date(res.sys.sunset*1000);
+                    function dateHelper(i) {
+                        return i<10 ? "0" + i : i;
+                    }
+                    function getTempLevel(temp, isImperial) {
+                        if (isImperial) { temp = (temp-32)*(5/9) }
+                        var level = Math.round((temp + 8) / 8);
+                        level = level < 0 ? 0 : level;
+                        level = level > 6 ? 6 : level;
+                        console.log(level);
+                        return level
+                    }
+                    this.data = {
+                        conditiontext: res.weather[0].description,
+                        name: res.name,
+                        sunrise: dateHelper(sunrise.getHours()) + ":" + dateHelper(sunrise.getMinutes()),
+                        sunset: dateHelper(sunset.getHours()) + ":" + dateHelper(sunset.getMinutes()),
+                        currentTemp: Math.round(res.main.temp),
+                        minTemp: getTempLevel(res.main.temp_min, this.imperial),
+                        maxTemp: getTempLevel(res.main.temp_max, this.imperial),
+                        windSpeed: res.wind.speed,
+                        windDirection: this.windDirections[Math.round(res.wind.deg / 45) % 8],
+                        cloudiness: res.clouds.all,
+                        humidity: res.main.humidity,
+                        pressure: res.main.pressure,
+                        tempLevel: getTempLevel(res.main.temp, this.imperial)
+                    };
+                    console.log(this.data);
+                    this.fire('weather-element-load', {weather: this.data});
+                }.bind(this));
+            }
+        });
+
+    </script>
+
+</polymer-element>

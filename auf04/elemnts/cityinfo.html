@@ -1,0 +1,71 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+
+<link rel="import" href="../../auf02/elements/palindrom.html">
+<link rel="import" href="../../auf03/elements/synonym-list.html">
+<link rel="import" href="../elemnts/longlat.html">
+<link rel="import" href="../elemnts/static-map.html">
+<!--<link rel="import" href="../elemnts/WAETHER_TODO.html">-->
+
+<polymer-element name="city-info" attributes="city">
+
+    <template>
+        <style>
+            #city_info{
+                background-color: darkslategray;
+            }
+        </style>
+
+        <div id="city_info">
+            <div name="palindrom">
+                <my-palindrom-onetime id="mypalindromonetime" word="{{city}}"></my-palindrom-onetime>
+            </div>
+            <div name="synonym">
+                TODO
+            </div>
+            <div name="location">
+                <longlat-comp id="longlatcomp" city="{{city}}"></longlat-comp>
+            </div>
+            <div name="static-map">
+                <static-map id="staticmap" lat="" lng="" zoom="10" height="400" width="400"></static-map>
+            </div>
+            <div name="weather-info">
+                TODO
+            </div>
+        </div>
+
+    </template>
+    <script>
+        CityInfo = Polymer({
+            city: null,
+            palindrom : null,
+            syno : null,
+            longlat : null,
+            staticMap : null,
+            weather : null,
+            domReady : function(){
+                this.palindrom = this.$.mypalindromonetime;
+                //this.syno = this.$.synonym;
+                this.longlat = this.$.longlatcomp;
+                this.addEventListener('Longlat', function(){
+                    this.longlatDone();
+                });
+                this.staticMap = this.$.staticmap;
+                //this.weather = this.$.TODO;
+            },
+            longlatDone : function(){
+                tmpLat = this.longlat.reLat;
+                tmpLng = this.longlat.reLng;
+
+                //static map
+                this.staticMap.lat = tmpLat;
+                this.staticMap.lng = tmpLng;
+
+                //weather
+                /*this.weather.lat = tmpLat;
+                this.weather.lon = tmpLng;*/
+            }
+        });
+    </script>
+</polymer-element>

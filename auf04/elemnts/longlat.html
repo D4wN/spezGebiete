@@ -1,8 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
 
-<polymer-element name="longlat-comp">
+<polymer-element name="longlat-comp" attributes="city">
 
     <template>
         <style>
@@ -17,7 +16,7 @@
             Url:{{googleMapsURL}}{{city}}<br>
             Status:{{reStatus}}<br>
             Latitude: {{reLat}}<br>
-            Longitude:{{reLng}}<br>
+            Longitude:{{reLng}}
             <core-ajax
                     auto
                     url="{{googleMapsURL}}{{city}}"
@@ -39,7 +38,7 @@
                 this.city = this.innerHTML;
             },
             handleError : function(err){
-                conssole.log("ERROR");
+                console.log("ERROR");
                 console.log(err);
                 alert("Error Handling TODO");
             },
@@ -50,6 +49,8 @@
                 //get long+lat from location
                 this.reLng = jsonResponse.results[0].geometry.location.lng;
                 this.reLat = jsonResponse.results[0].geometry.location.lat;
+
+                this.fire('Longlat', {msg: 'Request Done!'});
             }
 
         });
