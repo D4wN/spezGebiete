@@ -52,15 +52,22 @@
 
 <polymer-element name="synonym-list-onetime" attributes="word">
     <template>
-        <br>
-        <div id="resultOutput">{{resultSynonyme}}</div>
+        <style>
+            #syno_style{
+                background-color: lightpink;
+            }
+        </style>
 
-        <core-shared-lib
-                id="ajax"
-                auto
-                url = "https://www.openthesaurus.de/synonyme/search?q={{word}}&format=application/json&callback=handleResponse"
-                callbackName = this.handleResponse>
-        </core-shared-lib>
+        <div id="syno_style">
+            <h3>Synonyme</h3>
+            <div id="resultOutput">(Chrome)Siehe Console!</div>
+            <core-shared-lib
+                    id="ajax"
+                    auto
+                    url = "https://www.openthesaurus.de/synonyme/search?q={{word}}&format=application/json&callback=handleResponse"
+                    callbackName = this.handleResponse>
+            </core-shared-lib>
+        </div>
     </template>
     <script>
         function handleResponse(result){
