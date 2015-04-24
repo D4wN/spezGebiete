@@ -22,7 +22,7 @@
                 <my-palindrom-onetime id="mypalindromonetime" word="{{city}}"></my-palindrom-onetime>
             </div>
             <div name="synonym">
-                TODO
+                <synonym-list-onetime id="synonymlistonetime" word="{{city}}"></synonym-list-onetime>
             </div>
             <div name="location">
                 <longlat-comp id="longlatcomp" city="{{city}}"></longlat-comp>
@@ -46,7 +46,7 @@
             weather : null,
             domReady : function(){
                 this.palindrom = this.$.mypalindromonetime;
-                //this.syno = this.$.synonym;
+                this.syno = this.$.synonymlistonetime;
                 this.longlat = this.$.longlatcomp;
                 this.addEventListener('Longlat', function(){
                     this.longlatDone();
