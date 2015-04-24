@@ -2,24 +2,41 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
-<link rel="import" src="../Respo.js"/>
 
 <polymer-element name="synonym-list">
     <template>
         <input type="text" value="{{word}}">
         <paper-button raised on-click="{{search}}">Search</paper-button><br>
+        <br>
+        <br>
+        <div id="resultOutput">{{resultSynonyme}}</div>
 
         <core-shared-lib
                 id="ajax"
                 auto
-                callbackName = handleResponse>
+                callbackName = this.handleResponse>
         </core-shared-lib>
-
     </template>
     <script>
-        <!-- Script goes here -->
+        function handleResponse(result){
+            var synonyms = "";
+            for (var synsetCount = 0; synsetCount < result.synsets.length; synsetCount++) {
+                for (var termCount = 0; termCount < result.synsets[synsetCount].terms.length; termCount++) {
+                    var termObj = result.synsets[synsetCount].terms[termCount];
+                    synonyms += termObj.term
+                    if (termObj.level) {
+                        synonyms += " (" + termObj.level + ")";
+                    }
+                    synonyms += ", "
+                }
+                synonyms += "<br/><br/>";
+            }
+            document.getElementById("resultOutput").innerHTML = synonyms;
+        }
+
         Synonym = Polymer({
             word : "",
+            resultSynonyme: "",
             search: function(){
                 this.$.ajax.url = "https://www.openthesaurus.de/synonyme/search?q="+this.word+"&format=application/json&callback=handleResponse";
             }
