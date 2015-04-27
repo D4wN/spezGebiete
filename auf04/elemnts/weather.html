@@ -70,11 +70,8 @@
                         var level = Math.round((temp + 8) / 8);
                         level = level < 0 ? 0 : level;
                         level = level > 6 ? 6 : level;
-                        console.log(level);
                         return level
                     }
-                    console.log("Today : ");
-                    console.log(res);
                     this.data = {
                         conditiontext: res.weather[0].description,
                         name: res.name,
@@ -90,7 +87,6 @@
                         pressure: res.main.pressure,
                         tempLevel: getTempLevel(res.main.temp, this.imperial)
                     };
-                    //console.log(this.data);
                     this.fire('weather-element-load', {weather: this.data});
                 }.bind(this));
 
@@ -105,12 +101,8 @@
                         var level = Math.round((temp + 8) / 8);
                         level = level < 0 ? 0 : level;
                         level = level > 6 ? 6 : level;
-                        console.log(level);
                         return level
                     }
-                    console.log("Tomorrow");
-                    console.log(res);
-                    console.log(res.city.name);
                     this.forecast = {
                         conditiontext: res.list[1].weather[0].description,
                         name: res.city.name,
@@ -123,7 +115,6 @@
                         pressure: res.list[1].pressure,
                         tempLevel: getTempLevel(res.list[0].temp.day, this.imperial)
                     };
-                    console.log(this.forecast);
                     this.fire('weather-element-load', {weather: this.forecast});
                 }.bind(this));
             }
