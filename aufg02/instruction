@@ -1,1 +1,7 @@
 https://github.com/gulpjs/gulp/blob/master/docs/API.md
+https://markgoodyear.com/2014/01/getting-started-with-gulp/
+
+1. npm install -g gulp
+2. npm install gulp --save-dev
+    2.1 npm install gulp-ruby-sass gulp-autoprefixer gulp-minify-css gulp-jshint gulp-concat gulp-uglify gulp-imagemin gulp-notify gulp-rename gulp-livereload gulp-cache del --save-dev
+        To install relevant plugins

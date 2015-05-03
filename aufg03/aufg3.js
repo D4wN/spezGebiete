@@ -28,3 +28,5 @@ var Converter = (function() {
 var c = new Converter();
 c.rgbToHex(244, 255, 244);
 c.hexToRgb("FFEEFF");
+
+
