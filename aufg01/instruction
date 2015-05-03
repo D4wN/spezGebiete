@@ -1,0 +1,12 @@
+1. npm install -g yo
+2. npm install -g generator-reveal
+3. yo reveal - in this folder
+
+4. view slides with grunt:
+    4.1 npm install -g grunt
+        grunt serve
+
+5. create slides with:
+    yo reveal:slide more-content
+
+6. TODO Create beautiful Slides
