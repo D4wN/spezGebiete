@@ -18,8 +18,10 @@
         </style>
 
         <div id="city_info">
+            <input type="text" value="{{city}}">
+
             <div name="palindrom">
-                <my-palindrom-onetime id="mypalindromonetime" word="{{city}}"></my-palindrom-onetime>
+                <my-palindrom id="mypalindromonetime" word="{{city}}"></my-palindrom>
             </div>
             <div name="synonym">
                 <synonym-list-onetime id="synonymlistonetime" word="{{city}}"></synonym-list-onetime>
