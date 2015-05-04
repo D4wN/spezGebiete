@@ -1,12 +1,5 @@
 /**
  * Created by Merlen on 03.05.2015.
- *
- * Unit Tests with mocha.js
- */
-
-
-/**
- * Created by Merlen on 03.05.2015.
  */
 
 var Converter = (function() {
@@ -28,29 +21,32 @@ var Converter = (function() {
     };
     return Converter;
 })();
-
-/*
- * usage
- * */
-
-var c = new Converter();
+//######################################################################################################################
 
 var assert = require("assert");
 
-// TODO Write Tests
-describe('Color', function(){
-    describe('#HEX to RGB', function(){
-        it('Description of return value', function(){
-            console.log(c.rgbToHex(244, 255, 244));
-            assert.equal("f4fff4", c.rgbToHex(244, 255, 244));
-        })
+describe('Color Converter', function(){
+    describe('HEX to RGB', function(){
+        it('Input #ffeeff should be RGB[255,238,255]', function(){
+            var c = new Converter();
+            //http://stackoverflow.com/questions/13225274/the-difference-between-assert-equal-and-assert-deepequal-in-javascript-testing-w
+            assert.deepEqual(c.hexToRgb("ffeeff"), [255,238,255]);
+        }),
+            it('Input #000000 should be RGB[0,0,0]', function(){
+                var c = new Converter();
+                //http://stackoverflow.com/questions/13225274/the-difference-between-assert-equal-and-assert-deepequal-in-javascript-testing-w
+                assert.deepEqual(c.hexToRgb("000000"), [0,0,0]);
+            })
     });
 
-    describe('#RGB to HEX', function(){
-        it('Description of return value', function(){
-            console.log(c.hexToRgb("FFEEFF"));
-            var expected = [255, 238, 255];
-            assert.equal( expected, c.hexToRgb("FFEEFF"));
-        })
+    describe('RGB to HEX', function(){
+        it('Input RGB[244,255,244] should return #f4fff4', function(){
+            var c = new Converter();
+            assert.equal(c.rgbToHex(244, 255, 244), "f4fff4");
+        }),
+            it('Input RGB[0 0,0] should return #000000', function(){
+                var c = new Converter();
+                assert.equal(c.rgbToHex(0, 0, 0), "000000");
+            })
     });
 });
