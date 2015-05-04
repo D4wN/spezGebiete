@@ -1,0 +1,3 @@
+1. npm install -g mocha
+2. Write tests in test.js
+3. cmd: mocha

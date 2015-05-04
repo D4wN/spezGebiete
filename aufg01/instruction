@@ -1,0 +1,16 @@
+https://github.com/slara/generator-reveal
+
+1. npm install -g yo
+2. npm install -g generator-reveal
+    2.1 npm install -g bower
+3. yo reveal - in this folder
+
+4. view slides with grunt:
+    4.1 npm install -g grunt
+    4.2 npm install -g grunt-cli -> for console usage
+        grunt serve
+
+5. create slides with:
+    yo reveal:slide more-content
+
+6. TODO Create beautiful Slides
