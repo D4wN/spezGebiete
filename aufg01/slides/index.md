@@ -1,5 +1,5 @@
 
-# Modern Developer Tools
+# Moderne Entwicklungswerkzeuge
 
 From the terminal, pop in:
 

@@ -1,6 +1,26 @@
 [
     "index.md",
-    "title.html",
-    "tools.html",
-    "workflow.html"
+    "workflow-01.html",
+    [
+        "projekt-start.html",
+        "projekt-start-heute.html"
+    ],
+    "workflow-02.html",
+    "workflow-03.html",
+    "workflow-04.html",
+    [
+        "workflow-05.html",
+        "common-js.html",
+        "amd.html",
+        "browserify.html",
+        "require.html",
+        "webpack.html",
+        "systemjs.html"
+    ],
+    "workflow-06.html",
+    "workflow-07.html",
+    "workflow-08.html",
+    "workflow-09.html",
+    "workflow-10.html",
+    "ende.html"
 ]
