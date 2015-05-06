@@ -1,8 +1,7 @@
 1. Mongo
 2. Folder erstellen "mongoData"
     mongod --dbpath mongoData
-???
-profit
+3. mongoimport --db mongoData --collection zips --file zips.json
 
 
 27017
