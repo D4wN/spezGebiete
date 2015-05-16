@@ -4,13 +4,12 @@
 
 
 //1. Wie lauten die eindeutigen Namen der „Folder“ der E-Mails?
-db.mail.find({},{
-    fpatch: 1
-})
-//oder NAME
-db.mail.find({},{
-    fname: 1
-})
+db.mail.aggregate(
+    [
+        { $group : { _id : "$folder"} }
+    ]
+)
+
 //2. Wieviel E-Mails wurden mit der Adresse “rosalee.fleming@enron.com“ gesendet?
 db.mail.count({
     sender: "rosalee.fleming@enron.com"
