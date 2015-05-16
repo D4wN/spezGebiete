@@ -1,7 +1,0 @@
-1. Mongo
-2. Folder erstellen "mongoData"
-   2.1 DB starten: mongod --dbpath mongoData
-3. mongoimport --db mongoData --collection zips --file zips.json
-
-
-27017
