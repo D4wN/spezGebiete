@@ -1,0 +1,13 @@
+extends ../layout
+block content
+    p Existing Folder Types:
+    - for (var i=0; i<folders.length; i++)
+        li
+            p
+                a(href = 'http://localhost:3000/folder/' + folders[i]._id) #{folders[i]._id}
+                form(method="POST" action="/folder/"+folders[i]._id+"?_method=PUT")
+                    input(type="text" name="changed" placeholder= folders[i]._id)
+                    input(type="submit" value="edit")
+                form(method="POST" action="/folder/"+folders[i]._id+"?_method=DELETE")
+                    input(type="submit" value="Delete")
+        br

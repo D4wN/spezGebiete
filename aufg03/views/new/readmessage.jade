@@ -1,0 +1,9 @@
+extends ../layout
+block content
+    h2 Folder #{folder}:
+
+    p #{message}
+    form(method="POST" action="/folder/" + folder + '/message/' + i + "?_method=DELETE")
+        textarea(name="changed" cols="50" rows="10")= message
+        br
+        input(type="submit" value="Delete")
