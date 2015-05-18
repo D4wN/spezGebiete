@@ -2,8 +2,17 @@ extends ../layout
 block content
     h2 Folder #{folder}:
 
-    p #{message}
-    form(method="POST" action="/folder/" + folder + '/message/' + i + "?_method=DELETE")
-        textarea(name="changed" cols="50" rows="10")= message
+    textarea(cols="50" rows="10" disabled="true")= data._text
+
+    form(method="POST" action="/folder/" + folder + '/message/' + data._id + "?_method=PUT")
+        textarea(name="oldText" hidden="true")= data._text
+        input(name="oldId" hidden="true" value=oldId)
+
+        select(size=folders.length name="chose")
+            - for (var i=0; i<folders.length; i++)
+                option #{folders[i]._id}
         br
+        input(type="submit" value="Move")
+
+    form(method="POST" action="/folder/" + folder + '/message/' + data._id + "?_method=DELETE")
         input(type="submit" value="Delete")

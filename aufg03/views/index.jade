@@ -2,4 +2,8 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Was möchten Sie gerne Tun
+  div
+    a(href = 'http://localhost:3000/folder/') Zum Postkasten
+  div
+    a(href = 'http://localhost:3000/newMessage/') Eine Nachricht erstellen

@@ -5,7 +5,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var mailSchema = new Schema({
-    _id: String,
+    _id: {
+        type: mongoose.Schema.ObjectId,
+        default: mongoose.Types.ObjectId
+    },
     sender: String,
     recipients: Array,
     cc: Array,
@@ -22,6 +25,7 @@ var mailSchema = new Schema({
 }, {collection: 'mail'});
 
 var mail = mongoose.model('mail', mailSchema);
+
 
 
 module.exports = mail;

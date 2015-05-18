@@ -1,8 +1,9 @@
 extends ../layout
 block content
     h2 Folder #{folder}:
+    h3 #{status}
+
+
     - for (var i=0; i<messages.length; i++)
         p
             a(href = 'http://localhost:3000/folder/' + folder + '/message/' + i) #{messages[i]}
-            form(method="POST" action="/folder/" + folder + '/message/' + i + "?_method=DELETE")
-                input(type="submit" value="Delete")
