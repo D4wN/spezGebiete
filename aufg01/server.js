@@ -1,9 +1,15 @@
 var http = require('http');
-// var io = require('socket.io');
+var io = require('socket.io')(1337);
 var fs = require("fs");
 var mime = require('mime');
 
 var logfile = [];
+var clients = [];
+
+var news = io.of('/log').on('connection', function (client) {
+    console.log("We have a connection");
+    login(client);
+});
 
 // Aufgabe 1.2 |--------------------------------------------------------------------------------------------------------
 /*
@@ -12,14 +18,14 @@ var logfile = [];
 var streamingFile = function (req, res, callback) {
     process.nextTick(
         function () {
-            var url = String(req.url).substring(1);
-            var filePath = "./" + url;
+            var file = String(req.url).substring(1);
+            var filePath = "./" + file;
 
             if (!fs.existsSync(filePath)) {
                 var status = 404;
                 res.writeHead(status, {'Content-Type': 'text/plain'});
                 res.end('Cant find the file: ' + filePath + ' \n');
-                callback("Method: GET Status:" + status + " URL: " + filePath + " FROM: " + req.connection.remoteAddress);
+                return callback("Method: GET Status:" + status + " URL: " + filePath + " FROM: " + req.connection.remoteAddress);
             }
 
             var mimetype = mime.lookup(filePath);
@@ -38,7 +44,7 @@ var streamingFile = function (req, res, callback) {
  * so wird die aktuelle Uhrzeit ermittelt und es wird ein JSON-Dokument erzeugt,
  * das die Sekunde, Minute, Stunde der aktuellen Zeit enthält.
  * */
-var currenttime = function (req,res, callback) {
+var currenttime = function (req, res, callback) {
     process.nextTick(
         function () {
             console.log("Should Currenttime ");
@@ -53,13 +59,27 @@ var currenttime = function (req,res, callback) {
                 second: date.getSeconds()
             }));
             res.end();
-
-            callback("Method: GET Status:" + 200 + " URL: /currenttime" + " FROM: " + req.connection.remoteAddress );
-        },0);
+            callback("Method: GET Status:" + 200 + " URL: /currenttime" + " FROM: " + req.connection.remoteAddress);
+        }, 0);
 };
 
 var writeLog = function (logMsg) {
     logfile.push(logMsg);
+
+    for (var cl in clients) {
+        var client = clients[cl];
+
+        for (var tmp in logfile) {
+            client.emit('message', logfile[tmp]);
+        }
+    }
+
+    logfile = [];
+};
+
+var login = function (client) {
+    console.log("Register Client" + client.id);
+    clients.push(client);
 };
 
 var switchAction = function (req, res) {
@@ -68,10 +88,8 @@ var switchAction = function (req, res) {
 
     if (url == "currenttime") {
         currenttime(req, res, writeLog);
-    } else if (url == "log") {
-        // TODO: Client am log anmelden
     } else {
-        streamingFile(req, res, writeLog );
+        streamingFile(req, res, writeLog);
     }
 };
 
