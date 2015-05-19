@@ -12,24 +12,25 @@
 <body>
 <h1>City to Search?</h1>
 
-<form id="formular" enctype="application/x-www-form-urlencoded" action="/zips/acmar" method="post">
-    Name: <input  name="city" placeholder="Enter City" id="input" value="test"><br/>
+<fieldset>
+    <form id="formular" enctype="application/x-www-form-urlencoded" action="/zips/acmar" method="post">
+        Name: <input  name="city" placeholder="Enter City" id="input" value="test"><br/>
 
-    <paper-button id="submitButton" raised>Submit</paper-button>
+        <paper-button id="submitButton" raised>Submit</paper-button>
 
-    <script>
-        document.getElementById('submitButton').addEventListener('click', function() {
-            document.forms[0].submit();
-        });
+        <script>
+            document.getElementById('submitButton').addEventListener('click', function() {
+                document.forms[0].submit();
+            });
+        </script>
+    </form>
+
+    <script type="text/javascript">
+        setInterval(change, 100);
+        function change(){
+            document.forms[0].action = "/zips/"+document.forms[0].input.value;
+        }
     </script>
-
-</form>
-
-<script type="text/javascript">
-    setInterval(change, 100);
-    function change(){
-        document.forms[0].action = "/zips/"+document.forms[0].input.value;
-    }
-</script>
+</fieldset>
 </body>
 </html>
