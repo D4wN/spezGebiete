@@ -19,10 +19,13 @@ var server = http.createServer(requestHandler);
 
 function dataSearch(cityName, res) {
     res.pathname = cityName;
-    res.writeHead(200, "OK", {'Content-Type': 'application/json', 'Location': cityName});
-    var cityName = cityName.toUpperCase();
+    var cityNam = cityName;
+    res.writeHead(200, "OK", {'Content-Type': 'application/json', 'Location': cityNam});
+    if(cityName != null) {
+        cityNam = cityName.toUpperCase();
+    }
 
-    var found = db.zips.find({"city": cityName}, function (err, records) {
+    var found = db.zips.find({"city": cityNam}, function (err, records) {
         if (err) {
             console.log("There was an error executing the database query.");
             res.write('There is an error occured')
@@ -38,7 +41,7 @@ function dataSearch(cityName, res) {
                 + records[i].city;
         }
         if (records.length <= 0) {
-            res.write('<p> There is no Entry for ' + cityName + '</p>')
+            res.write('<p> There is no Entry for ' + cityNam + '</p>')
             res.end();
             return;
         }
@@ -65,12 +68,15 @@ function requestHandler(req, res) {
     switch (req.url) {
         case '/':
             // show the user a simple form
-            fs.readFile('./index.html', function (err, html) {
+            fs.readFile('./public/index.html', function (err, html) {
                 if (err) {
                     res.write('There is an error occured');
                 }
                 console.log("[200] " + req.method + " to " + req.url);
-                res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+                res.writeHead(200, "OK", {'Content-Type': 'text/html', 'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Request-Method': '*',
+                    'Access-Control-Allow-Methods': 'OPTIONS, GET',
+                    'Access-Control-Allow-Headers': '*'});
                 res.write(html);
                 res.end();
             });
@@ -102,6 +108,7 @@ function requestHandler(req, res) {
             }
 
             break;
+
         default:
             res.writeHead(404, "Not found", {'Content-Type': 'text/html'});
             res.end('<html><head><title>404 - Not found</title></head><body><h1>Not found.</h1></body></html>');
