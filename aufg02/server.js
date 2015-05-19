@@ -56,6 +56,12 @@ function dataSearch(cityName, res) {
 
 function requestHandler(req, res) {
     var city = "";
+    var zips = "";
+    if(req.url.length > 6 && req.url.substring(0,6) == "/zips/"){
+        zips = req.url.substring(0,6);
+        city = req.url.substring(6);
+    }
+    console.log(zips+city);
     switch (req.url) {
         case '/':
             // show the user a simple form
@@ -71,9 +77,12 @@ function requestHandler(req, res) {
 
             break;
 
-        case '/zips/city':
+        case zips+city:
+            if (req.method == 'GET'){
 
-            if (req.method == 'POST') {
+                dataSearch(city, res);
+
+            } else if (req.method == 'POST' ) {
                 var fullBody = '';
 
                 req.on('data', function (chunk) {
@@ -83,14 +92,7 @@ function requestHandler(req, res) {
                 req.on('end', function () {
                     var decodedBody = querystring.parse(fullBody);
                     city = decodedBody.city;
-
-                    console.log(city);
-                    req.url.replace("city", city);
-
-                    console.log(req.url);
                     dataSearch(city, res);
-
-
                 });
 
             } else {
@@ -99,9 +101,6 @@ function requestHandler(req, res) {
                 res.end('<html><head><title>405 - Method not supported</title></head><body><h1>Method not supported.</h1></body></html>');
             }
 
-            break;
-
-        case '/zips/' + city:
             break;
         default:
             res.writeHead(404, "Not found", {'Content-Type': 'text/html'});

@@ -2,14 +2,22 @@
 <head><title>Hello!</title>
     <script src="components/bower_components/webcomponentsjs/webcomponents.min.js"></script>
     <link rel="import" href="components/bower_components/polymer/polymer.html">
+
 </head>
 <body>
 <h1>City to Search?</h1>
 
-<form enctype="application/x-www-form-urlencoded" action="/zips/city" method="post">
-    Name: <input type="text" name="city" value="ACMAR"/><br/>
+<form id="formular" enctype="application/x-www-form-urlencoded" action="/zips/acmar" method="post">
+    Name: <input type="text" name="city" value="ACMAR" id="input")/><br/>
     <input type="submit"/>
 
+    <script type="text/javascript">
+        setInterval(change, 100);
+        function change(){
+            document.forms[0].action = "/zips/"+document.forms[0].input.value;
+        }
+
+    </script>
 </form>
 </body>
 </html>
