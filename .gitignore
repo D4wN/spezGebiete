@@ -1,4 +1,5 @@
 *.idea
 data/
+aufg01/node_modules/
 aufg02/node_modules/
 aufg03/node_modules/

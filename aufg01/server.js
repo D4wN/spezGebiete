@@ -85,11 +85,16 @@ var login = function (client) {
 var switchAction = function (req, res) {
     // Filter url
     var url = String(req.url).substring(1);
-
-    if (url == "currenttime") {
-        currenttime(req, res, writeLog);
-    } else {
-        streamingFile(req, res, writeLog);
+    switch(req.url.substring(1)){
+        case "currenttime":
+            currenttime(req, res, writeLog);
+            break;
+        case "":
+            res.end("Please enter File");
+            break;
+        default:
+            streamingFile(req, res, writeLog);
+            break;
     }
 };
 
