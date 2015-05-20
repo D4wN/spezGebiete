@@ -19,10 +19,13 @@ var server = http.createServer(requestHandler);
 
 function dataSearch(cityName, res) {
     res.pathname = cityName;
-    res.writeHead(200, "OK", {'Content-Type': 'application/json', 'Location': cityName});
-    var cityName = cityName.toUpperCase();
+    var cityNam = cityName;
+    res.writeHead(200, "OK", {'Content-Type': 'application/json', 'Location': cityNam});
+    if(cityName != null) {
+        cityNam = cityName.toUpperCase();
+    }
 
-    var found = db.zips.find({"city": cityName}, function (err, records) {
+    var found = db.zips.find({"city": cityNam}, function (err, records) {
         if (err) {
             console.log("There was an error executing the database query.");
             res.write('There is an error occured')
@@ -38,7 +41,7 @@ function dataSearch(cityName, res) {
                 + records[i].city;
         }
         if (records.length <= 0) {
-            res.write('<p> There is no Entry for ' + cityName + '</p>')
+            res.write('<p> There is no Entry for ' + cityNam + '</p>')
             res.end();
             return;
         }
@@ -56,24 +59,36 @@ function dataSearch(cityName, res) {
 
 function requestHandler(req, res) {
     var city = "";
+    var zips = "";
+    if(req.url.length > 6 && req.url.substring(0,6) == "/zips/"){
+        zips = req.url.substring(0,6);
+        city = req.url.substring(6);
+    }
+    console.log(zips+city);
     switch (req.url) {
         case '/':
             // show the user a simple form
-            fs.readFile('./index.html', function (err, html) {
+            fs.readFile('./public/index.html', function (err, html) {
                 if (err) {
                     res.write('There is an error occured');
                 }
                 console.log("[200] " + req.method + " to " + req.url);
-                res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+                res.writeHead(200, "OK", {'Content-Type': 'text/html', 'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Request-Method': '*',
+                    'Access-Control-Allow-Methods': 'OPTIONS, GET',
+                    'Access-Control-Allow-Headers': '*'});
                 res.write(html);
                 res.end();
             });
 
             break;
 
-        case '/zips/city':
+        case zips+city:
+            if (req.method == 'GET'){
 
-            if (req.method == 'POST') {
+                dataSearch(city, res);
+
+            } else if (req.method == 'POST' ) {
                 var fullBody = '';
 
                 req.on('data', function (chunk) {
@@ -83,14 +98,7 @@ function requestHandler(req, res) {
                 req.on('end', function () {
                     var decodedBody = querystring.parse(fullBody);
                     city = decodedBody.city;
-
-                    console.log(city);
-                    req.url.replace("city", city);
-
-                    console.log(req.url);
                     dataSearch(city, res);
-
-
                 });
 
             } else {
@@ -101,8 +109,6 @@ function requestHandler(req, res) {
 
             break;
 
-        case '/zips/' + city:
-            break;
         default:
             res.writeHead(404, "Not found", {'Content-Type': 'text/html'});
             res.end('<html><head><title>404 - Not found</title></head><body><h1>Not found.</h1></body></html>');
