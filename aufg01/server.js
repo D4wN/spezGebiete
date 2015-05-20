@@ -7,8 +7,14 @@ var logfile = [];
 var clients = [];
 
 var news = io.of('/log').on('connection', function (client) {
-    console.log("We have a connection");
     login(client);
+
+    client.on('disconnect', function() {
+        clients.pop(client);
+
+        console.log("Got disc " + client.id );
+        console.log("Clients count " + clients.length );
+    });
 });
 
 // Aufgabe 1.2 |--------------------------------------------------------------------------------------------------------
@@ -80,6 +86,8 @@ var writeLog = function (logMsg) {
 var login = function (client) {
     console.log("Register Client" + client.id);
     clients.push(client);
+
+    console.log("Clients count " + clients.length );
 };
 
 var switchAction = function (req, res) {
