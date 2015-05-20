@@ -165,7 +165,6 @@ router.route('/folder/:name/message/:id.json')
         );//end aggregate
     });
 
-
 /*message by id route*/
 router.route('/folder/:name/message/:id')
     /* READ specific message*/
@@ -221,14 +220,5 @@ router.route('/folder/:name/message/:id')
                 doc.save();
                 res.redirect("/folder/" + req.body.chose);
             });
-        /*
-         mail.update({_id: req.params.id},
-         {$set: { folder: req.body.chose }},
-         function (err, data) {
-         if (err) throw err;
-
-         res.redirect("/folder/"+req.body.chose);
-         }); //end update*/
     });
-
 module.exports = router;
