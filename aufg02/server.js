@@ -85,7 +85,6 @@ function requestHandler(req, res) {
 
         case zips+city:
             if (req.method == 'GET'){
-
                 dataSearch(city, res);
 
             } else if (req.method == 'POST' ) {
@@ -115,7 +114,6 @@ function requestHandler(req, res) {
             console.log("[404] " + req.method + " to " + req.url);
 
     }
-
 }
 
 server.listen(1234);
