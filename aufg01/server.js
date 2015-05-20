@@ -4,16 +4,13 @@ var fs = require("fs");
 var mime = require('mime');
 
 var logfile = [];
-var clients = [];
 
-var news = io.of('/log').on('connection', function (client) {
-    login(client);
+var news = io.of('/log');
+news.on('connection', function (client) {
+    console.log("Connect " + client.id)
 
-    client.on('disconnect', function() {
-        clients.pop(client);
-
-        console.log("Got disc " + client.id );
-        console.log("Clients count " + clients.length );
+    client.on('disconnect', function(){
+        console.log("Disconnect " + client.id);
     });
 });
 
@@ -71,23 +68,11 @@ var currenttime = function (req, res, callback) {
 
 var writeLog = function (logMsg) {
     logfile.push(logMsg);
-
-    for (var cl in clients) {
-        var client = clients[cl];
-
-        for (var tmp in logfile) {
-            client.emit('message', logfile[tmp]);
-        }
+    for (var tmp in logfile) {
+        news.emit('message', logfile[tmp]);
     }
 
     logfile = [];
-};
-
-var login = function (client) {
-    console.log("Register Client" + client.id);
-    clients.push(client);
-
-    console.log("Clients count " + clients.length );
 };
 
 var switchAction = function (req, res) {
