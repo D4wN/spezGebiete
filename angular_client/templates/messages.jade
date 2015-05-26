@@ -1,0 +1,18 @@
+h3 Message-List({{folderName}}) --------------------------------
+
+style
+    textarea {width: 50%; height: auto;}
+
+div(ng-repeat = "msg in messageList")
+    p
+        a(href="#/folder/{{folderName}}/{{$index}}") SUBJ: {{msg._subject}}
+        br
+        b Text:
+        br
+        textarea(rows="10" cols="60" readonly).
+            {{msg._text[0]}}
+        br
+        button(class="btn", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
+            Delete
+
+    br

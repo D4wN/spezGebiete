@@ -1,0 +1,7 @@
+h2 Write a new Message
+label(for='folder') Folder:
+input(ng-model='form.chose', name='folder')
+p Message:
+textarea(ng-model='form.newText', cols='50', rows='15')
+p
+   button(ng-click='submitPost()') Submit Post

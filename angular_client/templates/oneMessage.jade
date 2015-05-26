@@ -1,0 +1,23 @@
+h3 Message --------------------------------
+style
+    textarea {width: 50%; height: auto;}
+div
+    p
+        b ID: {{msg._id}}
+        br
+        b SUBJ: {{msg._subject[0]}}
+        br
+        b Date: {{msg._date[0]}}
+        br
+        b Sender: {{msg._sender[0]}}
+        br
+        b Recipients: {{msg._recipients[0]}}
+        br
+        b Text:
+        br
+        textarea(rows="50" cols="100" readonly).
+            {{msg._text[0]}}
+        br
+        button(class="btn", ng-click="deleteMessage()").
+            Delete
+    br

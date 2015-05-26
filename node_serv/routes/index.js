@@ -140,7 +140,7 @@ router.route('/folder/:name/message/:id')
         mail.aggregate(
             [
                 {$match: {folder: name}},
-                {$group: {_id: "$_id", _text: {$push: "$text"}, _folder: {$push: "$folder"}, _date: {$push: "$date"}, _subject: {$push: "$subject"}, _sender: {$push: "$sender"}}}
+                {$group: {_id: "$_id", _text: {$push: "$text"}, _folder: {$push: "$folder"}, _date: {$push: "$date"}, _subject: {$push: "$subject"}, _sender: {$push: "$sender"}, _recipients: {$push: "$recipients"}}}
             ], function (err, data) {
                 if (err) throw err;
                 if (id < data.length) {
