@@ -21,7 +21,8 @@ router.get('/folder:json*?', function (req, res, next) {
                     return;
                 }
 
-                res.render('./new/allfolder', {folders: data});
+                //res.render('./new/allfolder', {folders: data});
+                res.json(data);
             }
         ); // end aggregate
     } else next();
@@ -79,7 +80,8 @@ router.route('/folder/:name/')
                         res.json(data);
                         return;
                     }
-                    res.render('./new/foldermessage', {folder: name, messages: content, id: id});
+                    res.json(data);
+                    //res.render('./new/foldermessage', {folder: name, messages: content, id: id});
                 }
             ); //end aggregate
         } else next();
@@ -94,7 +96,8 @@ router.route('/folder/:name/')
             function (err) {
                 if (err) throw err;
 
-                res.redirect("/folder/");
+                res.send(JSON.stringify({ status: "deleted" }));
+                //res.redirect("/folder/");
             }); //end remove
     })
     /*UPDATE folder name */
@@ -106,7 +109,8 @@ router.route('/folder/:name/')
             function (err, data) {
                 if (err) throw err;
 
-                res.redirect("/folder/");
+                res.send(data);
+                //res.redirect("/folder/");
             }); //end update
     });
 
@@ -132,7 +136,9 @@ router.route('/newMessage')
         });
         newMail.save(function (err, data) {
             if (err) throw err;
-            res.redirect("/folder/" + folder);
+            res.json(data);
+            //res.send(JSON.stringify({ delete: "succsessful" }));
+            //res.redirect("/folder/" + folder);
         });
     });
 
@@ -157,7 +163,8 @@ router.route('/folder/:name/message/:id.json')
                         }
                     ); // end aggregate
                 } else {
-                    res.render("index", {title: "There is no message"});
+                    res.send(JSON.stringify({ status: "not found" }));
+                   // res.render("index", {title: "There is no message"});
                 }
 
 
@@ -184,17 +191,18 @@ router.route('/folder/:name/message/:id')
                             {$group: {_id: "$folder"}}
                         ], function (err, folder) {
 
-
-                            res.render('./new/readmessage', {
+                            res.json(data[id]);
+                            /*res.render('./new/readmessage', {
                                 folder: name,
                                 data: data[id],
                                 oldId: id,
                                 folders: folder
-                            });
+                            });*/
                         }
                     ); // end aggregate
                 } else {
-                    res.render("index", {title: "There is no message"});
+                    res.send(JSON.stringify({ status: "not found" }));
+                    //res.render("index", {title: "There is no message"});
                 }
 
             }
@@ -208,7 +216,8 @@ router.route('/folder/:name/message/:id')
             function (err) {
                 if (err) throw err;
 
-                res.redirect("/folder/" + req.params.name);
+                res.send(JSON.stringify({ status: "deleted" }));
+                //res.redirect("/folder/" + req.params.name);
             }); //end remove
     })
     /*Move existing message */
@@ -218,7 +227,8 @@ router.route('/folder/:name/message/:id')
                 if (err) throw err;
                 doc.folder = req.body.chose;
                 doc.save();
-                res.redirect("/folder/" + req.body.chose);
+                res.json(doc);
+                //res.redirect("/folder/" + req.body.chose);
             });
     });
 module.exports = router;
