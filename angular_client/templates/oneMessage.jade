@@ -1,4 +1,11 @@
 h3 Message --------------------------------
+
+filedset
+    select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose")
+    button(class="btn", ng-click="moveMessage()").
+        Move
+
+
 style
     textarea {width: 50%; height: auto;}
 div

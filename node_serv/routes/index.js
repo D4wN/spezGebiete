@@ -159,6 +159,18 @@ router.route('/folder/:name/message/:id')
 
             }
         );//end aggregate
+    })
+    /*Move existing message */
+    .put(function (req, res, next) {
+        console.log(req.body._id + " : hi");
+        mail.findOne({_id: req.params.id},
+            function (err, doc) {
+                if (err) throw err;
+                doc.folder = req.body._id;
+                doc.save();
+                res.json(doc);
+                //res.redirect("/folder/" + req.body.chose);
+            });
     });
 
 module.exports = router;

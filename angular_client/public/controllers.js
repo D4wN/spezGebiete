@@ -87,7 +87,31 @@ function oneMessageCtrl($scope, $http, $route, $routeParams, $location){
             error(function(data, status, headers, config) {
                 alert("folderCtrl.delete Error!");
             });
-    }
+    };
+    //MOVE
+    $scope.moveMessage = function(){
+        console.log('http://localhost:3000/folder/'+ $scope.chose._id);
+        $http.put('http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ $scope.msg._id, $scope.chose).
+            success(function(data, status, headers, config) {
+                console.log("move Folder Success!");
+                $location.path('folder/'+ $scope.chose._id);
+            }).
+            error(function(data, status, headers, config) {
+                alert("move Folder Error!");
+            });
+    };
+
+    $http.get('http://localhost:3000/folder/').
+        success(function(data, status, headers, config) {
+            console.log("Success! Folder");
+            console.log(data);
+            $scope.folderList = data;
+            $scope.chose = $scope.folderList[0];
+
+        }).
+        error(function(data, status, headers, config) {
+            alert("Error!");
+        });
 
     $http.get('http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ $routeParams.msgId).
         success(function(data, status, headers, config) {
