@@ -7,54 +7,23 @@ router.get('/', function (req, res, next) {
 });
 
 /* GET all folder */
-router.get('/folder:json*?', function (req, res, next) {
-    var opt = req.params.json;
-    if (opt == ".json" || opt == null) {
-        console.log(opt);
+router.get('/folder', function (req, res, next) {
         console.log("show all folder");
         mail.aggregate(
             [
                 {$group: {_id: "$folder"}}
             ], function (err, data) {
-                if (opt == ".json") {
-                    res.json(data);
-                    return;
-                }
-
                 //res.render('./new/allfolder', {folders: data});
                 res.json(data);
             }
         ); // end aggregate
-    } else next();
 });
-
-router.route('/folder/:name.json')
-    /* GET message of folder */
-    .get(function (req, res, next) {
-        console.log("show all messagses in folder as json: " + req.params.name);
-        var name = req.params.name;
-        mail.aggregate(
-            [
-                {$match: {folder: name}},
-                {$group: {_id: "$_id", _text: {$push: "$text"}}}
-            ], function (err, data) {
-                if (err) throw err;
-
-                res.json(data);
-
-
-            }
-        )//end aggregate
-    });
 
 
 /*folder by name route*/
 router.route('/folder/:name/')
     /* GET message of folder */
     .get(function (req, res, next) {
-        var opt = req.params.json;
-        console.log(opt);
-        if (opt == ".json" || opt == null) {
             console.log("show all messagses in folder: " + req.params.name);
             var name = req.params.name;
             mail.aggregate(
@@ -75,16 +44,10 @@ router.route('/folder/:name/')
                         }
                         //console.log(data[i]);//._text[0].slice(0, 50))
                     }
-
-                    if (opt == ".json") {
-                        res.json(data);
-                        return;
-                    }
                     res.json(data);
                     //res.render('./new/foldermessage', {folder: name, messages: content, id: id});
                 }
             ); //end aggregate
-        } else next();
     })
     /*DELETE folder and content */
     .delete(function (req, res, next) {
@@ -142,7 +105,7 @@ router.route('/newMessage')
         });
     });
 
-router.route('/folder/:name/message/:id.json')
+router.route('/folder/:name/message/:id')
     /* READ specific message */
     .get(function (req, res, next) {
         console.log("read message: " + req.params.id);
