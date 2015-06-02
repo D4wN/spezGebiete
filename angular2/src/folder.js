@@ -24,8 +24,6 @@ export class Folder {
         this.htmlName = "Hallo Welt!";
         //Init
         this.getFolder();
-
-        this.deleteFolder("HONK KONG");
     }
 
     getFolder() {
@@ -66,6 +64,26 @@ export class Folder {
         console.log(debug_name);
     }
 
+    clickRename(name){
+        var debug_name = 'Folder.clickRename(\"' + name + '\")';
+        console.log(debug_name);
+
+        var prefix = 'RENAME-'
+        var newNameEle = document.getElementById((prefix + name));
+        if(newNameEle == undefined || newNameEle == null) return;
+        var newName = newNameEle.value;
+        if(newName == name) return;
+
+        $http.put('http://localhost:3000/folder/'+ name +'/'+ newName)
+            .then((data) => {
+                console.log(debug_name + ' Successfull!');
+                this.renameInList(name, newName);
+            })
+            .catch((error) => {
+                alert(debug_name + ' Error!');
+            });
+    }
+
     removeFromList(name){
         var debug_name = 'Folder.removeFromList(\"' + name + '\")';
         console.log(debug_name);
@@ -78,6 +96,19 @@ export class Folder {
             }
         }
         console.log("Nothing removed from folderList.")
+    }
+
+    renameInList(name, newName){
+        var debug_name = 'Folder.renameInList(\"' + name + '\", \"' + newName + '\")';
+        console.log(debug_name);
+
+        for(var i = 0; i < this.folderList.length; i++){
+            if(this.folderList[i]._id == name){
+                this.folderList[i]._id = newName;
+                return;
+            }
+        }
+        console.log("Nothing found in folderList.")
     }
 
 }
