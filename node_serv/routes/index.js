@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mail = require('../model/mail');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -123,6 +124,16 @@ router.route('/folder/:name/message/:id')
         console.log("read message: " + req.params.id);
         var name = req.params.name;
         var id = req.params.id;
+
+        mail.findOne({_id: req.params.id},
+            function (err, doc) {
+                if (err) throw err;
+                res.json(doc);
+                //res.redirect("/folder/" + req.body.chose);
+            }
+        );
+
+        /*
         mail.aggregate(
             [
                 {$match: {folder: name}},
@@ -130,11 +141,11 @@ router.route('/folder/:name/message/:id')
             ], function (err, data) {
                 if (err) throw err;
                 if (id < data.length) {
-                    mail.aggregate(
-                        [
-                            {$group: {_id: "$folder"}}
-                        ], function (err, folder) {
-                            res.json(data[id]);
+                    mail.findOne({_id: req.params.id},
+                        function (err, doc) {
+                            if (err) throw err;
+                            res.json(doc);
+                            //res.redirect("/folder/" + req.body.chose);
                         }
                     ); // end aggregate
                 } else {
@@ -144,7 +155,7 @@ router.route('/folder/:name/message/:id')
 
 
             }
-        );//end aggregate
+        );//end aggregate*/
     })
     /*Move existing message */
     .put(function (req, res, next) {
