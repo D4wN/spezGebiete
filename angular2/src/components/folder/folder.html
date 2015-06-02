@@ -1,14 +1,15 @@
-<h3>Folder-List --------------------------------</h3>
+<h3 #v>Folder-List --------------------------------</h3>
 <div *ng-for="#folder of folderList" >
-    <div>
-        <p>{{folder._id}}</p>
-        <button></button>
-        <!--<p><a href="#/folder/{{folder._id}}">{{folder._id}}</a><br/>
-            <button ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}" class="btn">Delete
-            </button>
-            <button ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}" class="btn">Rename
-            </button>
-            <input type="text" ng-model="folder.newName" ng-init="folder.newName = folder._id" ngTrim="true"/></p>
-        <br/>-->
-    </div>
+    <fieldset style="width: 33%">
+        <p><b>{{folder._id}}</b></p>
+        <button (click)="clickOpen(folder._id)">Open</button>
+        <button (click)="clickRemove(folder._id)">Remove</button>
+        <button (click)="clickRename(folder._id)">Rename</button>
+        <input id="RENAME-{{folder._id}}" type="text" [value]="folder._id">
+        <p>DEBUG MESSAGE HIDDEN: {{messagesHidden[folder._id]}}</p>
+        <div id="MESSAGES-{{folder._id}}" [hidden]="messagesHidden[folder._id]">
+            <messages [fid]="folder._id" test="MYASS"></messages>
+        </div>
+        <br>
+    </fieldset>
 </div>

@@ -1,5 +1,8 @@
 import {ComponentAnnotation as Component, ViewAnnotation as View} from 'angular2/angular2';
 import {NgFor}  from 'angular2/angular2';
+
+import {Messages} from '../messages/messages';
+
 //$http Var
 import {$http} from '../xhr-factory';
 
@@ -9,7 +12,7 @@ import {$http} from '../xhr-factory';
 
 @View({
     templateUrl:  System.baseURL + "components/folder/folder.html",
-    directives: [NgFor]
+    directives: [NgFor, Messages]
 })
 
 export class Folder {
@@ -17,13 +20,11 @@ export class Folder {
     constructor() {
         console.log('Folder.Constructor()');
         //Vars
-        this.folderList = ['a','b','c'];
+        this.folderList = [];
         this.folderLoaded = false;
-        this.htmlName = "Hallo Welt!";
+        this.messagesHidden = {};
         //Init
         this.getFolder();
-
-        this.deleteFolder("HONK KONG");
     }
 
     getFolder() {
@@ -33,8 +34,12 @@ export class Folder {
         $http.get('http://localhost:3000/folder')
             .then((data) => {
                 console.log(debug_name + ' Sucessfull!');
+                this.folderLoaded = true;
                 this.folderList = data;
                 console.log(this.folderList);
+
+                //init hide
+                this.initHiddenEntries();
             })
             .catch((error) => {
                 alert(debug_name + ' Error!');
@@ -59,9 +64,53 @@ export class Folder {
             });
     }
 
+    clickOpen(name){
+        var debug_name = 'Folder.clickOpen(\"' + name + '\")';
+        console.log(debug_name);
+
+        //var prefix = "MESSAGES-";
+
+        var hidden = this.messagesHidden[name];
+        if(hidden == undefined || hidden == null){
+            this.messagesHidden[name] = true;
+            hidden = true;
+        } else {
+            hidden = !hidden;
+            this.messagesHidden[name] = hidden;
+        }
+
+        if(!hidden){
+            console.log("get Messages");
+        } else {
+            console.log("no");
+        }
+    }
+
     clickRemove(name){
         var debug_name = 'Folder.clickRemove(\"' + name + '\")';
         console.log(debug_name);
+
+        this.deleteFolder(name);
+    }
+
+    clickRename(name){
+        var debug_name = 'Folder.clickRename(\"' + name + '\")';
+        console.log(debug_name);
+
+        var prefix = 'RENAME-'
+        var newNameEle = document.getElementById((prefix + name));
+        if(newNameEle == undefined || newNameEle == null) return;
+        var newName = newNameEle.value;
+        if(newName == name) return;
+
+        $http.put('http://localhost:3000/folder/'+ name +'/'+ newName)
+            .then((data) => {
+                console.log(debug_name + ' Successfull!');
+                this.renameInList(name, newName);
+            })
+            .catch((error) => {
+                alert(debug_name + ' Error!');
+            });
     }
 
     removeFromList(name){
@@ -76,6 +125,28 @@ export class Folder {
             }
         }
         console.log("Nothing removed from folderList.")
+    }
+
+    renameInList(name, newName){
+        var debug_name = 'Folder.renameInList(\"' + name + '\", \"' + newName + '\")';
+        console.log(debug_name);
+
+        for(var i = 0; i < this.folderList.length; i++){
+            if(this.folderList[i]._id == name){
+                this.folderList[i]._id = newName;
+                return;
+            }
+        }
+        console.log("Nothing found in folderList.")
+    }
+
+    initHiddenEntries(){
+        var debug_name = 'Folder.initHiddenEntries()';
+        console.log(debug_name);
+
+        for(var i = 0; i < this.folderList.length; i++){
+            this.messagesHidden[this.folderList[i]._id] = true;
+        }
     }
 
 }
