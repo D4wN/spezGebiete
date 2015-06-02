@@ -63,20 +63,6 @@ router.route('/folder/:name/:newname')
                 }
             ); //end aggregate
     })
-    /*DELETE folder and content */
-    .delete(function (req, res, next) {
-        console.log("delete folder: " + req.params.name);
-        var name = req.params.name;
-        if (name == "null") name = null;
-
-        mail.find({folder: name}).remove(
-            function (err) {
-                if (err) throw err;
-
-                res.send(JSON.stringify({ status: "deleted" }));
-                //res.redirect("/folder/");
-            }); //end remove
-    })
     /*UPDATE folder name */
     .put(function (req, res, next) {
         console.log("update folder: " + req.params.name);
