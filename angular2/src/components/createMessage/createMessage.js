@@ -12,47 +12,29 @@ import {$http} from '../xhr-factory';
 
 export class CreateMessage {
   constructor() {
-
+    console.log('CreateMessage.Constructor()');
   }
 
   login(event, folder, msg) {
     event.preventDefault();
-    console.log(folder + " :: " + msg)
 
-    var FormData = {
-      'chose' : folder,
-      'newText' : msg
-    };
+    if ((folder != "undefined" ) && folder.length > 0) {
+      var FormData = {
+        'chose': folder,
+        'newText': msg
+      };
 
-    $http.post('http://localhost:3000/newMessage', FormData)
-      .then((data) => {
-        console.log(' Sucessfull!');
-      })
-      .catch((error) => {
-        alert(' Error!');
-      });
-
-    /*
-    fetch('http://localhost:3001/sessions/create', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username, password
-      })
-    })
-      .then(status)
-      .then(json)
-      .then((response) => {
-        localStorage.setItem('jwt', response.id_token);
-        this.router.parent.navigate('/home');
-      })
-      .catch((error) => {
-        alert(error.message);
-        console.log(error.message);
-      });*/
+      $http.post('http://localhost:3000/newMessage', FormData)
+        .then((data) => {
+          console.log(' Sucessfull!');
+          document.getElementById("status").innerHTML = "Message: '" + msg + "' was added to Folder: '" + folder + "'";
+        })
+        .catch((error) => {
+          alert(' Error!');
+        });
+    } else {
+      document.getElementById("status").innerHTML = "Please Enter a folder";
+    }
   }
 
 

@@ -1,13 +1,16 @@
-<h2 #v>Write a new Message</h2>
+<fieldset style="width: 50%">
+  <h2 #v>Write a new Message</h2>
 
-<!-- template -->
-<!-- On form submit, we call the Login event with the username and the password from the inputs -->
-<form (submit)="login($event, folder.value, msg.value)">
-  <label for="folder">folder</label>
-  <!-- Using #username, we can identify this input to get the value on the form's submit event -->
-  <input type="text" #folder class="form-control" id="folder" placeholder="folder">
-  <label for="msg">Message</label>
-  <!-- Using #password we can identify this input to get its value -->
-  <input type="text" #msg class="form-control" id="msg" placeholder="Message">
-  <button type="submit">Submit</button>
-</form>
+  <form (submit)="login($event, folder.value, msg.value)">
+    <label for="folder">Folder: </label>
+    <input type="text" #folder class="form-control" id="folder" placeholder="Folder" style="width: 80%; float:right" >
+    <br>
+    <label for="msg">Message:</label>
+    <input type="text" #msg class="form-control" id="msg" placeholder="Message" style="width: 80%; float:right" >
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <br>
+  <b>Status: <output id="status">Edit Mode</output></b>
+</fieldset>
