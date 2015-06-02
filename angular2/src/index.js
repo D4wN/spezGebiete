@@ -10,8 +10,9 @@ import {OneMessage} from './components/oneMessage/oneMessage'
 
 @View({
 
-  directives: [Folder],
+  directives: [Folder, CreateMessage],
   template: `
+    <createMessage></createMessage>
     <folder></folder>
   `
 })

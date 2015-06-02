@@ -73,7 +73,8 @@ gulp.task('js', function () {
       modules: 'instantiate',
       moduleName: true,
       annotations: true,
-      types: true
+      types: true,
+      memberVariables: true
     }))
     .pipe(rename({
       extname: '.js'

@@ -1,5 +1,13 @@
-<h2>Write a new Message</h2><label for="folder">Folder:</label><input ng-model="form.chose" name="folder"/><p>
-    Message:</p><textarea ng-model="form.newText" cols="50" rows="15"></textarea>
-<p>
-    <button ng-click="submitPost()">Submit Post</button>
-</p>
+<h2 #v>Write a new Message</h2>
+
+<!-- template -->
+<!-- On form submit, we call the Login event with the username and the password from the inputs -->
+<form (submit)="login($event, folder.value, msg.value)">
+  <label for="folder">folder</label>
+  <!-- Using #username, we can identify this input to get the value on the form's submit event -->
+  <input type="text" #folder class="form-control" id="folder" placeholder="folder">
+  <label for="msg">Message</label>
+  <!-- Using #password we can identify this input to get its value -->
+  <input type="text" #msg class="form-control" id="msg" placeholder="Message">
+  <button type="submit">Submit</button>
+</form>
