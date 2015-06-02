@@ -23,7 +23,7 @@ export class OneMessage {
         this.mid = "mid_default";
         this.fid = "fid_default";
 
-        this.message = null;
+        this.m = [];
     }
 
     getMessage(){
@@ -33,8 +33,8 @@ export class OneMessage {
         $http.get('http://localhost:3000/folder/'+ this.fid +'/message/' + this.mid)
             .then((data) => {
                 console.log(debug_name + ' Sucessfull!');
-                this.message = data;
-                console.log(this.message);
+                this.m[0] = data;
+                console.log(this.m);
             })
             .catch((error) => {
                 alert(debug_name + ' Error!');

@@ -1,27 +1,11 @@
 Detail
 <button (click)="clickLoad()">Load</button>
-<!--<div>
-    <b>Date: {{msg._date[0]}}</b>
+MESSAGE: {{message}}
+<div *ng-for="#ms of m">
+    <b>Date: {{ms.date}}</b>
     <br><b>Sender:
-        {{message._sender[0]}}</b><br/><b>Recipients: {{message._recipients[0]}}</b>
-    <br><b>Text:</b><br/><textarea rows="50" cols="100" readonly="readonly">{{message._text[0]}}</textarea><br/>
+        {{ms.sender}}</b><br/><b>Recipients: {{ms.recipients[0]}}</b>
+    <br><b>Text:</b><br/><textarea rows="50" cols="100" readonly="readonly">{{ms.text}}</textarea><br/>
     </p>
     <br>
-</div> -->
-
-
-
-<!--<fieldset><select ng-model="chose" ng-options="folder._id for folder in folderList" id="chose"></select>
-    <button ng-click="moveMessage()" class="btn">Move
-
-    </button>
-</fieldset>
-
-<div>
-    <p><b>ID: {{msg._id}}</b><br/><b>SUBJ: {{msg._subject[0]}}</b><br/><b>Date: {{msg._date[0]}}</b><br/><b>Sender:
-        {{msg._sender[0]}}</b><br/><b>Recipients: {{msg._recipients[0]}}</b><br/><b>Text:</b><br/><textarea rows="50"
-                                                                                                            cols="100"
-                                                                                                            readonly="readonly">{{msg._text[0]}}</textarea><br/>
-        <button ng-click="deleteMessage()" class="btn">Delete</button>
-    </p>
-    <br/></div>-->
+</div>

@@ -11,7 +11,7 @@ DEBUG FOLDER_ID: {{fid}}
     <!-- subject, textarea mit content-->
     <button (click)="clickDetail(msg._id)">Detail</button>
     <div [hidden]="messagesHidden[msg._id]">
-        <oneMessage [mid]="$index" [fid]="fid"></oneMessage>
+        <oneMessage [mid]="msg._id" [fid]="fid"></oneMessage>
     </div>
     <button (click)="clickDelete(msg._id)">Delete</button>
     <hr />
