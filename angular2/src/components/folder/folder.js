@@ -1,21 +1,19 @@
 import {ComponentAnnotation as Component, ViewAnnotation as View} from 'angular2/angular2';
 import {NgFor}  from 'angular2/angular2';
 //$http Var
-import {$http} from 'xhr-factory';
+import {$http} from '../xhr-factory';
 
 @Component({
     selector: 'folder'
 })
 
 @View({
-    templateUrl: "folder.html",
+    templateUrl:  System.baseURL + "components/folder/folder.html",
     directives: [NgFor]
 })
 
 export class Folder {
-
     //folderList: array;
-
     constructor() {
         console.log('Folder.Constructor()');
         //Vars

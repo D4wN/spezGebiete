@@ -5,7 +5,7 @@ import {ComponentAnnotation as Component, ViewAnnotation as View} from 'angular2
 })
 
 @View({
-    templateUrl: 'messages.html'
+    templateUrl: System.baseURL + "components/messages/messages.html"
 })
 
 export class Messages {
