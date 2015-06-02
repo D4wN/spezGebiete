@@ -1,14 +1,18 @@
 import {ComponentAnnotation as Component, ViewAnnotation as View, bootstrap} from 'angular2/angular2';
-import {Angular2} from 'angular-2';
+import {CreateMessage} from 'createMessage';
+import {Folder} from 'folder';
+import {Messages} from 'messages'
+import {OneMessage} from 'oneMessage'
 
 @Component({
   selector: 'main'
 })
 
 @View({
-  directives: [Angular2],
+
+  directives: [CreateMessage],
   template: `
-    <angular-2></angular-2>
+    <createMessage></createMessage>
   `
 })
 
