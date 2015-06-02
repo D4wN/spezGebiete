@@ -1,18 +1,16 @@
 <h3>Message-List --------------------------------</h3>
 DEBUG FOLDER_ID: {{fid}}
 <button (click)="clickLoad()">Load</button>
-<div *ng-for="#msg of messageList" >
-    <p>ID: {{msg._id}}</p>
+
+  <div *ng-for="#msg of messageList">
+    <table>
+      <tr><td style="background-color: #cacaca"><strong>Message-ID:</strong></td><td style="background-color: #ffffcc">{{msg._id}}</td></tr>
+      <tr><td style="background-color: #cacaca"><strong>Subject:</strong></td><td style="background-color: #ffffcc">{{msg._subject}}</td></tr>
+    </table>
+
     <!-- subject, textarea mit content-->
     <button (click)="clickDetail()">Detail</button>
-    <br><br><br>
-</div>
+    <hr />
+    <br>
+  </div>
 
-<!--<div ng-repeat="msg in messageList">
-    <p><a href="#/folder/{{folderName}}/{{$index}}">SUBJ: {{msg._subject}}</a><br/><b>Text:</b><br/><textarea rows="10"
-                                                                                                              cols="60"
-                                                                                                              readonly="readonly">{{msg._text[0]}}</textarea><br/>
-        <button ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}" class="btn">Delete
-        </button>
-    </p>
-    <br/></div>-->
