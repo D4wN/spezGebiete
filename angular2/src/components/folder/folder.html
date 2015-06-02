@@ -6,10 +6,9 @@
         <button (click)="clickRemove(folder._id)">Remove</button>
         <button (click)="clickRename(folder._id)">Rename</button>
         <input id="RENAME-{{folder._id}}" type="text" [value]="folder._id">
-        <p>DEBUG MESSAGE HIDDEN = {{messagesHidden[folder._id]}}</p>
+        <p>DEBUG MESSAGE HIDDEN: {{messagesHidden[folder._id]}}</p>
         <div id="MESSAGES-{{folder._id}}" [hidden]="messagesHidden[folder._id]">
-            Hallo. Hier stehen demnaechste viele Messages...
-            <messages fid="_sent" test="MYASS"></messages>
+            <messages [fid]="folder._id" test="MYASS"></messages>
         </div>
         <br>
     </fieldset>

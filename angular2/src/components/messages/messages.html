@@ -1,10 +1,11 @@
 <h3>Message-List --------------------------------</h3>
-Hallo, ich komme von {{fid}}
-<br>test = {{test}}
-
+DEBUG FOLDER_ID: {{fid}}
+<button (click)="clickLoad()">Load</button>
 <div *ng-for="#msg of messageList" >
     <p>ID: {{msg._id}}</p>
-
+    <!-- subject, textarea mit content-->
+    <button (click)="clickDetail()">Detail</button>
+    <br><br><br>
 </div>
 
 <!--<div ng-repeat="msg in messageList">

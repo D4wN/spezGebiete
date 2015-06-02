@@ -38,18 +38,27 @@ export class Messages {
         var debug_name = 'Messages.getMessages()';
         console.log(debug_name);
 
-        //('http://localhost:3000/folder/'+ nameOfFolder +'/message')
-
         $http.get('http://localhost:3000/folder/'+ this.fid +'/message')
             .then((data) => {
                 console.log(debug_name + ' Sucessfull!');
                 this.messageLoaded = true;
                 this.messageList = data;
-                console.log(this.folderList);
+                console.log(this.messageList);
             })
             .catch((error) => {
                 alert(debug_name + ' Error!');
             });
     }
 
+    clickLoad(){
+        var debug_name = 'Messages.clickLoad()';
+        console.log(debug_name);
+
+        this.getMessages();
+    }
+
+    clickDetail(){
+        var debug_name = 'Messages.clickDetail()';
+        console.log(debug_name);
+    }
 }
