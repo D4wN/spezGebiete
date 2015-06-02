@@ -1,8 +1,8 @@
 import {ComponentAnnotation as Component, ViewAnnotation as View, bootstrap} from 'angular2/angular2';
-import {CreateMessage} from 'createMessage';
-import {Folder} from 'folder';
-import {Messages} from 'messages'
-import {OneMessage} from 'oneMessage'
+import {CreateMessage} from './components/createMessage/createMessage';
+import {Folder} from './components/folder/folder';
+import {Messages} from './components/messages/messages'
+import {OneMessage} from './components/oneMessage/oneMessage'
 
 @Component({
   selector: 'main'
@@ -10,9 +10,9 @@ import {OneMessage} from 'oneMessage'
 
 @View({
 
-  directives: [CreateMessage],
+  directives: [Folder],
   template: `
-    <createMessage></createMessage>
+    <folder></folder>
   `
 })
 
