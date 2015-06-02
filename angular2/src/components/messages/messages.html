@@ -4,7 +4,11 @@ DEBUG FOLDER_ID: {{fid}}
 <div *ng-for="#msg of messageList" >
     <p>ID: {{msg._id}}</p>
     <!-- subject, textarea mit content-->
-    <button (click)="clickDetail()">Detail</button>
+    <button (click)="clickDetail(msg._id)">Detail</button>
+    <div [hidden]="messagesHidden[msg._id]">
+        <oneMessage [mid]="$index" [fid]="fid"></oneMessage>
+    </div>
+    <button (click)="clickDelete(msg._id)">Delete</button>
     <br><br><br>
 </div>
 

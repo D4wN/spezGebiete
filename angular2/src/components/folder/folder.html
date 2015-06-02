@@ -7,7 +7,7 @@
         <button (click)="clickRename(folder._id)">Rename</button>
         <input id="RENAME-{{folder._id}}" type="text" [value]="folder._id">
         <p>DEBUG MESSAGE HIDDEN: {{messagesHidden[folder._id]}}</p>
-        <div id="MESSAGES-{{folder._id}}" [hidden]="messagesHidden[folder._id]">
+        <div [hidden]="messagesHidden[folder._id]">
             <messages [fid]="folder._id" test="MYASS"></messages>
         </div>
         <br>

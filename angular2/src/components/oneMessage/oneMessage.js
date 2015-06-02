@@ -1,7 +1,14 @@
 import {ComponentAnnotation as Component, ViewAnnotation as View} from 'angular2/angular2';
 
+//$http Var
+import {$http} from '../xhr-factory';
+
 @Component({
-    selector: 'oneMessage'
+    selector: 'oneMessage',
+    properties: {
+        'mid': 'mid',
+        'fid': 'fid'
+    }
 })
 
 @View({
@@ -11,7 +18,33 @@ import {ComponentAnnotation as Component, ViewAnnotation as View} from 'angular2
 export class OneMessage {
 
     constructor() {
-        console.info('OneMessage Component Mounted Successfully');
+        console.log('OneMessage.Constructor()');
+
+        this.mid = "mid_default";
+        this.fid = "fid_default";
+
+        this.message = null;
     }
 
+    getMessage(){
+        var debug_name = 'OneMessage.getMessage()';
+        console.log(debug_name);
+
+        $http.get('http://localhost:3000/folder/'+ this.fid +'/message/' + this.mid)
+            .then((data) => {
+                console.log(debug_name + ' Sucessfull!');
+                this.message = data;
+                console.log(this.message);
+            })
+            .catch((error) => {
+                alert(debug_name + ' Error!');
+            });
+    }
+
+    clickLoad(){
+        var debug_name = 'OneMessage.clickLoad()';
+        console.log(debug_name);
+
+        this.getMessage();
+    }
 }
