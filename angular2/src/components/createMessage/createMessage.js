@@ -13,6 +13,7 @@ import {$http} from '../xhr-factory';
 export class CreateMessage {
   constructor() {
     console.log('CreateMessage.Constructor()');
+    this.texts = "default";
   }
 
   login(event, folder, msg) {
@@ -28,6 +29,7 @@ export class CreateMessage {
         .then((data) => {
           console.log(' Sucessfull!');
           document.getElementById("status").innerHTML = "Message: '" + msg + "' was added to Folder: '" + folder + "'";
+            this.texts = "its working";
         })
         .catch((error) => {
           alert(' Error!');
