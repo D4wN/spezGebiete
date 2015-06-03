@@ -1,7 +1,6 @@
-Detail
-<button (click)="clickLoad()">Load</button>
-MESSAGE: {{message}}
-<div *ng-for="#ms of m">
+<button (click)="clickDetail()">Detail</button>
+<!--MESSAGE: {{message}}-->
+<div *ng-for="#ms of m" [hidden]="hidden">
     <b>Date: {{ms.date}}</b>
     <br><b>Sender:
         {{ms.sender}}</b><br/><b>Recipients: {{ms.recipients[0]}}</b>
