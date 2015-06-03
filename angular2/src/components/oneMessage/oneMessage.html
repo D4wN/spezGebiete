@@ -7,15 +7,10 @@
     <br><b>Text:</b><br/><textarea rows="50" cols="100" readonly="readonly">{{ms.text}}</textarea><br/>
     </p>
 
-  <form (submit)="login($event, folder.value, msg.value)">
-    <fieldset>
-      <label for="folder" >Folder:</label>
-      <input type="text" #folder class="form-control" id="folder" placeholder="Folder"
-             style="width: 80%">
-      <br>
-      <input type="text" #msg class="form-control" id="msg" placeholder="Message" hidden disabled>
-    </fieldset>
-    <button type="submit">Submit</button>
-  </form>
+
+
+    <button (click)="moveMessage()">Move Message</button>
+    <label >Folder:</label>
+    <input type="text"  id="FOLDER-{{mid}}" placeholder="{{fid}}" style="width: 80%">
 
 </div>
