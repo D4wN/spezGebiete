@@ -52,5 +52,20 @@ export class OneMessage {
     if(!this.hidden){
       this.getMessage()
     }
+
+  login(event,newFolder, msg){
+    event.preventDefault();
+
+    var FormData = {
+      '_id': newFolder
+    };
+
+     $http.put('http://localhost:3000/folder/'+  this.fid +'/message/'+ this.mid, FormData).
+     then((data) => {
+      console.log("move Folder Success! ");
+     })
+     .catch((error) => {
+      alert('Error! while moving msg');
+     });
   }
 }
