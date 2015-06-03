@@ -1,4 +1,5 @@
 import {ComponentAnnotation as Component, ViewAnnotation as View} from 'angular2/angular2';
+import {NgFor}  from 'angular2/angular2';
 
 //$http Var
 import {$http} from '../xhr-factory';
@@ -12,7 +13,8 @@ import {$http} from '../xhr-factory';
 })
 
 @View({
-    templateUrl: System.baseURL + "components/oneMessage/oneMessage.html"
+    templateUrl: System.baseURL + "components/oneMessage/oneMessage.html",
+    directives: [NgFor]
 })
 
 export class OneMessage {
