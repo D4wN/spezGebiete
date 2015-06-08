@@ -1,4 +1,7 @@
 h3 Folder-List --------------------------------
+style
+    button {margin-top: 15px; margin-right: 20px; margin-bottom: 15px; margin-left: 20px;}
+
 div(ng-repeat = "folder in folderList")
     fieldset
         p
@@ -8,5 +11,7 @@ div(ng-repeat = "folder in folderList")
                 Delete
             button(class="btn btn-primary", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}").
                 Rename
-            input(type="text" ng-model="folder.newName" ng-init="folder.newName = folder._id" ngTrim="true")
+            div(style='width: '+(100/4)+'%')
+                input(type="text" ng-init="folder.newName = folder._id" ng-model="folder.newName" popover="Insert a new name for {{folder._id}}"  popover-trigger="focus" class="form-control")
+
         br
