@@ -1,6 +1,10 @@
-h3 Folder-List --------------------------------
-div(ng-repeat = "folder in folderList")
-    fieldset
+h2 Folder-List
+
+|Open Only One Folder?
+input(type='checkbox', ng-model='oneFolder')
+
+accordion(close-others='oneFolder')
+    accordion-group(ng-repeat = "folder in folderList" heading='{{folder._id}}')
         p
             a(href="#/folder/{{folder._id}}") {{folder._id}}
             br
@@ -9,4 +13,26 @@ div(ng-repeat = "folder in folderList")
             button(class="btn btn-primary", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}").
                 Rename
             input(type="text" ng-model="folder.newName" ng-init="folder.newName = folder._id" ngTrim="true")
-        br
+
+        //MESSAGELIST
+        div(ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
+            h3 Message List
+            button(class="btn btn-default" ng-click="isCollapsed = !isCollapsed" ng-init="isCollapsed = true") Show Messages
+            br
+            div(collapse="isCollapsed")
+                |Hallo
+                div(ng-repeat = "msg in messageList")
+                    p
+                        a(href="#/folder/{{folderName}}/{{msg._id}}") SUBJ: {{msg._subject}}
+                        br
+                        b Text:
+                        br
+                        textarea(rows="10" cols="60" readonly).
+                            {{msg._text[0]}}
+                        br
+                        button(class="btn", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
+                            Delete
+
+                    br
+
+                    //ONEMESSAGE

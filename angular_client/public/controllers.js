@@ -1,4 +1,4 @@
-function IndexCtrl($scope, $http) {
+var IndexCtrl = function($scope, $http) {
     console.log("index route");
     /*$http.get('localhost:3000').
         success(function(data, status, headers, config) {
@@ -8,7 +8,7 @@ function IndexCtrl($scope, $http) {
         });*/
 }
 
-function folderCtrl($scope, $http, $route){
+var folderCtrl = function($scope, $http, $route){
     console.log("Get Folder...");
     $scope.deleteFolder = function(val){
         $http.delete('http://localhost:3000/folder/delete/'+val).
@@ -43,10 +43,15 @@ function folderCtrl($scope, $http, $route){
         error(function(data, status, headers, config) {
             alert("Error!");
         });
+
+
+    //------------------------------------------------MESSAGE CTRL
+
+
 }
 
 //MESSAGE
-function messageCtrl($scope, $http, $route, $routeParams){
+var messageCtrl = function($scope, $http, $route, $routeParams){
     $scope.folderName = $routeParams.name;
 
     //DELETE
@@ -74,7 +79,7 @@ function messageCtrl($scope, $http, $route, $routeParams){
 }
 
 //ONE MESSAGE
-function oneMessageCtrl($scope, $http, $route, $routeParams, $location){
+var oneMessageCtrl = function($scope, $http, $route, $routeParams, $location){
     $scope.folderName = $routeParams.name;
 
     //DELETE
@@ -125,7 +130,7 @@ function oneMessageCtrl($scope, $http, $route, $routeParams, $location){
 }
 
 //NEW MESSAGE
-function NewMessageCtrl($scope, $http, $location, $routeParams) {
+var NewMessageCtrl = function($scope, $http, $location, $routeParams){
     $scope.form = {};
 
     $http.get('http://localhost:3000/folder/').
