@@ -1,12 +1,12 @@
 h3 Folder-List --------------------------------
 div(ng-repeat = "folder in folderList")
-    div
+    fieldset
         p
             a(href="#/folder/{{folder._id}}") {{folder._id}}
             br
-            button(class="btn", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}").
+            button(class="btn btn-primary", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}").
                 Delete
-            button(class="btn", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}").
+            button(class="btn btn-primary", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}").
                 Rename
             input(type="text" ng-model="folder.newName" ng-init="folder.newName = folder._id" ngTrim="true")
         br
