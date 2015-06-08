@@ -12,7 +12,8 @@ var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
             $http.delete('http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ val +'/delete').
                 success(function(data, status, headers, config) {
                     console.log("folderCtrl.delete Success!");
-                    $route.reload();
+                    //$route.reload();
+                    $scope.getMessages();
                 }).
                 error(function(data, status, headers, config) {
                     alert("folderCtrl.delete Error!");

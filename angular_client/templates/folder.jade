@@ -1,4 +1,4 @@
-h2 Folder-List --------------------------------
+h2 Folder-List
 style
     button {margin-top: 15px; margin-right: 20px; margin-bottom: 15px; margin-left: 20px;}
 
@@ -8,7 +8,7 @@ input(type='checkbox', ng-model='oneFolder')
 accordion(close-others='oneFolder')
     accordion-group(ng-repeat = "folder in folderList" heading='{{folder._id}}')
         p
-            a(href="#/folder/{{folder._id}}") {{folder._id}}
+            //a(href="#/folder/{{folder._id}}") {{folder._id}}
             br
             button(class="btn btn-primary", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}").
                 Delete
@@ -23,19 +23,17 @@ accordion(close-others='oneFolder')
             button(class="btn btn-default" ng-click="isCollapsed = !isCollapsed" ng-init="isCollapsed = true") Show Messages
             br
             div(collapse="isCollapsed")
-                |Hallo
+                //|Hallo
                 div(ng-repeat = "msg in messageList")
-                    p
+                    fieldset(style='border-style: solid; border-width: 3px;')
                         a(href="#/folder/{{folderName}}/{{msg._id}}") SUBJ: {{msg._subject}}
                         br
                         b Text:
                         br
-                        textarea(rows="10" cols="60" readonly).
+                        textarea(class="form-control" rows="10" cols="60" readonly).
                             {{msg._text[0]}}
                         br
-                        button(class="btn", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
+                        button(class="btn btn-danger", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
                             Delete
-
                     br
-
                     //ONEMESSAGE
