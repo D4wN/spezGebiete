@@ -5,7 +5,7 @@ style
 
 div(ng-repeat = "msg in messageList")
     p
-        a(href="#/folder/{{folderName}}/{{$index}}") SUBJ: {{msg._subject}}
+        a(href="#/folder/{{folderName}}/{{msg._id}}") SUBJ: {{msg._subject}}
         br
         b Text:
         br
