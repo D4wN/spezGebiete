@@ -1,6 +1,21 @@
 var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial'])
     .controller('myAppMessageController', function($scope, $http, $route, $routeParams){
         $scope.folderName = undefined;
+        //$scope.orderData = '_id';
+        $scope.limitMessages = 5;
+
+        //PAGING
+        $scope.limitMessagesMore = function(){
+            $scope.limitMessages += 25;
+            console.log("LimitMore: " + $scope.limitMessages);
+        }
+
+        $scope.limitMessagesLess = function(){
+            if($scope.limitMessages > 25){
+                $scope.limitMessages -= 25;
+            }
+            console.log("LimitLess: " + $scope.limitMessages);
+        }
 
         //DELETE
         $scope.deleteMessage = function(val){

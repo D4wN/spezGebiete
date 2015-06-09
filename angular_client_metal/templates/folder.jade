@@ -38,8 +38,8 @@ div()
                                 md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
                                     |Show Messages
 
-                                div(flex ng-show="isCollapsed")
-                                    div(flex ng-repeat = "msg in messageList" style="width:95%")
+                                div(ng-show="isCollapsed")
+                                    div(ng-repeat = "msg in messageList | limitTo:limitMessages" style="width:95%")
                                         fieldset(style='border-style: solid; border-width: 2px;')
                                             b SUBJ:
                                             |{{msg._subject}}
@@ -87,4 +87,10 @@ div()
                                             md-button(class="md-raised md-warn", ng-click="moveMessage(msg._id, chose._id)" style="margin-left:10px").
                                                 Move Message
                                             select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
+                                            br
+                                    br
+                                    md-button(class="md-raised md-primary" ng-click="limitMessagesMore()")
+                                        |More
+                                    md-button(class="md-raised md-primary" ng-click="limitMessagesLess()")
+                                        |Less
                                             br
