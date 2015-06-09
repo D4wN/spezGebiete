@@ -8,7 +8,7 @@ var IndexCtrl = function($scope, $http) {
         });*/
 }
 
-var folderCtrl = function($scope, $http, $route, $modal){
+var folderCtrl = function($scope, $http, $route){
     console.log("Get Folder...");
     $scope.deleteFolder = function(val){
         $http.delete('http://localhost:3000/folder/delete/'+val).
@@ -51,25 +51,25 @@ var folderCtrl = function($scope, $http, $route, $modal){
 
     $scope.newMessageData = undefined;
     //MODAL NEW MESSAGE DIALOG
-    $scope.newMessage = function(){
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: 'myModalContent.html',
-            controller: 'NewMessageCtrl',
-            //size: size,
-            resolve: {
-                newMessageData: function () {
-                    return $scope.form;
-                }
-            }
-        });
-
-        modalInstance.result.then(function (data) {
-            $scope.createNewMessage(data);
-        }, function () {
-            console.log('Modal dismissed at: ' + new Date());
-        });
-    };
+    //$scope.newMessage = function(){
+    //    var modalInstance = $modal.open({
+    //        animation: true,
+    //        templateUrl: 'myModalContent.html',
+    //        controller: 'NewMessageCtrl',
+    //        //size: size,
+    //        resolve: {
+    //            newMessageData: function () {
+    //                return $scope.form;
+    //            }
+    //        }
+    //    });
+    //
+    //    modalInstance.result.then(function (data) {
+    //        $scope.createNewMessage(data);
+    //    }, function () {
+    //        console.log('Modal dismissed at: ' + new Date());
+    //    });
+    //};
 
     $scope.createNewMessage = function (data) {
         if(data == null || data === undefined) return;

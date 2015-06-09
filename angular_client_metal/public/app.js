@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
+var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial'])
     .controller('myAppMessageController', function($scope, $http, $route, $routeParams){
         $scope.folderName = undefined;
 
