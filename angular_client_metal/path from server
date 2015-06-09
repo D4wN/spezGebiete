@@ -1,0 +1,17 @@
+"/" --> index
+
+"/folder" --> get all folder
+
+"/folder/name"
+	get --> Folder by Name
+	delete --> Delete folde + Content
+	put --> edit Folder Name
+
+"/newMessage"
+	get --> Form for new Message
+	post --> Create new Message
+
+"/folder/:name/message/:id"
+	get --> get message by id
+	delete --> delte message by id
+	put --> edit Message by id
