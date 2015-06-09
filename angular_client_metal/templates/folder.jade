@@ -18,11 +18,11 @@ div
     md-content(class="md-padding")
         md-tabs(md-dynamic-height md-border-bottom)
             md-tab(ng-repeat = "folder in folderList" label='{{folder._id}}')
-                div(class="container")
+                div()
                     h2(class="md-display-2")
                         |{{folder._id}}
                     //a(href="#/folder/{{folder._id}}") {{folder._id}}
-                    div(class="row-fluid")
+                    div()
                         md-button(class="md-raised md-warn", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}").
                             Delete Folder
                         md-button(class="md-raised md-primary", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}" style="margin-left:15px").
@@ -32,8 +32,8 @@ div
                             input(type="text" ng-model="folder.newName" style="width:90%; margin-top: 10px")
 
                         //MESSAGELIST
-                        div(class="container" ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
-                            div(class="row-fluid")
+                        div(ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
+                            div()
                                 br
                                 md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
                                     |Show Messages
@@ -49,32 +49,29 @@ div
                                             div(ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
                                                 div(ng-model='mId' ng-init='mId = msg._id')
                                                 md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
-                                                    |More
-                                                div(class="container" ng-show="isCollapsed" style="width:95%")
-                                                    div(class="row-fluid")
+                                                    |Details
+                                                div(ng-show="isCollapsed" style="width:95%")
+                                                    div()
                                                         table
                                                             tr
                                                                 td
                                                                     b Sender:
                                                                 td
-                                                                    span(class="label label-default").
-                                                                        {{msg.sender}}
+                                                                    label {{msg.sender}}
                                                             tr
                                                                 td
                                                                     b Message-ID:
                                                                 td
-                                                                    span(class="label label-default").
-                                                                        {{msg._id}}
+                                                                    label {{msg._id}}
                                                             tr
                                                                 td
                                                                     b Date:
                                                                 td
-                                                                    span(class="label label-default").
-                                                                        {{msg.date}}
+                                                                    label {{msg.date}}
                                                             tr
                                                                 td
                                                                     b Recipients:
-                                                        textarea(class="form-control" readonly).
+                                                        textarea(cols="200" rows="5" readonly style="background-color: lightgray").
                                                             {{msg.recipients}}
                                                         br
                                                         //button(class="btn btn-danger", ng-click="deleteMessage()").
@@ -87,8 +84,8 @@ div
                                                 {{msg._text[0]}}
                                             br
                                             md-button(class="md-raised md-warn", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
-                                                Delete
+                                                Delete Message
                                             md-button(class="md-raised md-warn", ng-click="moveMessage(msg._id, chose._id)" style="margin-left:10px").
-                                                Move
+                                                Move Message
                                             select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
                                             br
