@@ -1,4 +1,4 @@
-button(ng-click='toggleRight()') New Message
+md-button(ng-click='toggleRight()' class="md-raised md-primary") New Message
 
 md-sidenav(class="md-sidenav-right md-whiteframe-z2" md-component-id="right")
     md-toolbar(class="md-theme-light")
@@ -8,27 +8,13 @@ md-sidenav(class="md-sidenav-right md-whiteframe-z2" md-component-id="right")
         input(type="text" class="form-control" ng-model='form.chose', name='folder')
         br
         label(for='msgInput') Message:
-        textarea(class="form-control" ng-model='form.newText', cols='30', rows='15',name='msgInput' )
+        textarea(class="form-control" ng-model='form.newText' rows="15" name='msgInput' style="width: 100%")
         br
         md-button(ng-click="close()" class="md-primary")
             |Create Message
         br
         b {{errorMessage}}
 
-//script(type="text/ng-template", id="myModalContent.html")
-//    div(class="modal-header")
-//        h3(class="modal-title") New Message
-//    div(class="modal-body")
-//        label(for='folder') Folder:
-//        input(type="text" class="form-control" ng-model='form.chose', name='folder')
-//        br
-//        label(for='msgInput') Message:
-//        textarea(class="form-control" ng-model='form.newText', cols='50', rows='15',name='msgInput' )
-//        //p
-//        //    button(class="btn btn-success" ng-click='submitPost()') Submit Post
-//    div(class="modal-footer")
-//        button(class="btn btn-primary" ng-click="ok()") OK
-//        button(class="btn btn-warning" ng-click="cancel()") Cancel
 div
     md-content(class="md-padding")
         md-tabs(md-dynamic-height md-border-bottom)
@@ -36,7 +22,6 @@ div
                 div()
                     h2(class="md-display-2")
                         |{{folder._id}}
-                    //a(href="#/folder/{{folder._id}}") {{folder._id}}
                     div()
                         md-button(class="md-raised md-warn", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}").
                             Delete Folder
@@ -53,7 +38,6 @@ div
                                 md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
                                     |Show Messages
 
-                                //input(type="checkbox", ng-model="isCollapsed" ng-init="isCollapsed = false")
                                 div(ng-show="isCollapsed")
                                     div(ng-repeat = "msg in messageList | limitTo:limitMessages" style="width:95%")
                                         fieldset(style='border-style: solid; border-width: 2px;')
