@@ -1,4 +1,20 @@
-button(ng-click='newMessage()') New Message
+button(ng-click='toggleRight()') New Message
+
+
+md-sidenav(class="md-sidenav-right md-whiteframe-z2" md-component-id="right")
+    md-toolbar(class="md-theme-light")
+        h1(class="md-toolbar-tools") Create a new Message!
+    md-content(ng-controller="NewMessageCtrl" layout-padding="")
+        label(for='folder') Folder:
+        input(type="text" class="form-control" ng-model='form.chose', name='folder')
+        br
+        label(for='msgInput') Message:
+        textarea(class="form-control" ng-model='form.newText', cols='30', rows='15',name='msgInput' )
+        br
+        md-button(ng-click="close()" class="md-primary")
+            |Create Message
+        br
+        b {{errorMessage}}
 
 //script(type="text/ng-template", id="myModalContent.html")
 //    div(class="modal-header")

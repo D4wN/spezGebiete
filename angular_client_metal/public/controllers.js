@@ -8,7 +8,7 @@ var IndexCtrl = function($scope, $http) {
         });*/
 }
 
-var folderCtrl = function($scope, $http, $route){
+var folderCtrl = function($scope, $http, $route, $timeout, $mdSidenav, $mdUtil, $log){
     console.log("Get Folder...");
     $scope.deleteFolder = function(val){
         $http.delete('http://localhost:3000/folder/delete/'+val).
@@ -48,38 +48,19 @@ var folderCtrl = function($scope, $http, $route){
             });
     }
 
-
-    $scope.newMessageData = undefined;
-    //MODAL NEW MESSAGE DIALOG
-    //$scope.newMessage = function(){
-    //    var modalInstance = $modal.open({
-    //        animation: true,
-    //        templateUrl: 'myModalContent.html',
-    //        controller: 'NewMessageCtrl',
-    //        //size: size,
-    //        resolve: {
-    //            newMessageData: function () {
-    //                return $scope.form;
-    //            }
-    //        }
-    //    });
-    //
-    //    modalInstance.result.then(function (data) {
-    //        $scope.createNewMessage(data);
-    //    }, function () {
-    //        console.log('Modal dismissed at: ' + new Date());
-    //    });
-    //};
-
-    $scope.createNewMessage = function (data) {
-        if(data == null || data === undefined) return;
-        $http.post('http://localhost:3000/newMessage', data).
-            success(function(data) {
-                //$location.path('/');
-                console.log("SUCCESS! -> new MEssage submitPost");
-                $scope.getFolder();
-            });
-    };
+    //SIDENAV KRAM
+    $scope.toggleRight = buildToggler('right');
+    function buildToggler(navID) {
+        var debounceFn =  $mdUtil.debounce(function(){
+            $mdSidenav(navID)
+                .toggle()
+                .then(function () {
+                    //$log.debug("toggle " + navID + " is done");
+                    console.log("toggle " + navID + " is done");
+                });
+        },300);
+        return debounceFn;
+    }
 
     //init
     $scope.getFolder();

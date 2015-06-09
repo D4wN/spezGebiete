@@ -134,22 +134,34 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial'])
                 alert("Error!");
             });
     })
-    .controller('NewMessageCtrl', function($scope, $http, $modalInstance){
+    .controller('NewMessageCtrl', function($scope, $http, $timeout, $mdSidenav, $log){
         $scope.form = {};
+        $scope.errorMessage = "";
 
-        /*$http.get('http://localhost:3000/folder/').
-            success(function(data) {
-                $scope.data = data;
-            });*/
-
-        $scope.ok = function (){
-            console.log("OK MODAL");
-            $modalInstance.close($scope.form);
+        //SIDENAV
+        $scope.close = function () {
+            $mdSidenav('right').close()
+                .then(function () {
+                    $scope.createNewMessage($scope.form);
+                });
         };
 
-        $scope.cancel = function (){
-            console.log("cancel MODAL");
-            $modalInstance.dismiss('cancel');
+        $scope.createNewMessage = function (data) {
+            console.log("DATA:");
+            console.log(data);
+
+            if(data == null || data === undefined) return;
+            $http.post('http://localhost:3000/newMessage', data).
+                success(function(data) {
+                    //$location.path('/');
+                    console.log("SUCCESS! -> new MEssage submitPost");
+                    $scope.errorMessage = "";
+                    $scope.form.chose = "";
+                    $scope.form.newText = "";
+                })
+                .error(function(err){
+                    $scope.errorMessage = "Could not create new Message!";
+                });
         };
     })
     .config(['$routeProvider', function($routeProvider, $locationProvider) {
