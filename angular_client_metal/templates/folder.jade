@@ -31,6 +31,17 @@ accordion(close-others='oneFolder')
                     Rename
                 input(type="text" ng-init="folder.newName = folder._id" ng-model="folder.newName" popover="Insert a new name for {{folder._id}}"  popover-placement="bottom" popover-trigger="focus" class="form-control" style="width:90%; margin-top: 10px")
 
+
+                br
+                |Show Messages
+                input(type="checkbox", ng-model="isCollapsed" ng-init="isCollapsed = true")
+                div(ng-show="isCollapsed")
+                    |Hallo
+                    |Welt
+                br
+                br
+                br
+                br
         //MESSAGELIST
         //div(class="container" ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
         //    div(class="row-fluid")
