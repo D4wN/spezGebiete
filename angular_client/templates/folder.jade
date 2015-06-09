@@ -44,7 +44,7 @@ accordion(close-others='oneFolder')
                             br
                             b Text:
                             br
-                            textarea(class="form-control" readonly).
+                            textarea(class="form-control" readonly rows="10").
                                 {{msg._text[0]}}
                             br
                             button(class="btn btn-danger", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
