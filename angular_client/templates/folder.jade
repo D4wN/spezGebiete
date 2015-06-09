@@ -21,7 +21,7 @@ accordion(close-others='oneFolder')
                 button(class="btn btn-primary" ng-click="isCollapsed = !isCollapsed" ng-init="isCollapsed = true") Show Messages
                 br
                 div(collapse="isCollapsed")
-                    div(ng-repeat = "msg in messageList" style="width:90%")
+                    div(ng-repeat = "msg in messageList" style="width:95%")
                         fieldset(style='border-style: solid; border-width: 2px;')
                             a(href="#/folder/{{folderName}}/{{msg._id}}") SUBJ: {{msg._subject}}
                             br
@@ -42,7 +42,7 @@ accordion(close-others='oneFolder')
                                 div(ng-model='mId' ng-init='mId = msg._id')
                                 button(class="btn btn-default" ng-click="isCollapsed = !isCollapsed" ng-init="isCollapsed = true" style="margin-top:10px;") Detail
                                 br
-                                div(class="container" collapse="isCollapsed" style="width:90%")
+                                div(class="container" collapse="isCollapsed" style="width:95%")
                                     div(class="row-fluid")
                                         table
                                             tr
@@ -70,3 +70,4 @@ accordion(close-others='oneFolder')
                                         //button(class="btn btn-danger", ng-click="deleteMessage()").
                                         //    Delete
                                         //br
+
