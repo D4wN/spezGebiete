@@ -38,13 +38,13 @@ accordion(close-others='oneFolder')
                 button(class="btn btn-primary" ng-click="isCollapsed = !isCollapsed" ng-init="isCollapsed = true") Show Messages
                 br
                 div(collapse="isCollapsed")
-                    div(ng-repeat = "msg in messageList" style="width:95%")
+                    div(ng-repeat = "msg in messageList | limitTo:limitMessages" style="width:95%")
                         fieldset(style='border-style: solid; border-width: 2px;')
                             a(href="#/folder/{{folderName}}/{{msg._id}}") SUBJ: {{msg._subject}}
                             br
                             b Text:
                             br
-                            textarea(class="form-control" readonly).
+                            textarea(class="form-control" readonly rows="10").
                                 {{msg._text[0]}}
                             br
                             button(class="btn btn-danger", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
@@ -88,3 +88,7 @@ accordion(close-others='oneFolder')
                                         //    Delete
                                         //br
 
+                    button(class="btn btn-default" ng-click="limitMessagesMore()")
+                        |More
+                    button(class="btn btn-default" ng-click="limitMessagesLess()")
+                        |Less
