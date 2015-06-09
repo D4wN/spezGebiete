@@ -35,10 +35,14 @@ var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
         //MOVE
         $scope.moveMessage = function(mId, newFolder){
             console.log('http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ mId + '    TO: ' + newFolder);
-            alert("SIEHE TODO!");
-            //TODO move funktioniert nicht ->  No 'Access-Control-Allow-Origin' header is present on the requested resource.
-            return; //FIXME @ NICLAS
-            $http.put('http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ mId, newFolder).
+            //alert("SIEHE TODO!");
+            var data = {
+                '_id': newFolder
+            };
+
+            //No 'Access-Control-Allow-Origin' header is present on the requested resource. --> Weil $scope._id undefined ist/war
+            //Server sucht im Übergebenen Content nach dem Element '_id'
+            $http.put('http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ mId, data).
                 success(function(data, status, headers, config) {
                     console.log("move Folder Success!");
                     //$location.path('folder/'+ $scope.chose._id);
