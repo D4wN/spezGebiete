@@ -26,13 +26,13 @@ div
                         |{{folder._id}}
                     //a(href="#/folder/{{folder._id}}") {{folder._id}}
                     div(class="row-fluid")
-                        button(class="btn btn-danger", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}").
+                        md-button(class="md-raised md-warn", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}").
                             Delete
-                        button(class="btn btn-primary", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}" style="margin-left:15px").
+                        md-button(class="md-raised md-primary", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}" style="margin-left:15px").
                             Rename
-                        input(type="text" ng-init="folder.newName = folder._id" ng-model="folder.newName" popover="Insert a new name for {{folder._id}}"  popover-placement="bottom" popover-trigger="focus" class="form-control" style="width:90%; margin-top: 10px")
-
-
+                        md-input-container
+                            label Insert a new name for {{folder._id}}
+                            input(type="text" ng-model="folder.newName" style="width:90%; margin-top: 10px")
 
                         //MESSAGELIST
                         div(class="container" ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
@@ -48,13 +48,12 @@ div
                                             br
                                             b Text:
                                             br
-                                            textarea(class="form-control" readonly).
+                                            textarea(cols="200" rows="20" readonly style="background-color: lightgray").
                                                 {{msg._text[0]}}
                                             br
-                                            button(class="btn btn-danger", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
+                                            md-button(class="md-raised md-warn", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
                                                 Delete
-
-                                            button(class="btn btn-danger", ng-click="moveMessage(msg._id, chose._id)" style="margin-left:10px").
+                                            md-button(class="md-raised md-warn", ng-click="moveMessage(msg._id, chose._id)" style="margin-left:10px").
                                                 Move
                                             select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
                                             br
