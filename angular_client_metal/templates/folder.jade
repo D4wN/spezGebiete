@@ -1,6 +1,5 @@
 md-button(ng-click='toggleRight()' class="md-raised md-primary") New Message
 
-
 md-sidenav(class="md-sidenav-right md-whiteframe-z2" md-component-id="right")
     md-toolbar(class="md-theme-light")
         h1(class="md-toolbar-tools") Create a new Message!
@@ -16,14 +15,14 @@ md-sidenav(class="md-sidenav-right md-whiteframe-z2" md-component-id="right")
         br
         b {{errorMessage}}
 
-div
+div()
     md-content(class="md-padding")
         md-tabs(md-dynamic-height md-border-bottom)
             md-tab(ng-repeat = "folder in folderList" label='{{folder._id}}')
-                div()
+                div(layout="row")
                     h2(class="md-display-2")
                         |{{folder._id}}
-                    div()
+                    div(flex)
                         md-button(class="md-raised md-warn", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}").
                             Delete Folder
                         md-button(class="md-raised md-primary", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}" style="margin-left:15px").
@@ -33,25 +32,25 @@ div
                             input(type="text" ng-model="folder.newName" style="width:90%; margin-top: 10px")
 
                         //MESSAGELIST
-                        div(ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
-                            div()
+                        div(flex ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
+                            div(flex)
                                 br
                                 md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
                                     |Show Messages
 
-                                div(ng-show="isCollapsed")
-                                    div(ng-repeat = "msg in messageList" style="width:95%")
+                                div(flex ng-show="isCollapsed")
+                                    div(flex ng-repeat = "msg in messageList" style="width:95%")
                                         fieldset(style='border-style: solid; border-width: 2px;')
                                             b SUBJ:
                                             |{{msg._subject}}
                                             br
                                             //ONEMESSAGE
-                                            div(ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
+                                            div(flex ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
                                                 div(ng-model='mId' ng-init='mId = msg._id')
                                                 md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
                                                     |Details
-                                                div(ng-show="isCollapsed" style="width:95%")
-                                                    div()
+                                                div(flex ng-show="isCollapsed" style="width:95%")
+                                                    div(flex)
                                                         table
                                                             tr
                                                                 td
@@ -71,7 +70,7 @@ div
                                                             tr
                                                                 td
                                                                     b Recipients:
-                                                        textarea(cols="200" rows="5" readonly style="background-color: lightgray").
+                                                        textarea(readonly rows="5" style="background-color: lightgray;width:95%;").
                                                             {{msg.recipients}}
                                                         br
                                                         //button(class="btn btn-danger", ng-click="deleteMessage()").
@@ -80,7 +79,7 @@ div
                                             br
                                             b Text:
                                             br
-                                            textarea(cols="200" rows="20" readonly style="background-color: lightgray").
+                                            textarea(readonly rows="20" style="background-color: lightgray; width:95%;").
                                                 {{msg._text[0]}}
                                             br
                                             md-button(class="md-raised md-warn", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
