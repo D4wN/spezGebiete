@@ -64,16 +64,18 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial'])
 
         //WATCHER FOR MESSAGES
         $scope.$watch('folderName', function(){
-            if(!$scope.isCollapsed && $scope.folderName != undefined){
+            if($scope.isCollapsed && $scope.folderName != undefined){
                 $scope.getMessages();
                 $scope.getFolder();
+                //console.log("isCollapsed1: " + $scope.isCollapsed)
             }
         });
 
         $scope.$watch('isCollapsed', function(){
-            if(!$scope.isCollapsed && $scope.folderName != undefined){
+            if($scope.isCollapsed && $scope.folderName != undefined){
                 $scope.getMessages();
                 $scope.getFolder();
+                //console.log("isCollapsed2: " + $scope.isCollapsed)
             }
         });
     })
@@ -108,13 +110,13 @@ var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial'])
 
         //WATCHER FOR MESSAGES
         $scope.$watch('parentFolder', function(){
-            if(!$scope.isCollapsed && $scope.parentFolder != undefined && $scope.mId != undefined){
+            if($scope.isCollapsed && $scope.parentFolder != undefined && $scope.mId != undefined){
                 $scope.getMessageDetails();
             }
         });
 
         $scope.$watch('isCollapsed', function(){
-            if(!$scope.isCollapsed && $scope.parentFolder != undefined && $scope.mId != undefined){
+            if($scope.isCollapsed && $scope.parentFolder != undefined && $scope.mId != undefined){
                 $scope.getMessageDetails();
             }
         });

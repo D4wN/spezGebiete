@@ -33,39 +33,31 @@ div
                         input(type="text" ng-init="folder.newName = folder._id" ng-model="folder.newName" popover="Insert a new name for {{folder._id}}"  popover-placement="bottom" popover-trigger="focus" class="form-control" style="width:90%; margin-top: 10px")
 
 
-                        br
-                        |Show Messages
-                        input(type="checkbox", ng-model="isCollapsed" ng-init="isCollapsed = false")
-                        div(ng-show="isCollapsed")
-                            |Hallo
-                            |Welt
-                        br
-                        br
-                        br
-                        br
-                //MESSAGELIST
-                //div(class="container" ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
-                //    div(class="row-fluid")
-                //        h3 Message List
-                //        button(class="btn btn-primary" ng-click="isCollapsed = !isCollapsed" ng-init="isCollapsed = true") Show Messages
-                //        br
-                //        div(collapse="isCollapsed")
-                //            div(ng-repeat = "msg in messageList" style="width:95%")
-                //                fieldset(style='border-style: solid; border-width: 2px;')
-                //                    a(href="#/folder/{{folderName}}/{{msg._id}}") SUBJ: {{msg._subject}}
-                //                    br
-                //                    b Text:
-                //                    br
-                //                    textarea(class="form-control" readonly).
-                //                        {{msg._text[0]}}
-                //                    br
-                //                    button(class="btn btn-danger", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
-                //                        Delete
-                //
-                //                    button(class="btn btn-danger", ng-click="moveMessage(msg._id, chose._id)" style="margin-left:10px").
-                //                        Move
-                //                    select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
-                //                    br
+
+                        //MESSAGELIST
+                        div(class="container" ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
+                            div(class="row-fluid")
+                                br
+                                |Show Messages
+                                input(type="checkbox", ng-model="isCollapsed" ng-init="isCollapsed = false")
+                                div(ng-show="isCollapsed")
+                                    div(ng-repeat = "msg in messageList" style="width:95%")
+                                        fieldset(style='border-style: solid; border-width: 2px;')
+                                            b SUBJ:
+                                            |{{msg._subject}}
+                                            br
+                                            b Text:
+                                            br
+                                            textarea(class="form-control" readonly).
+                                                {{msg._text[0]}}
+                                            br
+                                            button(class="btn btn-danger", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
+                                                Delete
+
+                                            button(class="btn btn-danger", ng-click="moveMessage(msg._id, chose._id)" style="margin-left:10px").
+                                                Move
+                                            select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
+                                            br
                 //                    //ONEMESSAGE
                 //                    div(ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
                 //                        div(ng-model='mId' ng-init='mId = msg._id')
