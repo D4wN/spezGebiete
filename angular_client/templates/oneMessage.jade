@@ -26,10 +26,10 @@ div(style='width: '+(100/2)+'%')
                     {{msg.sender}}
 
     label Recipients:
-    textarea(class="form-control",rows="50" cols="100" readonly).
+    textarea(class="form-control" cols="100" readonly).
                 {{msg.recipients}}
     h5 Text:
-        textarea(class="form-control",rows="50" cols="100" name="messageOutput" readonly).
+        textarea(class="form-control" rows="20" cols="100" name="messageOutput" readonly).
                 {{msg.text}}
     br
     button(class="btn btn-danger", ng-click="deleteMessage()").
