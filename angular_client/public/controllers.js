@@ -8,7 +8,7 @@ var IndexCtrl = function($scope, $http) {
         });*/
 }
 
-var folderCtrl = function($scope, $http, $route){
+var folderCtrl = function($scope, $http, $route, $modal){
     console.log("Get Folder...");
     $scope.deleteFolder = function(val){
         $http.delete('http://localhost:3000/folder/delete/'+val).
@@ -48,6 +48,40 @@ var folderCtrl = function($scope, $http, $route){
             });
     }
 
+
+    $scope.newMessageData = undefined;
+    //MODAL NEW MESSAGE DIALOG
+    $scope.newMessage = function(){
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'myModalContent.html',
+            controller: 'NewMessageCtrl',
+            //size: size,
+            resolve: {
+                newMessageData: function () {
+                    return $scope.form;
+                }
+            }
+        });
+
+        modalInstance.result.then(function (data) {
+            $scope.createNewMessage(data);
+        }, function () {
+            console.log('Modal dismissed at: ' + new Date());
+        });
+    };
+
+    $scope.createNewMessage = function (data) {
+        if(data == null || data === undefined) return;
+        $http.post('http://localhost:3000/newMessage', data).
+            success(function(data) {
+                //$location.path('/');
+                console.log("SUCCESS! -> new MEssage submitPost");
+                $scope.getFolder();
+            });
+    };
+
+
     //init
     $scope.getFolder();
 
@@ -82,7 +116,7 @@ var messageCtrl = function($scope, $http, $route, $routeParams){
 }
 
 //ONE MESSAGE
-var oneMessageCtrl = function($scope, $http, $route, $routeParams, $location){
+var oneMessageCtrl = function($scope, $http, $route, $routeParams, $location, $modal){
     $scope.folderName = $routeParams.name;
 
     //DELETE
@@ -147,5 +181,15 @@ var NewMessageCtrl = function($scope, $http, $location, $routeParams){
             success(function(data) {
                 $location.path('/');
             });
+    };
+
+    $scope.ok = function (){
+        console.log("OK MODAL");
+        $modalInstance.close($scope.selected.item);
+    };
+
+    $scope.cancel = function (){
+        console.log("cancel MODAL");
+        $modalInstance.dismiss('cancel');
     };
 }

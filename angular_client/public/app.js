@@ -132,6 +132,24 @@ var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
                 alert("Error!");
             });
     })
+    .controller('NewMessageCtrl', function($scope, $http, $modalInstance){
+        $scope.form = {};
+
+        /*$http.get('http://localhost:3000/folder/').
+            success(function(data) {
+                $scope.data = data;
+            });*/
+
+        $scope.ok = function (){
+            console.log("OK MODAL");
+            $modalInstance.close($scope.form);
+        };
+
+        $scope.cancel = function (){
+            console.log("cancel MODAL");
+            $modalInstance.dismiss('cancel');
+        };
+    })
     .config(['$routeProvider', function($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {
