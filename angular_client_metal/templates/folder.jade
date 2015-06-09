@@ -35,8 +35,10 @@ div
                         div(class="container" ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
                             div(class="row-fluid")
                                 br
-                                |Show Messages
-                                input(type="checkbox", ng-model="isCollapsed" ng-init="isCollapsed = false")
+                                md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
+                                    |Show Messages
+
+                                //input(type="checkbox", ng-model="isCollapsed" ng-init="isCollapsed = false")
                                 div(ng-show="isCollapsed")
                                     div(ng-repeat = "msg in messageList" style="width:95%")
                                         fieldset(style='border-style: solid; border-width: 2px;')
@@ -46,8 +48,8 @@ div
                                             //ONEMESSAGE
                                             div(ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
                                                 div(ng-model='mId' ng-init='mId = msg._id')
-                                                |More
-                                                input(type="checkbox", ng-model="isCollapsed" ng-init="isCollapsed = false")
+                                                md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
+                                                    |More
                                                 div(class="container" ng-show="isCollapsed" style="width:95%")
                                                     div(class="row-fluid")
                                                         table
