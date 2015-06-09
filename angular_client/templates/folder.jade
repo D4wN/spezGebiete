@@ -35,5 +35,43 @@ accordion(close-others='oneFolder')
                         br
                         button(class="btn btn-danger", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
                             Delete
-                    br
-                    //ONEMESSAGE
+                        button(class="btn btn-danger", ng-click="moveMessage(msg._id)").
+                            Move
+                        select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose")
+
+                        br
+                        //ONEMESSAGE
+                        div(ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
+                            div(ng-model='mId' ng-init='mId = msg._id')
+                            style
+                                textarea {width: 50%; height: auto;}
+                            button(class="btn btn-default" ng-click="isCollapsed = !isCollapsed" ng-init="isCollapsed = true") Detail
+                            br
+                            div(collapse="isCollapsed")
+                                div(style='width: ' + (100 / 2) + '%')
+                                    table
+                                        tr
+                                            td Message-ID:
+                                            td
+                                                span(class="label label-default").
+                                                    {{msg._id}}
+                                        tr
+                                            td Date:
+                                            td
+                                                span(class="label label-default").
+                                                    {{msg.date}}
+                                        tr
+                                            td Sender:
+                                            td
+                                                span(class="label label-default").
+                                                    {{msg.sender}}
+                                    label Recipients:
+                                    textarea(class="form-control",rows="50" cols="100" readonly).
+                                        {{msg.recipients}}
+                                    h5 Text:
+                                        textarea(class="form-control",rows="50" cols="100" name="messageOutput" readonly).
+                                            {{msg.text}}
+                                    br
+                                    //button(class="btn btn-danger", ng-click="deleteMessage()").
+                                    //    Delete
+                                    //br

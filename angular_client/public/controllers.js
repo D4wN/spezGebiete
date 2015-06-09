@@ -14,7 +14,8 @@ var folderCtrl = function($scope, $http, $route){
         $http.delete('http://localhost:3000/folder/delete/'+val).
             success(function(data, status, headers, config) {
                 console.log("folderCtrl.delete Success!");
-                $route.reload();
+                //$route.reload();
+                $scope.getFolder();
             }).
             error(function(data, status, headers, config) {
                 alert("folderCtrl.delete Error!");
@@ -27,26 +28,28 @@ var folderCtrl = function($scope, $http, $route){
         $http.put('http://localhost:3000/folder/'+val+'/'+newName).
             success(function(data, status, headers, config) {
                 console.log("renameFolder.delete Success!");
-                $route.reload();
+                //$route.reload();
+                $scope.getFolder();
             }).
             error(function(data, status, headers, config) {
                 alert("renameFolder.delete Error!");
             });
     }
 
-    $http.get('http://localhost:3000/folder').
-        success(function(data, status, headers, config) {
-           console.log("Success!");
-            console.log(data);
-            $scope.folderList = data;
-        }).
-        error(function(data, status, headers, config) {
-            alert("Error!");
-        });
+    $scope.getFolder = function(){
+        $http.get('http://localhost:3000/folder').
+            success(function(data, status, headers, config) {
+                console.log("Success!");
+                console.log(data);
+                $scope.folderList = data;
+            }).
+            error(function(data, status, headers, config) {
+                alert("Error!");
+            });
+    }
 
-
-    //------------------------------------------------MESSAGE CTRL
-
+    //init
+    $scope.getFolder();
 
 }
 

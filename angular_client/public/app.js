@@ -1,11 +1,6 @@
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
     .controller('myAppMessageController', function($scope, $http, $route, $routeParams){
         $scope.folderName = undefined;
-        //$scope.isCollapsed = true;
-
-        //$scope.toggleColapse = function(){
-        //    $scope.isCollapsed = !$scope.isCollapsed;
-        //}
 
         //DELETE
         $scope.deleteMessage = function(val){
@@ -22,6 +17,11 @@ var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
 
         //SHOW ALL MESSAGES FROM FOLDER
         $scope.getMessages = function(){
+            if($scope.folderName === undefined){
+                alert("folderName undefined");
+                return;
+            }
+
             $http.get('http://localhost:3000/folder/'+ $scope.folderName +'/message').
                 success(function(data, status, headers, config) {
                     console.log("Success! Messages");
@@ -32,9 +32,22 @@ var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
                     alert("Error!");
                 });
         }
+        //MOVE
+        $scope.moveMessage = function(mId){
+            console.log('http://localhost:3000/folder/'+ mId);
+            $http.put('http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ mId, $scope.chose).
+                success(function(data, status, headers, config) {
+                    console.log("move Folder Success!");
+                    //$location.path('folder/'+ $scope.chose._id);
+                }).
+                error(function(data, status, headers, config) {
+                    alert("move Folder Error!");
+                });
+        };
+
 
         //WATCHER FOR MESSAGES
-        $scope.$watch('fName', function(){
+        $scope.$watch('folderName', function(){
             if(!$scope.isCollapsed && $scope.folderName != undefined){
                 $scope.getMessages();
             }
@@ -45,13 +58,62 @@ var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
                 $scope.getMessages();
             }
         });
-
-
-
-
     })
+    .controller('myAppOneMessageController', function($scope, $http, $route, $routeParams, $location){
+        $scope.parentFolder = undefined;
+        $scope.mId = undefined;
 
+        //DELETE
+        /*$scope.deleteMessage = function(){
+            $http.delete('http://localhost:3000/folder/'+ $scope.parentFolder +'/message/'+ $scope.msg._id +'/delete').
+                success(function(data, status, headers, config) {
+                    console.log("folderCtrl.delete Success!");
+                    $location.path('/folder/'+ $scope.parentFolder);
+                }).
+                error(function(data, status, headers, config) {
+                    alert("folderCtrl.delete Error!");
+                });
+        };*/
 
+        //GET MESSAGE
+        $scope.getMessageDetails = function(){
+            $http.get('http://localhost:3000/folder/'+ $scope.parentFolder +'/message/'+ $scope.mId).
+                success(function(data, status, headers, config) {
+                    console.log("Success! Messages");
+                    console.log(data);
+                    $scope.msg = data;
+                }).
+                error(function(data, status, headers, config) {
+                    alert("Error!");
+                });
+        }
+
+        //WATCHER FOR MESSAGES
+        $scope.$watch('parentFolder', function(){
+            if(!$scope.isCollapsed && $scope.parentFolder != undefined && $scope.mId != undefined){
+                $scope.getMessageDetails();
+            }
+        });
+
+        $scope.$watch('isCollapsed', function(){
+            if(!$scope.isCollapsed && $scope.parentFolder != undefined && $scope.mId != undefined){
+                $scope.getMessageDetails();
+            }
+        });
+
+        //init, get folder list
+        $http.get('http://localhost:3000/folder/').
+            success(function(data, status, headers, config) {
+                console.log("Success! Folder");
+                console.log(data);
+                $scope.folderList = data;
+                $scope.chose = $scope.folderList[0];
+
+            }).
+            error(function(data, status, headers, config) {
+                alert("Error!");
+            });
+    })
     .config(['$routeProvider', function($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {
