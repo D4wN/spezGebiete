@@ -22,7 +22,7 @@ div()
                 div(layout="row")
                     h2(class="md-display-2")
                         |{{folder._id}}
-                    div(flex)
+                    div(flex style="margin-left:20px")
                         md-button(class="md-raised md-warn", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}").
                             Delete Folder
                         md-button(class="md-raised md-primary", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}" style="margin-left:15px").
@@ -93,3 +93,4 @@ div()
                                         |More
                                     md-button(class="md-raised md-primary" ng-click="limitMessagesLess()")
                                         |Less
+
