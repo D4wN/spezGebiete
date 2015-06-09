@@ -10,17 +10,17 @@ accordion(close-others='oneFolder')
         p
             //a(href="#/folder/{{folder._id}}") {{folder._id}}
             br
-            button(class="btn btn-primary", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}").
+            button(class="btn btn-danger", ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}" style="margin-left:15px").
                 Delete
-            button(class="btn btn-primary", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}").
+            button(class="btn btn-primary", ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}" style="margin-left:15px").
                 Rename
             div(style='width: '+(100/4)+'%')
-                input(type="text" ng-init="folder.newName = folder._id" ng-model="folder.newName" popover="Insert a new name for {{folder._id}}"  popover-trigger="focus" class="form-control")
+                input(type="text" ng-init="folder.newName = folder._id" ng-model="folder.newName" popover="Insert a new name for {{folder._id}}"  popover-placement="bottom" popover-trigger="focus" class="form-control")
 
         //MESSAGELIST
         div(ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
             h3 Message List
-            button(class="btn btn-default" ng-click="isCollapsed = !isCollapsed" ng-init="isCollapsed = true") Show Messages
+            button(class="btn btn-primary" ng-click="isCollapsed = !isCollapsed" ng-init="isCollapsed = true") Show Messages
             br
             div(collapse="isCollapsed")
                 //|Hallo
