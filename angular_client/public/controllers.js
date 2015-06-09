@@ -81,10 +81,8 @@ var folderCtrl = function($scope, $http, $route, $modal){
             });
     };
 
-
     //init
     $scope.getFolder();
-
 }
 
 //MESSAGE
