@@ -33,29 +33,47 @@ var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap'])
                 });
         }
         //MOVE
-        $scope.moveMessage = function(mId){
-            console.log('http://localhost:3000/folder/'+ mId);
-            $http.put('http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ mId, $scope.chose).
+        $scope.moveMessage = function(mId, newFolder){
+            console.log('http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ mId + '    TO: ' + newFolder);
+            alert("SIEHE TODO!");
+            //TODO move funktioniert nicht ->  No 'Access-Control-Allow-Origin' header is present on the requested resource.
+            return; //FIXME @ NICLAS
+            $http.put('http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ mId, newFolder).
                 success(function(data, status, headers, config) {
                     console.log("move Folder Success!");
                     //$location.path('folder/'+ $scope.chose._id);
+                    $scope.getMessages();
                 }).
                 error(function(data, status, headers, config) {
                     alert("move Folder Error!");
                 });
         };
 
+        $scope.getFolder = function(){
+            $http.get('http://localhost:3000/folder/').
+                success(function(data, status, headers, config) {
+                    console.log("Success! Folder");
+                    console.log(data);
+                    $scope.folderList = data;
+                    $scope.chose = $scope.folderList[0];
+                }).
+                error(function(data, status, headers, config) {
+                    alert("Error!");
+                });
+        }
 
         //WATCHER FOR MESSAGES
         $scope.$watch('folderName', function(){
             if(!$scope.isCollapsed && $scope.folderName != undefined){
                 $scope.getMessages();
+                $scope.getFolder();
             }
         });
 
         $scope.$watch('isCollapsed', function(){
             if(!$scope.isCollapsed && $scope.folderName != undefined){
                 $scope.getMessages();
+                $scope.getFolder();
             }
         });
     })

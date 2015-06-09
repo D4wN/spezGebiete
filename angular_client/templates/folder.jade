@@ -35,7 +35,7 @@ accordion(close-others='oneFolder')
                         br
                         button(class="btn btn-danger", ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}").
                             Delete
-                        button(class="btn btn-danger", ng-click="moveMessage(msg._id)").
+                        button(class="btn btn-danger", ng-click="moveMessage(msg._id, chose._id)").
                             Move
                         select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose")
 
@@ -66,10 +66,10 @@ accordion(close-others='oneFolder')
                                                 span(class="label label-default").
                                                     {{msg.sender}}
                                     label Recipients:
-                                    textarea(class="form-control",rows="50" cols="100" readonly).
+                                    textarea(class="form-control" cols="100" readonly).
                                         {{msg.recipients}}
                                     h5 Text:
-                                        textarea(class="form-control",rows="50" cols="100" name="messageOutput" readonly).
+                                        textarea(class="form-control" rows="20" cols="100" name="messageOutput" readonly).
                                             {{msg.text}}
                                     br
                                     //button(class="btn btn-danger", ng-click="deleteMessage()").
