@@ -29,7 +29,7 @@ var NewMessageCtrl = function ($scope, $http, $timeout, $log){
     };
 }
 
-var folderCtrl = function($scope, $http, $ionicSideMenuDelegate, $log){
+var folderCtrl = function($scope, $http, $ionicActionSheet){
     //Ionic
     $scope.listCanSwipe = true;
     $scope.opt = function(id) {
@@ -75,6 +75,27 @@ var folderCtrl = function($scope, $http, $ionicSideMenuDelegate, $log){
                 alert("Error!");
             });
     }
+
+    // $ionicActionSheet
+    // Triggered on a button click, or some other target
+    $scope.show = function(folderId) {
+
+        // Show the action sheet
+        var hideSheet = $ionicActionSheet.show({
+            // Elements |----------------------------------------------------------------------------------------------
+            destructiveText: 'Delete',
+            cancelText: 'Cancel',
+
+            // Functions |----------------------------------------------------------------------------------------------
+            cancel: function() {
+                // add cancel code..
+            },
+            destructiveButtonClicked: function(folderId){
+                console.log("Will delete " + folderId);
+                $scope.deleteFolder(folderId);
+            }
+        });
+    };
 
     //init
     $scope.getFolder();
