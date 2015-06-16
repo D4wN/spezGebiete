@@ -2,26 +2,19 @@ var NewMessageCtrl = function ($scope, $http, $timeout, $log){
     $scope.form = {};
     $scope.errorMessage = "";
 
-    //SIDENAV
-    $scope.close = function () {
-        $mdSidenav('right').close()
-            .then(function () {
-                $scope.createNewMessage($scope.form);
-            });
-    };
-
     $scope.createNewMessage = function (data) {
         console.log("DATA:");
-        console.log(data);
+        console.log($scope.form);
 
-        if (data == null || data === undefined) return;
-        $http.post('http://localhost:3000/newMessage', data).
+        if ($scope.form == null || $scope.form === undefined) return;
+        $http.post('http://localhost:3000/newMessage', $scope.form).
             success(function (data) {
                 //$location.path('/');
                 console.log("SUCCESS! -> new MEssage submitPost");
                 $scope.errorMessage = "";
                 $scope.form.chose = "";
                 $scope.form.newText = "";
+
             })
             .error(function (err) {
                 $scope.errorMessage = "Could not create new Message!";
@@ -83,6 +76,7 @@ var folderCtrl = function($scope, $http, $ionicActionSheet){
         // Show the action sheet
         var hideSheet = $ionicActionSheet.show({
             // Elements |----------------------------------------------------------------------------------------------
+            titleText: 'Options of ' +folderId ,
             destructiveText: 'Delete',
             cancelText: 'Cancel',
 
@@ -93,6 +87,7 @@ var folderCtrl = function($scope, $http, $ionicActionSheet){
             destructiveButtonClicked: function(){
                 console.log("Will delete " + folderId);
                 $scope.deleteFolder(folderId);
+                return true;
             }
         });
     };
