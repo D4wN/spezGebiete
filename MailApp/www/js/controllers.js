@@ -8,7 +8,7 @@ var IndexCtrl = function($scope, $http) {
         });*/
 }
 
-var folderCtrl = function($scope, $http, $route, $timeout, $log){
+var folderCtrl = function($scope, $http, $route, $timeout, $log,$ionicActionSheet){
     console.log("Get Folder...");
     $scope.deleteFolder = function(val){
         $http.delete('http://localhost:3000/folder/delete/'+val).
@@ -47,6 +47,27 @@ var folderCtrl = function($scope, $http, $route, $timeout, $log){
                 alert("Error!");
             });
     }
+
+    // $ionicActionSheet
+    // Triggered on a button click, or some other target
+    $scope.show = function(folderId) {
+
+        // Show the action sheet
+        var hideSheet = $ionicActionSheet.show({
+            // Elements |----------------------------------------------------------------------------------------------
+            destructiveText: 'Delete',
+            cancelText: 'Cancel',
+
+            // Functions |----------------------------------------------------------------------------------------------
+            cancel: function() {
+                // add cancel code..
+            },
+            destructiveButtonClicked: function(folderId){
+                console.log("Will delete " + folderId);
+                $scope.deleteFolder(folderId);
+            }
+        });
+    };
 
     //init
     $scope.getFolder();
