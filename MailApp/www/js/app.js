@@ -6,7 +6,7 @@ var NewMessageCtrl = function ($scope, $http, $state, $log){
         console.log("DATA:");
         console.log($scope.form);
 
-        if ($scope.form == null || $scope.form === undefined) return;
+        if ($scope.form.chose == null || $scope.form.chose === undefined) return;
         $http.post('http://localhost:3000/newMessage', $scope.form).
             success(function (data) {
                 //$location.path('/');
