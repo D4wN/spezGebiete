@@ -90,7 +90,7 @@ var folderCtrl = function($scope, $http, $ionicActionSheet){
             cancel: function() {
                 // add cancel code..
             },
-            destructiveButtonClicked: function(folderId){
+            destructiveButtonClicked: function(){
                 console.log("Will delete " + folderId);
                 $scope.deleteFolder(folderId);
             }
