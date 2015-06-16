@@ -5,13 +5,13 @@ var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
         $scope.limitMessages = 5;
 
         //PAGING
-        $scope.limitMessagesMore = function(){
+        $scope.limitMessagesMore = function () {
             $scope.limitMessages += 25;
             console.log("LimitMore: " + $scope.limitMessages);
         }
 
-        $scope.limitMessagesLess = function(){
-            if($scope.limitMessages > 25){
+        $scope.limitMessagesLess = function () {
+            if ($scope.limitMessages > 25) {
                 $scope.limitMessages -= 25;
             }
             console.log("LimitLess: " + $scope.limitMessages);
@@ -185,31 +185,48 @@ var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
         };
     })
 
-.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/')
+    .config(function ($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/');
 
-    $stateProvider.state('home', {
-        url: '/',
-        template: '<p>Hello, world!</p>'
-    })
-});
+        $stateProvider.state('main', {
+            url: '/main',
+            views: {
+                main: {
+                    //template: '<p>Hello, world!</p>'
+                    templateUrl: '../templates/main.html',
+                    controller: folderCtrl
+                }
+            }
+        })
+
+        $stateProvider.state('message', {
+            url: '/message',
+            views: {
+                message: {
+                    templateUrl: '../templates/createmessage.html',
+                    controller: NewMessageCtrl
+                }
+            }
+        })
+
+    });
 
 /*
-    .config(['$routeProvider', function ($stateProvider, $urlRouterProviderr) {
-        $routeProvider
-            .when('/', {
-                templateUrl: 'main.html',
-                controller: folderCtrl
-            })
-            .when('/folder', {
-                templateUrl: 'main.html',
-                controller: folderCtrl
-            })
-            .when('/newMessage', {
-                templateUrl: 'createmessage.html',
-                controller: NewMessageCtrl
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
-    }]);*/
+ .config(['$routeProvider', function ($stateProvider, $urlRouterProviderr) {
+ $routeProvider
+ .when('/', {
+ templateUrl: 'main.html',
+ controller: folderCtrl
+ })
+ .when('/folder', {
+ templateUrl: 'main.html',
+ controller: folderCtrl
+ })
+ .when('/newMessage', {
+ templateUrl: 'createmessage.html',
+ controller: NewMessageCtrl
+ })
+ .otherwise({
+ redirectTo: '/'
+ });
+ }]);*/

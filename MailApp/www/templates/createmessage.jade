@@ -1,10 +1,12 @@
-h2 Write a new Message
+ion-view(view-title="New Message")
+   ion-content
+      h2 Write a new Message
 
-div(style='width: '+(100/4)+'%')
-   label(for='folder') Folder:
-   input(type="text" class="form-control" ng-model='form.chose', name='folder')
-   br
-   label(for='msgInput') Message:
-   textarea(class="form-control" ng-model='form.newText', cols='50', rows='15',name='msgInput' )
-   p
-      button(class="btn btn-success" ng-click='submitPost()') Submit Post
+      div(style='width: '+(100/4)+'%')
+         label(for='folder') Folder:
+         input(type="text" class="form-control" ng-model='form.chose', name='folder')
+         br
+         label(for='msgInput') Message:
+         textarea(class="form-control" ng-model='form.newText', cols='50', rows='15',name='msgInput' )
+         p
+            button(class="btn btn-success" ng-click='submitPost()') Submit Post
