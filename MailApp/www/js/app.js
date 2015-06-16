@@ -188,12 +188,28 @@ var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
 .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/')
 
-    $stateProvider.state('home', {
-        url: '/',
-        templateUrl: './templates/main.html',
-        controller: folderCtrl
-    })
-});
+        $stateProvider.state('main', {
+            url: '/main',
+            views: {
+                main: {
+                    //template: '<p>Hello, world!</p>'
+                    templateUrl: '../templates/main.html',
+                    controller: folderCtrl
+                }
+            }
+        })
+
+        $stateProvider.state('message', {
+            url: '/message',
+            views: {
+                message: {
+                    templateUrl: '../templates/createmessage.html',
+                    controller: NewMessageCtrl
+                }
+            }
+        })
+
+    });
 
 /*
     .config(['$routeProvider', function ($stateProvider, $urlRouterProviderr) {
