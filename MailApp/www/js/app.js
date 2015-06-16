@@ -184,7 +184,18 @@ var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
                 });
         };
     })
-    .config(['$routeProvider', function ($routeProvider, $locationProvider) {
+
+.config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/')
+
+    $stateProvider.state('home', {
+        url: '/',
+        template: '<p>Hello, world!</p>'
+    })
+});
+
+/*
+    .config(['$routeProvider', function ($stateProvider, $urlRouterProviderr) {
         $routeProvider
             .when('/', {
                 templateUrl: 'main.html',
@@ -201,4 +212,4 @@ var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
             .otherwise({
                 redirectTo: '/'
             });
-    }]);
+    }]);*/
