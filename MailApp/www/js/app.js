@@ -1,4 +1,4 @@
-var NewMessageCtrl = function ($scope, $http, $timeout, $log){
+var NewMessageCtrl = function ($scope, $http, $state, $log){
     $scope.form = {};
     $scope.errorMessage = "";
 
@@ -15,6 +15,7 @@ var NewMessageCtrl = function ($scope, $http, $timeout, $log){
                 $scope.form.chose = "";
                 $scope.form.newText = "";
 
+                $state.go('main');
             })
             .error(function (err) {
                 $scope.errorMessage = "Could not create new Message!";
