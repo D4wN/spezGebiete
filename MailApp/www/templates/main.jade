@@ -4,13 +4,16 @@ ion-view(view-title="Main")
             ion-item(ng-repeat = "folder in folderList" title="{{folder._id}}")
                 div
                     h2 {{folder._id}}
+                        a(class="button button-icon icon ion-chevron-right ion-settings" ng-click="show(folder._id)").
+                    div(class="action-sheet-group action-sheet-cancel" ng-if="cancelText")
                     div
-                        button(class="button button-assertive" ng-click="deleteFolder(folder._id)" value="{{folder._id}}" id="{{folder._id}}")
-                            | Delete Folder
-                        label(class="item-input-wrapper")
+                        label(class="item item-input")
+                            i(class="icon ion-edit placeholder-icon")
                             input(type="text" placeholder="Insert a new name for {{folder._id}}" ng-model="folder.newName")
                         button(class="button button-light" ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}")
                             | Rename Folder
+                        br
+                        br
                         //
 
       //                  //MESSAGELIST
@@ -28,14 +31,12 @@ ion-view(view-title="Main")
                                         br
                                         b Text:
                                         br
-                                        textarea(readonly rows="20" style="background-color: lightgray; width:95%;").
-                                            {{msg._text[0]}}
-                                        br
-                                        button(class="button button-assertive" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}")
-                                            | Delete Message
-                                        button(class="button button-stable" ng-click="moveMessage(msg._id, chose._id)")
-                                            | Move Message
+                                        button(class="button button-assertive icon ion-trash-a" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}")
+                                        | Delete Message
+                                        button(class="button button-positive icon ion-share" ng-click="moveMessage(msg._id, chose._id)")
+                                        | Move Message
                                         select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
+                                        br
 
 
 
