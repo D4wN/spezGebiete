@@ -27,7 +27,7 @@ ion-view(view-title="Main")
                                     //ONEMESSAGE GOES HERE LATER
                                     div(flex ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
                                         div(ng-model='mId' ng-init='mId = msg._id')
-                                        a(class="button button-outline icon-right ion-android-more-horizontal button-dark" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
+                                        a(class="button button-outline icon-right ion-eye button-dark" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
                                             |Detail
                                         div(flex ng-show="isCollapsed" style="width:95%")
                                             div(flex)
