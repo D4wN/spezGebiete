@@ -190,7 +190,8 @@ var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
 
     $stateProvider.state('home', {
         url: '/',
-        template: '<p>Hello, world!</p>'
+        templateUrl: './templates/main.html',
+        controller: folderCtrl
     })
 });
 

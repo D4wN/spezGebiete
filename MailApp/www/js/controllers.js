@@ -8,7 +8,7 @@ var IndexCtrl = function($scope, $http) {
         });*/
 }
 
-var folderCtrl = function($scope, $http, $route, $timeout, $mdSidenav, $mdUtil, $log){
+var folderCtrl = function($scope, $http, $route, $timeout, $log){
     console.log("Get Folder...");
     $scope.deleteFolder = function(val){
         $http.delete('http://localhost:3000/folder/delete/'+val).
@@ -46,20 +46,6 @@ var folderCtrl = function($scope, $http, $route, $timeout, $mdSidenav, $mdUtil, 
             error(function(data, status, headers, config) {
                 alert("Error!");
             });
-    }
-
-    //SIDENAV KRAM
-    $scope.toggleRight = buildToggler('right');
-    function buildToggler(navID) {
-        var debounceFn =  $mdUtil.debounce(function(){
-            $mdSidenav(navID)
-                .toggle()
-                .then(function () {
-                    //$log.debug("toggle " + navID + " is done");
-                    console.log("toggle " + navID + " is done");
-                });
-        },300);
-        return debounceFn;
     }
 
     //init
