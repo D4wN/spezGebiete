@@ -1,4 +1,4 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ngMaterial'])
+var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
     .controller('myAppMessageController', function ($scope, $http, $route, $routeParams) {
         $scope.folderName = undefined;
         //$scope.orderData = '_id';
