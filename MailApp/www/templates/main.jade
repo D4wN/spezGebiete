@@ -25,56 +25,42 @@ ion-view(view-title="Main")
                                     b SUBJ:
                                     |{{msg._subject}}
                                     //ONEMESSAGE GOES HERE LATER
+                                    div(flex ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
+                                        div(ng-model='mId' ng-init='mId = msg._id')
+                                        a(class="button button-outline icon-right ion-android-more-horizontal button-dark" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
+                                            |Detail
+                                        div(flex ng-show="isCollapsed" style="width:95%")
+                                            div(flex)
+                                                table
+                                                    tr
+                                                        td
+                                                            b Sender:
+                                                        td
+                                                            label {{msg.sender}}
+                                                    tr
+                                                        td
+                                                            b Message-ID:
+                                                        td
+                                                            label {{msg._id}}
+                                                    tr
+                                                        td
+                                                            b Date:
+                                                        td
+                                                            label {{msg.date}}
+                                                    tr
+                                                        td
+                                                            b Recipients:
                                     br
                                     b Text:
                                     br
                                     textarea(readonly rows="20" style="background-color: lightgray; width:95%;").
                                         {{msg._text[0]}}
                                     br
-                                    button(class="button button-assertive" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}")
+                                    button(class="button button-assertive icon-left ion-ios-close-outline" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}")
                                         |Delete Message
+                                    br
+                                    br
                                     button(class="button button-stable" ng-click="moveMessage(msg._id, chose._id)")
                                         |Move Message
                                     select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
                                     br
-                //
-                //
-                //                    //ONEMESSAGE
-                //                    div(flex ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
-                //                        div(ng-model='mId' ng-init='mId = msg._id')
-                //                        md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
-                //                            |Details
-                //                        div(flex ng-show="isCollapsed" style="width:95%")
-                //                            div(flex)
-                //                                table
-                //                                    tr
-                //                                        td
-                //                                            b Sender:
-                //                                        td
-                //                                            label {{msg.sender}}
-                //                                    tr
-                //                                        td
-                //                                            b Message-ID:
-                //                                        td
-                //                                            label {{msg._id}}
-                //                                    tr
-                //                                        td
-                //                                            b Date:
-                //                                        td
-                //                                            label {{msg.date}}
-                //                                    tr
-                //                                        td
-                //                                            b Recipients:
-                //                                textarea(readonly rows="5" style="background-color: lightgray;width:95%;").
-                //                                    {{msg.recipients}}
-                //                                br
-                //                                //button(class="btn btn-danger", ng-click="deleteMessage()").
-                //                                //    Delete
-                //                                //br
-
-                //            br
-                //            md-button(class="md-raised md-primary" ng-click="limitMessagesMore()")
-                //                |More
-                //            md-button(class="md-raised md-primary" ng-click="limitMessagesLess()")
-                //                |Less
-                //
