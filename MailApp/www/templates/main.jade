@@ -9,7 +9,7 @@ ion-view(view-title="Main")
                     label(class="item item-input")
                         i(class="icon ion-edit placeholder-icon")
                         input(type="text" placeholder="Insert a new name for {{folder._id}}" ng-model="folder.newName")
-                    button(class="button button-light" ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}")
+                    button(class="button icon-left ion-wrench button-dark" ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}")
                         | Rename Folder
                     br
                     br
@@ -31,9 +31,9 @@ ion-view(view-title="Main")
                                     textarea(readonly rows="20" style="background-color: lightgray; width:95%;").
                                         {{msg._text[0]}}
                                     br
-                                    button(class="button button-assertive" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}")
+                                    button(class="button icon-left ion-trash-a button-assertive" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}" style="margin-right:15px")
                                         |Delete Message
-                                    button(class="button button-stable" ng-click="moveMessage(msg._id, chose._id)")
+                                    button(class="button icon-left ion-share button-dark" ng-click="moveMessage(msg._id, chose._id)")
                                         |Move Message
                                     select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
                                     br
