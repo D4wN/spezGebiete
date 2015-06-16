@@ -154,17 +154,9 @@ var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
                 alert("Error!");
             });
     })
-    .controller('NewMessageCtrl', function ($scope, $http, $timeout, $mdSidenav, $log) {
+    .controller('NewMessageCtrl', function ($scope, $http, $timeout, $log) {
         $scope.form = {};
         $scope.errorMessage = "";
-
-        //SIDENAV
-        $scope.close = function () {
-            $mdSidenav('right').close()
-                .then(function () {
-                    $scope.createNewMessage($scope.form);
-                });
-        };
 
         $scope.createNewMessage = function (data) {
             console.log("DATA:");
