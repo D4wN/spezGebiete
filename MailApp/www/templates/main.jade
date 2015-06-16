@@ -1,79 +1,80 @@
-div
-    div(ng-repeat = "folder in folderList")
-        fieldset
-            h2 {{folder._id}}
-                a(class="button button-icon icon ion-chevron-right ion-settings" ng-click="show(folder._id)").
-            div(class="action-sheet-group action-sheet-cancel" ng-if="cancelText")
-            div
-                label(class="item item-input")
-                    i(class="icon ion-edit placeholder-icon")
-                    input(type="text" placeholder="Insert a new name for {{folder._id}}" ng-model="folder.newName")
-                button(class="button button-light" ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}")
-                    | Rename Folder
-                br
-                br
-                //    //MESSAGELIST
-                ion-list(class="item-thumbnail-center" ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
-                    ion-toggle(ng-model="isCollapsed" ng-init="isCollapsed" toggle-class="toggle-calm")
-                        |Show Messages
-                    //md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
-                    //    |Show Messages
-                    div(ng-show="isCollapsed")
-                        ion-item(ng-repeat = "msg in messageList | limitTo:limitMessages")
-                            fieldset(style='border-style: solid; border-width: 2px;')
-                                b SUBJ:
-                                |{{msg._subject}}
-                                //ONEMESSAGE GOES HERE LATER
-                                br
-                                b Text:
-                                br
-                                textarea(readonly rows="20" style="background-color: lightgray; width:95%;").
-                                    {{msg._text[0]}}
-                                br
-                                button(class="button button-assertive" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}")
-                                    |Delete Message
-                                button(class="button button-stable" ng-click="moveMessage(msg._id, chose._id)")
-                                    |Move Message
-                                select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
-                                br
-            //
-            //
-            //                    //ONEMESSAGE
-            //                    div(flex ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
-            //                        div(ng-model='mId' ng-init='mId = msg._id')
-            //                        md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
-            //                            |Details
-            //                        div(flex ng-show="isCollapsed" style="width:95%")
-            //                            div(flex)
-            //                                table
-            //                                    tr
-            //                                        td
-            //                                            b Sender:
-            //                                        td
-            //                                            label {{msg.sender}}
-            //                                    tr
-            //                                        td
-            //                                            b Message-ID:
-            //                                        td
-            //                                            label {{msg._id}}
-            //                                    tr
-            //                                        td
-            //                                            b Date:
-            //                                        td
-            //                                            label {{msg.date}}
-            //                                    tr
-            //                                        td
-            //                                            b Recipients:
-            //                                textarea(readonly rows="5" style="background-color: lightgray;width:95%;").
-            //                                    {{msg.recipients}}
-            //                                br
-            //                                //button(class="btn btn-danger", ng-click="deleteMessage()").
-            //                                //    Delete
-            //                                //br
+ion-view(view-title="Main")
+    ion-content(class="padding")
+        div(ng-repeat = "folder in folderList")
+            fieldset
+                h2 {{folder._id}}
+                    a(class="button button-icon icon ion-chevron-right ion-settings" ng-click="show(folder._id)").
+                div(class="action-sheet-group action-sheet-cancel" ng-if="cancelText")
+                div
+                    label(class="item item-input")
+                        i(class="icon ion-edit placeholder-icon")
+                        input(type="text" placeholder="Insert a new name for {{folder._id}}" ng-model="folder.newName")
+                    button(class="button button-light" ng-click="renameFolder(folder._id, folder.newName)" value="{{folder._id}}")
+                        | Rename Folder
+                    br
+                    br
+                    //    //MESSAGELIST
+                    ion-list(class="item-thumbnail-center" ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
+                        ion-toggle(ng-model="isCollapsed" ng-init="isCollapsed" toggle-class="toggle-calm")
+                            |Show Messages
+                        //md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
+                        //    |Show Messages
+                        div(ng-show="isCollapsed")
+                            ion-item(ng-repeat = "msg in messageList | limitTo:limitMessages")
+                                fieldset(style='border-style: solid; border-width: 2px;')
+                                    b SUBJ:
+                                    |{{msg._subject}}
+                                    //ONEMESSAGE GOES HERE LATER
+                                    br
+                                    b Text:
+                                    br
+                                    textarea(readonly rows="20" style="background-color: lightgray; width:95%;").
+                                        {{msg._text[0]}}
+                                    br
+                                    button(class="button button-assertive" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}")
+                                        |Delete Message
+                                    button(class="button button-stable" ng-click="moveMessage(msg._id, chose._id)")
+                                        |Move Message
+                                    select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
+                                    br
+                //
+                //
+                //                    //ONEMESSAGE
+                //                    div(flex ng-controller='myAppOneMessageController' ng-model='parentFolder' ng-init='parentFolder = folderName')
+                //                        div(ng-model='mId' ng-init='mId = msg._id')
+                //                        md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
+                //                            |Details
+                //                        div(flex ng-show="isCollapsed" style="width:95%")
+                //                            div(flex)
+                //                                table
+                //                                    tr
+                //                                        td
+                //                                            b Sender:
+                //                                        td
+                //                                            label {{msg.sender}}
+                //                                    tr
+                //                                        td
+                //                                            b Message-ID:
+                //                                        td
+                //                                            label {{msg._id}}
+                //                                    tr
+                //                                        td
+                //                                            b Date:
+                //                                        td
+                //                                            label {{msg.date}}
+                //                                    tr
+                //                                        td
+                //                                            b Recipients:
+                //                                textarea(readonly rows="5" style="background-color: lightgray;width:95%;").
+                //                                    {{msg.recipients}}
+                //                                br
+                //                                //button(class="btn btn-danger", ng-click="deleteMessage()").
+                //                                //    Delete
+                //                                //br
 
-            //            br
-            //            md-button(class="md-raised md-primary" ng-click="limitMessagesMore()")
-            //                |More
-            //            md-button(class="md-raised md-primary" ng-click="limitMessagesLess()")
-            //                |Less
-            //
+                //            br
+                //            md-button(class="md-raised md-primary" ng-click="limitMessagesMore()")
+                //                |More
+                //            md-button(class="md-raised md-primary" ng-click="limitMessagesLess()")
+                //                |Less
+                //
