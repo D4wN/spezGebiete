@@ -83,6 +83,7 @@ var folderCtrl = function($scope, $http, $ionicActionSheet){
         // Show the action sheet
         var hideSheet = $ionicActionSheet.show({
             // Elements |----------------------------------------------------------------------------------------------
+            titleText: 'Options of ' +folderId ,
             destructiveText: 'Delete',
             cancelText: 'Cancel',
 
@@ -93,6 +94,7 @@ var folderCtrl = function($scope, $http, $ionicActionSheet){
             destructiveButtonClicked: function(){
                 console.log("Will delete " + folderId);
                 $scope.deleteFolder(folderId);
+                return true;
             }
         });
     };
