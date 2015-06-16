@@ -1,5 +1,5 @@
-var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
-    .controller('myAppMessageController', function ($scope, $http, $route, $routeParams) {
+var myApp = angular.module('myApp', ['ionic'])
+    .controller('myAppMessageController', function ($scope, $http) {
         $scope.folderName = undefined;
         //$scope.orderData = '_id';
         $scope.limitMessages = 5;
@@ -99,7 +99,7 @@ var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
             }
         });
     })
-    .controller('myAppOneMessageController', function ($scope, $http, $route, $routeParams, $location) {
+    .controller('myAppOneMessageController', function ($scope, $http, $location) {
         $scope.parentFolder = undefined;
         $scope.mId = undefined;
 
@@ -154,7 +154,7 @@ var myApp = angular.module('myApp', ['ngRoute', 'ionic'])
                 alert("Error!");
             });
     })
-    .controller('NewMessageCtrl', function ($scope, $http, $timeout, $mdSidenav, $log) {
+    .controller('NewMessageCtrl', function ($scope, $http, $timeout, $log) {
         $scope.form = {};
         $scope.errorMessage = "";
 
