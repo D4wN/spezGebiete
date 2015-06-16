@@ -1,3 +1,85 @@
+var NewMessageCtrl = function ($scope, $http, $timeout, $log){
+    $scope.form = {};
+    $scope.errorMessage = "";
+
+    //SIDENAV
+    $scope.close = function () {
+        $mdSidenav('right').close()
+            .then(function () {
+                $scope.createNewMessage($scope.form);
+            });
+    };
+
+    $scope.createNewMessage = function (data) {
+        console.log("DATA:");
+        console.log(data);
+
+        if (data == null || data === undefined) return;
+        $http.post('http://localhost:3000/newMessage', data).
+            success(function (data) {
+                //$location.path('/');
+                console.log("SUCCESS! -> new MEssage submitPost");
+                $scope.errorMessage = "";
+                $scope.form.chose = "";
+                $scope.form.newText = "";
+            })
+            .error(function (err) {
+                $scope.errorMessage = "Could not create new Message!";
+            });
+    };
+}
+
+var folderCtrl = function($scope, $http, $ionicSideMenuDelegate, $log){
+    //Ionic
+    $scope.listCanSwipe = true;
+    $scope.opt = function(id) {
+        console.log('Opt: ' + id);
+    };
+
+    //OLD STUFF
+    console.log("Get Folder...");
+    $scope.deleteFolder = function(val){
+        $http.delete('http://localhost:3000/folder/delete/'+val).
+            success(function(data, status, headers, config) {
+                console.log("folderCtrl.delete Success!");
+                //$route.reload();
+                $scope.getFolder();
+            }).
+            error(function(data, status, headers, config) {
+                alert("folderCtrl.delete Error!");
+            });
+    }
+    $scope.renameFolder = function(val, newName){
+        if(newName === undefined) return;
+        if(newName == val) return;
+
+        $http.put('http://localhost:3000/folder/'+val+'/'+newName).
+            success(function(data, status, headers, config) {
+                console.log("renameFolder.delete Success!");
+                //$route.reload();
+                $scope.getFolder();
+            }).
+            error(function(data, status, headers, config) {
+                alert("renameFolder.delete Error!");
+            });
+    }
+
+    $scope.getFolder = function(){
+        $http.get('http://localhost:3000/folder').
+            success(function(data, status, headers, config) {
+                console.log("Success!");
+                console.log(data);
+                $scope.folderList = data;
+            }).
+            error(function(data, status, headers, config) {
+                alert("Error!");
+            });
+    }
+
+    //init
+    $scope.getFolder();
+}
+
 var myApp = angular.module('myApp', ['ionic'])
     .controller('myAppMessageController', function ($scope, $http) {
         $scope.folderName = undefined;
@@ -5,13 +87,13 @@ var myApp = angular.module('myApp', ['ionic'])
         $scope.limitMessages = 5;
 
         //PAGING
-        $scope.limitMessagesMore = function(){
+        $scope.limitMessagesMore = function () {
             $scope.limitMessages += 25;
             console.log("LimitMore: " + $scope.limitMessages);
         }
 
-        $scope.limitMessagesLess = function(){
-            if($scope.limitMessages > 25){
+        $scope.limitMessagesLess = function () {
+            if ($scope.limitMessages > 25) {
                 $scope.limitMessages -= 25;
             }
             console.log("LimitLess: " + $scope.limitMessages);
@@ -154,39 +236,9 @@ var myApp = angular.module('myApp', ['ionic'])
                 alert("Error!");
             });
     })
-    .controller('NewMessageCtrl', function ($scope, $http, $timeout, $log) {
-        $scope.form = {};
-        $scope.errorMessage = "";
-
-        //SIDENAV
-        $scope.close = function () {
-            $mdSidenav('right').close()
-                .then(function () {
-                    $scope.createNewMessage($scope.form);
-                });
-        };
-
-        $scope.createNewMessage = function (data) {
-            console.log("DATA:");
-            console.log(data);
-
-            if (data == null || data === undefined) return;
-            $http.post('http://localhost:3000/newMessage', data).
-                success(function (data) {
-                    //$location.path('/');
-                    console.log("SUCCESS! -> new MEssage submitPost");
-                    $scope.errorMessage = "";
-                    $scope.form.chose = "";
-                    $scope.form.newText = "";
-                })
-                .error(function (err) {
-                    $scope.errorMessage = "Could not create new Message!";
-                });
-        };
-    })
-
-.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/')
+    .controller('NewMessageCtrl', NewMessageCtrl)
+    .config(function ($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/')
 
         $stateProvider.state('main', {
             url: '/main',
@@ -211,22 +263,3 @@ var myApp = angular.module('myApp', ['ionic'])
 
     });
 
-/*
-    .config(['$routeProvider', function ($stateProvider, $urlRouterProviderr) {
-        $routeProvider
-            .when('/', {
-                templateUrl: 'main.html',
-                controller: folderCtrl
-            })
-            .when('/folder', {
-                templateUrl: 'main.html',
-                controller: folderCtrl
-            })
-            .when('/newMessage', {
-                templateUrl: 'createmessage.html',
-                controller: NewMessageCtrl
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
-    }]);*/
