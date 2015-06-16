@@ -1,5 +1,5 @@
 ion-view(view-title="Main")
-    ion-content(class="padding")
+    ion-content(class="padding" overflow-scroll="true")
         div(ng-repeat = "folder in folderList")
             fieldset
                 h2 {{folder._id}}
