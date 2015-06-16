@@ -8,7 +8,7 @@ var IndexCtrl = function($scope, $http) {
         });*/
 }
 
-var folderCtrl = function($scope, $http, $route, $timeout, $mdSidenav, $mdUtil, $log){
+var folderCtrl = function($scope, $http, $route, $timeout, $log){
     console.log("Get Folder...");
     $scope.deleteFolder = function(val){
         $http.delete('http://localhost:3000/folder/delete/'+val).
