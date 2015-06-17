@@ -17,8 +17,6 @@ ion-view(view-title="Main")
                     ion-list(class="item-thumbnail-center" ng-controller='myAppMessageController' ng-model='folderName' ng-init='folderName = folder._id')
                         ion-toggle(ng-model="isCollapsed" ng-init="isCollapsed" toggle-class="toggle-calm")
                             |Show Messages
-                        //md-button(class="md-raised md-primary" ng-model="isCollapsed" ng-init="isCollapsed = false" ng-click="isCollapsed = !isCollapsed")
-                        //    |Show Messages
                         div(ng-show="isCollapsed")
                             ion-item(ng-repeat = "msg in messageList | limitTo:limitMessages")
                                 fieldset(style='border-style: solid; border-width: 2px;')
@@ -56,9 +54,18 @@ ion-view(view-title="Main")
                                     textarea(readonly rows="20" style="background-color: lightgray; width:95%;").
                                         {{msg._text[0]}}
                                     br
-                                    button(class="button icon-left ion-trash-a button-assertive" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}" style="margin-right:15px")
+                                    //button(class="button icon-left ion-trash-a button-assertive" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}" style="margin-right:15px")
                                         |Delete Message
+
+                                    ion-option-button(class="button icon-left ion-trash-a button-assertive" ng-click="deleteMessage(msg._id)" value="{{msg._id}}" id="{{msg._id}}")
+                                        |Delete
+
                                     button(class="button icon-left ion-share button-dark" ng-click="moveMessage(msg._id, chose._id)")
                                         |Move Message
                                     select(ng-model="chose" ng-options="folder._id for folder in folderList" id="chose" style="margin-left:10px")
                                     br
+
+                            button(class="button icon-left ion-plus button-positive" ng-click="limitMessagesMore()")
+                                |More
+                            button(class="button icon-left ion-minus button-positive" ng-click="limitMessagesLess()" style="margin-left:25px")
+                                |Less

@@ -15,7 +15,7 @@ var NewMessageCtrl = function ($scope, $http, $state, $log){
                 $scope.form.chose = "";
                 $scope.form.newText = "";
 
-                $state.go('main');
+                $state.go('main' , {updated: true});
             })
             .error(function (err) {
                 $scope.errorMessage = "Could not create new Message!";
@@ -23,12 +23,18 @@ var NewMessageCtrl = function ($scope, $http, $state, $log){
     };
 }
 
-var folderCtrl = function($scope, $http, $ionicActionSheet){
+var folderCtrl = function($scope, $http, $ionicActionSheet, $stateParams){
     //Ionic
     $scope.listCanSwipe = true;
     $scope.opt = function(id) {
         console.log('Opt: ' + id);
     };
+
+    if($stateParams.updated == true){
+        console.log("ALERT");
+        $stateParams.updated = false;
+    }
+
 
     //OLD STUFF
     console.log("Get Folder...");
@@ -263,7 +269,10 @@ var myApp = angular.module('myApp', ['ionic'])
                 main: {
                     //template: '<p>Hello, world!</p>'
                     templateUrl: '../templates/main.html',
-                    controller: folderCtrl
+                    controller: folderCtrl,
+                    params: {
+                        updated: false
+                    }
                 }
             }
         })
