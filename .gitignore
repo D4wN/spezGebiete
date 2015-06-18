@@ -1,8 +1,7 @@
 *.idea
 data/
-aufg01/node_modules/
-aufg02/node_modules/
 node_serv/node_modules/
 angular_client/node_modules/
 angular_client_metal/node_modules/angular-material/demos/list/demoListControls/img/100-0.jpeg
 angular_client_metal/node_modules/
+*.html
