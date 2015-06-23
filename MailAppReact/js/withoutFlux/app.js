@@ -34,32 +34,50 @@ var Folder = React.createClass({
             self.setState({messageList: msgList});
         });
     },
+    clickFolderRename: function () {
+
+        var newName = $("#RENAME-" + this.props.title).val();
+        //if(newName == null || newName === undefined) return;
+        
+        this.props.folderRename(this.props.title, newName);
+    },
     hideMessage: function () {
         this.setState({hideMessage: !this.state.hideMessage});
         if (!this.state.hideMessage) {
             this.getMessageList()
         }
     },
+
     render: function () {
         var cls = 'folder ';
+        var renameId = "RENAME-" + this.props.title;
 
-        for(var i = 0; i < this.state.messageList.length; i++){
+        for (var i = 0; i < this.state.messageList.length; i++) {
             this.state.messageList[i]['folderName'] = this.props.title;
         }
 
         var msg = this.state.messageList.map(function (p) {
-            return <div><fieldset><Message mail={p.id} parentFolder={p.folderName}></Message><br></br></fieldset></div>;
+            return <div>
+                <fieldset><Message mail={p.id} parentFolder={p.folderName}></Message><br></br></fieldset>
+            </div>;
         });
 
         return (
             <div className={cls}>
                 <button onClick={this.hideMessage}>{this.props.title}</button>
-                { this.state.hideMessage ? <div><br>{{msg}}</br></div> : null }
+                { this.state.hideMessage ?
+                    <div>
+                        <input id={renameId} type="text" placeholder="New Folder Name"></input>
+                        <button onClick={this.clickFolderRename}>Rename</button>
+                        <br></br>
+                        <br>{{msg}}</br>
+                    </div>
+                    : null }
+
             </div>
         );
     }
 });
-
 
 var Message = React.createClass({
     getInitialState: function () {
@@ -86,13 +104,15 @@ var Message = React.createClass({
             this.getMessageDetails()
         }
     },
-    render: function(){
+    render: function () {
         var cls = "Message";
 
         var msg = null;
         var data = this.state.data;
-        if(this.state.loaded){
-            msg = <div>SUBJ:{data.subject}<br>Sender:{data.sender}</br><br>Recipients:{data.recipients}</br><br>Text:{data.text}</br></div>
+        if (this.state.loaded) {
+            msg = <div>
+                SUBJ:{data.subject}<br>Sender:{data.sender}</br><br>Recipients:{data.recipients}</br><br>Text:{data.text}</br>
+            </div>
         }
 
 
@@ -119,7 +139,9 @@ var FolderList = React.createClass({
     },
 
     componentDidMount: function () {
-
+        this.getFolderList();
+    },
+    getFolderList: function(){
         var self = this;
         var url = 'http://localhost:3000/folder';
 
@@ -139,7 +161,6 @@ var FolderList = React.createClass({
             self.setState({folder: folder});
 
         });
-
     },
     folderClick: function (id) {
 
@@ -163,12 +184,37 @@ var FolderList = React.createClass({
         this.setState({folder: folder});
 
     },
+    postFolderRename: function (folder, newName) {
+        console.log("RENAME: "+folder+" TO "+newName);
+
+        //'http://localhost:3000/folder/'+val+'/'+newName
+        var url = 'http://localhost:3000/folder/' + folder + '/' + newName;
+        $.post(url, {}, function(response) {
+            console.log(result);
+
+            this.getFolderList();
+        }, 'json');
+
+    },
+    putFolderDelete: function (folder) {
+        console.log("DELETE: "+folder);
+
+        //'http://localhost:3000/folder/'+val+'/'+newName
+        var url = 'http://localhost:3000/folder/' + folder + '/delete';
+        $.ajax({
+            type: "PUT",
+            url: url,
+            contentType: "application/json",
+            data: {"data": "mydata"}
+        });
+
+    },
     render: function () {
 
         var self = this;
 
         var folder = this.state.folder.map(function (p) {
-            return <Folder ref={p.id} title={p.name} onClick={self.folderClick}></Folder>;
+            return <Folder ref={p.id} title={p.name} onClick={self.folderClick} folderRename={self.postFolderRename}></Folder>;
         });
 
         if (!folder.length) {
