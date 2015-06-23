@@ -150,9 +150,7 @@ var NewMessage = React.createClass({
 
         return (
             <div className={cls}>
-                <h3>Make New Mail</h3>
                 {{msg}}
-
             </div>
         );
     }
