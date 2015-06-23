@@ -131,13 +131,35 @@ var Message = React.createClass({
             }
         });
     },
+    moveMessage: function(){
+        var self = this;
+
+        var newName = $("#MOVE-" + this.props.title).val();
+
+        //'http://localhost:3000/folder/' + $scope.folderName + '/message/' + val + '/delete').
+        //'http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ $scope.msg._id, $scope.chose
+        var url = 'http://localhost:3000/folder/' + this.props.parentFolder + '/message/' + this.props.mail;
+        console.log(newName);
+        $.ajax({
+            type: "PUT",
+            url: url,
+            //contentType: "application/json",
+            data: {"_id": newName},
+            success: function(result){
+                console.log("MOVE MESSAGE SUCCESS: "+result);
+                self.props.updater();
+            }
+        });
+    },
     render: function () {
         var cls = "Message";
 
         var msg = null;
         var data = this.state.data;
+        var renameId = "MOVE-" + this.props.title;
+
         if (this.state.loaded) {
-            msg = <div>SUBJ:{data.subject}<br>Sender:{data.sender}</br><br>Recipients:{data.recipients}</br><br>Text:{data.text}</br></div>
+            msg = <div>SUBJ:{data.subject}<br>Sender:{data.sender}</br><br>Recipients:{data.recipients}</br><br>Text:{data.text}</br>  <br><input id={renameId} type="text" placeholder="Move To Folder"></input> <button onClick={this.moveMessage}>Move Message</button></br> </div>
         }
         return (
             <div className={cls}>
@@ -149,6 +171,7 @@ var Message = React.createClass({
                         Parent: {this.props.parentFolder}<br></br>
                         {{msg}}
                     </div>
+
                     : null }
             </div>
         );
