@@ -1,18 +1,117 @@
+//One Folder with Messages
 var Folder = React.createClass({
-    clickHandler: function () {
-        this.props.onClick(this.props.title);
+    getInitialState: function () {
+        return {
+            hideMessage: false,
+            messageList: [],
+            folderName: ""
+        };
+    },
+    componentDidMount: function () {
+        var self = this;
+        self.setState({folderName: self.props.title});
+    },
+    getMessageList: function () {
+        //http://localhost:3000/folder/' + $scope.folderName + '/message
+
+        var url = 'http://localhost:3000/folder/' + this.props.title + '/message';
+        var self = this;
+
+        $.getJSON(url, function (result) {
+            if (!result || !result.length) {
+                return;
+            }
+
+            var msgList = result.map(function (p) {
+                if (p) {
+                    return {
+                        id: p._id,
+                        text: p._text,
+                        subj: p._subj
+                    };
+                }
+            });
+            self.setState({messageList: msgList});
+        });
+    },
+    hideMessage: function () {
+        this.setState({hideMessage: !this.state.hideMessage});
+        if (!this.state.hideMessage) {
+            this.getMessageList()
+        }
     },
     render: function () {
         var cls = 'folder ';
-        console.log(this.props);
+
+        for(var i = 0; i < this.state.messageList.length; i++){
+            this.state.messageList[i]['folderName'] = this.props.title;
+        }
+
+        var msg = this.state.messageList.map(function (p) {
+            return <div><fieldset><Message mail={p.id} parentFolder={p.folderName}></Message><br></br></fieldset></div>;
+        });
+
         return (
-            <div className={cls} onClick={this.clickHandler}>
-                <button>{this.props.title}</button>
+            <div className={cls}>
+                <button onClick={this.hideMessage}>{this.props.title}</button>
+                { this.state.hideMessage ? <div><br>{{msg}}</br></div> : null }
             </div>
         );
     }
 });
 
+
+var Message = React.createClass({
+    getInitialState: function () {
+        return {
+            hideMessage: false,
+            data: [],
+            loaded: false
+        };
+    },
+    getMessageDetails: function () {
+        //'http://localhost:3000/folder/' + $scope.parentFolder + '/message/' + $scope.mId
+        var url = 'http://localhost:3000/folder/' + this.props.parentFolder + '/message/' + this.props.mail;
+        var self = this;
+
+        $.getJSON(url, function (result) {
+            console.log(result);
+            self.setState({data: result});
+            self.setState({loaded: true});
+        });
+    },
+    hideMessage: function () {
+        this.setState({hideMessage: !this.state.hideMessage});
+        if (!this.state.hideMessage) {
+            this.getMessageDetails()
+        }
+    },
+    render: function(){
+        var cls = "Message";
+
+        var msg = null;
+        var data = this.state.data;
+        if(this.state.loaded){
+            msg = <div>SUBJ:{data.subject}<br>Sender:{data.sender}</br><br>Recipients:{data.recipients}</br><br>Text:{data.text}</br></div>
+        }
+
+
+        return (
+            <div className={cls}>
+                <h3>ID: {this.props.mail}</h3>
+                <button onClick={this.hideMessage}>Details</button>
+                { this.state.hideMessage ?
+                    <div>
+                        Parent: {this.props.parentFolder}<br></br>
+                        {{msg}}
+                    </div>
+                    : null }
+            </div>
+        );
+    }
+});//*/
+
+//The whole Folder List
 var FolderList = React.createClass({
 
     getInitialState: function () {
@@ -73,7 +172,7 @@ var FolderList = React.createClass({
         });
 
         if (!folder.length) {
-            folder = <p>Loading Folder..</p>;
+            folder = <div>Loading Folder..</div>;
         }
 
         return (
