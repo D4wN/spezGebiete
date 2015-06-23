@@ -38,8 +38,11 @@ var Folder = React.createClass({
 
         var newName = $("#RENAME-" + this.props.title).val();
         //if(newName == null || newName === undefined) return;
-        
+
         this.props.folderRename(this.props.title, newName);
+    },
+    clickFolderDelete: function () {
+        this.props.folderDelete(this.props.title);
     },
     hideMessage: function () {
         this.setState({hideMessage: !this.state.hideMessage});
@@ -68,7 +71,8 @@ var Folder = React.createClass({
                 { this.state.hideMessage ?
                     <div>
                         <input id={renameId} type="text" placeholder="New Folder Name"></input>
-                        <button onClick={this.clickFolderRename}>Rename</button>
+                        <button onClick={this.clickFolderRename}>Rename</button><br></br>
+                        <button onClick={this.clickFolderDelete}>Delete</button>
                         <br></br>
                         <br>{{msg}}</br>
                     </div>
@@ -135,13 +139,15 @@ var Message = React.createClass({
 var FolderList = React.createClass({
 
     getInitialState: function () {
-        return {folder: []};
+        return {folder: [],
+                renew: false};
     },
 
     componentDidMount: function () {
         this.getFolderList();
     },
     getFolderList: function(){
+        console.log("getFolderList");
         var self = this;
         var url = 'http://localhost:3000/folder';
 
@@ -189,32 +195,45 @@ var FolderList = React.createClass({
 
         //'http://localhost:3000/folder/'+val+'/'+newName
         var url = 'http://localhost:3000/folder/' + folder + '/' + newName;
-        $.post(url, {}, function(response) {
+        /*$.post(url, {}, function(response) {
             console.log(result);
 
             this.getFolderList();
-        }, 'json');
-
-    },
-    putFolderDelete: function (folder) {
-        console.log("DELETE: "+folder);
-
-        //'http://localhost:3000/folder/'+val+'/'+newName
-        var url = 'http://localhost:3000/folder/' + folder + '/delete';
+        }, 'json');*/
         $.ajax({
             type: "PUT",
             url: url,
             contentType: "application/json",
-            data: {"data": "mydata"}
+            //data: {"data": "{}"},
+            success: function(result){
+                console.log("RENAME SUCCESS: "+result);
+            }
+        });
+
+    },
+    putFolderDelete: function (folder) {
+        console.log("DELETE: "+folder);
+        var self = this;
+
+        //'http://localhost:3000/folder/'+val+'/'+newName
+        var url = 'http://localhost:3000/folder/delete/' + folder;
+        $.ajax({
+            type: "DELETE",
+            url: url,
+            contentType: "application/json",
+            //data: {"data": "{}"},
+            success: function(result){
+                console.log("DELTE SUCCESS: "+result);
+                self.getFolderList();
+            }
         });
 
     },
     render: function () {
-
         var self = this;
 
         var folder = this.state.folder.map(function (p) {
-            return <Folder ref={p.id} title={p.name} onClick={self.folderClick} folderRename={self.postFolderRename}></Folder>;
+            return <Folder ref={p.id} title={p.name} onClick={self.folderClick} folderRename={self.postFolderRename} folderDelete={self.putFolderDelete}></Folder>;
         });
 
         if (!folder.length) {
