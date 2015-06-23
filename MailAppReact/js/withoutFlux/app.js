@@ -13,7 +13,7 @@ var Folder = React.createClass({
     },
     getMessageList: function () {
         //http://localhost:3000/folder/' + $scope.folderName + '/message
-        console.log("get message list: "+this.props.title);
+        console.log("get message list: " + this.props.title);
 
         var url = 'http://localhost:3000/folder/' + this.props.title + '/message';
         var self = this;
@@ -63,10 +63,11 @@ var Folder = React.createClass({
         }
 
         var msg = this.state.messageList.map(function (p) {
-            return <fieldset><Message mail={p.id} parentFolder={p.folderName} updater={self.getMessageList}></Message><br></br></fieldset>;
+            return <fieldset><Message mail={p.id} parentFolder={p.folderName}
+                                      updater={self.getMessageList}></Message><br></br></fieldset>;
         });
 
-        if(!this.state.messageList.length){
+        if (!this.state.messageList.length) {
             msg = <div>Loading...</div>
         }
 
@@ -77,7 +78,8 @@ var Folder = React.createClass({
                     <div>
                         <br></br>
                         <input id={renameId} type="text" placeholder="New Folder Name"></input>
-                        <button onClick={this.clickFolderRename}>Rename</button><br></br>
+                        <button onClick={this.clickFolderRename}>Rename</button>
+                        <br></br>
                         <button onClick={this.clickFolderDelete}>Delete</button>
                         <br></br>
                         <br></br>
@@ -90,6 +92,72 @@ var Folder = React.createClass({
     }
 });
 
+var NewMessage = React.createClass({
+    getInitialState: function () {
+        return {};
+    },
+
+    sendRequest: function () {
+        var self = this;
+
+        var chose = null;
+        if ($("#CHOSE-" + this.props.title).val().length > 0) {
+            chose = $("#CHOSE-" + this.props.title).val();
+        } else{
+            alert("Please insert Folder Name");
+        }
+
+        var msg = $("#MSG-" + this.props.title).val();
+
+        var url = 'http://localhost:3000/newMessage';
+        if (chose != null) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                //contentType: "application/json",
+                data: {
+                    "chose": chose,
+                    "newText": msg
+                },
+                success: function (result) {
+                    console.log("CREATE MESSAGE SUCCESS: ");
+                    console.log(result);
+
+                    //TODO RELOAD FOLDER LIST -- CLEAR INPUTS
+                }
+            });
+        }
+
+    },
+    render: function () {
+        var cls = "New Message";
+
+        var chose = "CHOSE-" + this.props.title;
+        var msg = "MSG-" + this.props.title;
+
+        msg = <div><h1>Create a New Message</h1>
+            <br>
+                <input id={chose} type="text" placeholder="Folder Name"></input>
+            </br>
+            <br>
+                <textarea id={msg} type="text" placeholder="New Message"></textarea>
+            </br>
+
+            <br>
+                <button onClick={this.sendRequest}>Make New Message</button>
+            </br>
+        </div>
+
+        return (
+            <div className={cls}>
+                <h3>Make New Mail</h3>
+                {{msg}}
+
+            </div>
+        );
+    }
+});//*/
+
 var Message = React.createClass({
     getInitialState: function () {
         return {
@@ -99,7 +167,6 @@ var Message = React.createClass({
         };
     },
     getMessageDetails: function () {
-        //'http://localhost:3000/folder/' + $scope.parentFolder + '/message/' + $scope.mId
         var url = 'http://localhost:3000/folder/' + this.props.parentFolder + '/message/' + this.props.mail;
         var self = this;
 
@@ -115,7 +182,7 @@ var Message = React.createClass({
             this.getMessageDetails()
         }
     },
-    deleteMessage: function(){
+    deleteMessage: function () {
         var self = this;
 
         //'http://localhost:3000/folder/' + $scope.folderName + '/message/' + val + '/delete').
@@ -125,28 +192,28 @@ var Message = React.createClass({
             url: url,
             contentType: "application/json",
             //data: {"data": "{}"},
-            success: function(result){
-                console.log("DELTE MESSAGE SUCCESS: "+result);
+            success: function (result) {
+                console.log("DELTE MESSAGE SUCCESS: " + result);
                 self.props.updater();
             }
         });
     },
-    moveMessage: function(){
+    moveMessage: function () {
         var self = this;
 
-        var newName = $("#MOVE-" + this.props.title).val();
+        var moveTo = $("#MOVE-" + this.props.title).val();
 
-        //'http://localhost:3000/folder/' + $scope.folderName + '/message/' + val + '/delete').
-        //'http://localhost:3000/folder/'+ $scope.folderName +'/message/'+ $scope.msg._id, $scope.chose
         var url = 'http://localhost:3000/folder/' + this.props.parentFolder + '/message/' + this.props.mail;
-        console.log(newName);
+
         $.ajax({
             type: "PUT",
             url: url,
             //contentType: "application/json",
-            data: {"_id": newName},
-            success: function(result){
-                console.log("MOVE MESSAGE SUCCESS: "+result);
+            data: {"_id": moveTo},
+            success: function (result) {
+                console.log("MOVE MESSAGE SUCCESS: ");
+                console.log(result);
+                self.props.parentFolder = moveTo;
                 self.props.updater();
             }
         });
@@ -159,13 +226,18 @@ var Message = React.createClass({
         var renameId = "MOVE-" + this.props.title;
 
         if (this.state.loaded) {
-            msg = <div>SUBJ:{data.subject}<br>Sender:{data.sender}</br><br>Recipients:{data.recipients}</br><br>Text:{data.text}</br>  <br><input id={renameId} type="text" placeholder="Move To Folder"></input> <button onClick={this.moveMessage}>Move Message</button></br> </div>
+            msg = <div>
+                SUBJ:{data.subject}<br>Sender:{data.sender}</br><br>Recipients:{data.recipients}</br><br>Text:{data.text}</br>
+                <br><input id={renameId} type="text" placeholder="Move To Folder"></input>
+                    <button onClick={this.moveMessage}>Move Message</button>
+                </br></div>
         }
         return (
             <div className={cls}>
                 <h3>ID: {this.props.mail}</h3>
                 <button onClick={this.hideMessage}>Details</button>
-                <button onClick={this.deleteMessage}>Delete Message</button><br></br>
+                <button onClick={this.deleteMessage}>Delete Message</button>
+                <br></br>
                 { this.state.hideMessage ?
                     <div>
                         Parent: {this.props.parentFolder}<br></br>
@@ -178,18 +250,21 @@ var Message = React.createClass({
     }
 });//*/
 
+
 //The whole Folder List
 var FolderList = React.createClass({
 
     getInitialState: function () {
-        return {folder: [],
-                renew: false};
+        return {
+            folder: [],
+            renew: false
+        };
     },
 
     componentDidMount: function () {
         this.getFolderList();
     },
-    getFolderList: function(){
+    getFolderList: function () {
         console.log("getFolderList");
         var self = this;
         var url = 'http://localhost:3000/folder';
@@ -234,30 +309,30 @@ var FolderList = React.createClass({
 
     },
     postFolderRename: function (folder, newName) {
-        console.log("RENAME: "+folder+" TO "+newName);
+        console.log("RENAME: " + folder + " TO " + newName);
         var self = this;
 
         //'http://localhost:3000/folder/'+val+'/'+newName
         var url = 'http://localhost:3000/folder/' + folder + '/' + newName;
         /*$.post(url, {}, function(response) {
-            console.log(result);
+         console.log(result);
 
-            this.getFolderList();
-        }, 'json');*/
+         this.getFolderList();
+         }, 'json');*/
         $.ajax({
             type: "PUT",
             url: url,
             contentType: "application/json",
             //data: {"data": "{}"},
-            success: function(result){
-                console.log("RENAME SUCCESS: "+result);
+            success: function (result) {
+                console.log("RENAME SUCCESS: " + result);
                 self.getFolderList();
             }
         });
 
     },
     putFolderDelete: function (folder) {
-        console.log("DELETE: "+folder);
+        console.log("DELETE: " + folder);
         var self = this;
 
         //'http://localhost:3000/folder/'+val+'/'+newName
@@ -267,8 +342,8 @@ var FolderList = React.createClass({
             url: url,
             contentType: "application/json",
             //data: {"data": "{}"},
-            success: function(result){
-                console.log("DELTE SUCCESS: "+result);
+            success: function (result) {
+                console.log("DELTE SUCCESS: " + result);
                 self.getFolderList();
             }
         });
@@ -278,7 +353,9 @@ var FolderList = React.createClass({
         var self = this;
 
         var folder = this.state.folder.map(function (p) {
-            return <div><Folder ref={p.id} title={p.name} onClick={self.folderClick} folderRename={self.postFolderRename} folderDelete={self.putFolderDelete}></Folder></div>;
+            return <div><Folder ref={p.id} title={p.name} onClick={self.folderClick}
+                                folderRename={self.postFolderRename} folderDelete={self.putFolderDelete}></Folder>
+            </div>;
         });
 
         return (
@@ -293,6 +370,10 @@ var FolderList = React.createClass({
 });
 
 React.render(
+    <NewMessage />, document.getElementById("new")
+);
+
+React.render(
     <FolderList />,
-    document.body
+    document.getElementById("folder")
 );
