@@ -13,6 +13,7 @@ var Folder = React.createClass({
     },
     getMessageList: function () {
         //http://localhost:3000/folder/' + $scope.folderName + '/message
+        console.log("get message list: "+this.props.title);
 
         var url = 'http://localhost:3000/folder/' + this.props.title + '/message';
         var self = this;
@@ -31,6 +32,7 @@ var Folder = React.createClass({
                     };
                 }
             });
+            self.setState({messageList: []});
             self.setState({messageList: msgList});
         });
     },
@@ -54,27 +56,32 @@ var Folder = React.createClass({
     render: function () {
         var cls = 'folder ';
         var renameId = "RENAME-" + this.props.title;
+        var self = this;
 
         for (var i = 0; i < this.state.messageList.length; i++) {
             this.state.messageList[i]['folderName'] = this.props.title;
         }
 
         var msg = this.state.messageList.map(function (p) {
-            return <div>
-                <fieldset><Message mail={p.id} parentFolder={p.folderName}></Message><br></br></fieldset>
-            </div>;
+            return <fieldset><Message mail={p.id} parentFolder={p.folderName} updater={self.getMessageList}></Message><br></br></fieldset>;
         });
+
+        if(!this.state.messageList.length){
+            msg = <div>Loading...</div>
+        }
 
         return (
             <div className={cls}>
                 <button onClick={this.hideMessage}>{this.props.title}</button>
                 { this.state.hideMessage ?
                     <div>
+                        <br></br>
                         <input id={renameId} type="text" placeholder="New Folder Name"></input>
                         <button onClick={this.clickFolderRename}>Rename</button><br></br>
                         <button onClick={this.clickFolderDelete}>Delete</button>
                         <br></br>
-                        <br>{{msg}}</br>
+                        <br></br>
+                        {{msg}}
                     </div>
                     : null }
 
@@ -108,22 +115,35 @@ var Message = React.createClass({
             this.getMessageDetails()
         }
     },
+    deleteMessage: function(){
+        var self = this;
+
+        //'http://localhost:3000/folder/' + $scope.folderName + '/message/' + val + '/delete').
+        var url = 'http://localhost:3000/folder/' + this.props.parentFolder + '/message/' + this.props.mail + '/delete';
+        $.ajax({
+            type: "DELETE",
+            url: url,
+            contentType: "application/json",
+            //data: {"data": "{}"},
+            success: function(result){
+                console.log("DELTE MESSAGE SUCCESS: "+result);
+                self.props.updater();
+            }
+        });
+    },
     render: function () {
         var cls = "Message";
 
         var msg = null;
         var data = this.state.data;
         if (this.state.loaded) {
-            msg = <div>
-                SUBJ:{data.subject}<br>Sender:{data.sender}</br><br>Recipients:{data.recipients}</br><br>Text:{data.text}</br>
-            </div>
+            msg = <div>SUBJ:{data.subject}<br>Sender:{data.sender}</br><br>Recipients:{data.recipients}</br><br>Text:{data.text}</br></div>
         }
-
-
         return (
             <div className={cls}>
                 <h3>ID: {this.props.mail}</h3>
                 <button onClick={this.hideMessage}>Details</button>
+                <button onClick={this.deleteMessage}>Delete Message</button><br></br>
                 { this.state.hideMessage ?
                     <div>
                         Parent: {this.props.parentFolder}<br></br>
@@ -192,6 +212,7 @@ var FolderList = React.createClass({
     },
     postFolderRename: function (folder, newName) {
         console.log("RENAME: "+folder+" TO "+newName);
+        var self = this;
 
         //'http://localhost:3000/folder/'+val+'/'+newName
         var url = 'http://localhost:3000/folder/' + folder + '/' + newName;
@@ -207,6 +228,7 @@ var FolderList = React.createClass({
             //data: {"data": "{}"},
             success: function(result){
                 console.log("RENAME SUCCESS: "+result);
+                self.getFolderList();
             }
         });
 
@@ -233,12 +255,8 @@ var FolderList = React.createClass({
         var self = this;
 
         var folder = this.state.folder.map(function (p) {
-            return <Folder ref={p.id} title={p.name} onClick={self.folderClick} folderRename={self.postFolderRename} folderDelete={self.putFolderDelete}></Folder>;
+            return <div><Folder ref={p.id} title={p.name} onClick={self.folderClick} folderRename={self.postFolderRename} folderDelete={self.putFolderDelete}></Folder></div>;
         });
-
-        if (!folder.length) {
-            folder = <div>Loading Folder..</div>;
-        }
 
         return (
             <div>
