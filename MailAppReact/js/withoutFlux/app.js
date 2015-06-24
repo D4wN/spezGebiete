@@ -123,6 +123,10 @@ var NewMessage = React.createClass({
                     console.log("CREATE MESSAGE SUCCESS: ");
                     console.log(result);
 
+                    $("#MSG-" + self.props.title).val("");
+                    $("#CHOSE-" + self.props.title).val("");
+
+                    self.props.updater();
                     //TODO RELOAD FOLDER LIST -- CLEAR INPUTS
                 }
             });
@@ -358,6 +362,8 @@ var FolderList = React.createClass({
 
         return (
             <div>
+                <NewMessage updater={this.getFolderList}/>
+
                 <h1>Folder:</h1>
 
                 <div className="folder"> {{folder}} </div>
@@ -367,9 +373,9 @@ var FolderList = React.createClass({
     }
 });
 
-React.render(
-    <NewMessage />, document.getElementById("new")
-);
+//React.render(
+//    <NewMessage />, document.getElementById("new")
+//);
 
 React.render(
     <FolderList />,
