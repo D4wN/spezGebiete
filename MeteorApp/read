@@ -1,0 +1,2 @@
+db fill:        mongoimport --file mail.json --db meteor --port 3001
+meteor db ul:   process.env.MONGO_URL
