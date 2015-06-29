@@ -1,0 +1,50 @@
+//
+   Created by Niclas on 29.06.2015.
+head
+   title Folder
+
+
+body
+   .container
+      header
+         h1 Folder List
+         label.hide-completed
+            input(type="checkbox" checked="#{hideCompleted}")
+            | Hide Folder
+      ul
+         +each Folder
+            +folder
+
+template(name="folder")
+   li {{_id}}
+//template(name="folders")
+   #items-view
+      if loading
+         | Loading...
+      else
+         #new-todo-box
+            input#new-todo(type="text" placeholder="New item")
+         ul#item-list
+            each folders
+               +mail
+
+//template(name="mail")
+   li.folder(class=done_class)
+      if editing
+         .edit
+            input#todo-input(type="text" value=text)
+      else
+         .destroy
+         .display
+            input.check(name="markdone" type="checkbox" checked=done)
+            .todo-text= text
+      .item-tags
+         each tag_objs
+            .tag.removable_tag
+               .name= tag
+               .remove
+         if adding_tag
+            .tag.edittag
+               input#edittag-input(type="text")
+         else
+            .tag.addtag +tag
