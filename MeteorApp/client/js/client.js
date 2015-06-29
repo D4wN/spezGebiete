@@ -1,14 +1,6 @@
 Template.body.helpers({
     //TODO
     Folder: function () {
-        //Meteor.get('folderList');
-        /*var folder = {
-         TEST: "TEST WELT",
-         list: [
-         {_id: "Folder 1"},
-         {_id: "MYFolder"},
-         {_id: "Rolands Folder"}]
-         };*/
 
         var list = [
             {_id: "Folder 1"},
