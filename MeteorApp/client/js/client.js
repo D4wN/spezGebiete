@@ -1,16 +1,18 @@
-
 Template.body.helpers({
     //TODO
-    Folder: function() {
-        var list = Meteor.get('folderList');
-        console.log(list);
-
-        return  list;
+    Folder: function () {
+        return Session.get('Folder');
     }
-   //
-   //Folder:
-   //    [{ _id: "This is task 1" },
-   //     { _id: "This is task 2" },
-   //     { _id: "This is task 3" }
-   //     ]
 });
+
+Template.body.created = function(){
+    Meteor.call('folderList', function (error, result) {
+        if (error) {
+            console.log(error.reason);
+        }
+        else {
+            console.log("data recieved");
+            Session.set('Folder', result);
+        }
+    } );
+};
