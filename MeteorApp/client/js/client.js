@@ -1,3 +1,24 @@
+/**
+ * REAL DATA GET
+ *//*
+Template.body.helpers({
+    Folder: function () {
+        return Session.get('Folder');
+    }
+});
+
+Template.body.created = function(){
+    Meteor.call('folderList', function (error, result) {
+        if (error) {
+            console.log(error.reason);
+        }
+        else {
+            console.log("data recieved");
+            Session.set('Folder', result);
+        }
+    } );
+};
+*/
 if (Meteor.isClient) {
     console.log("CLIENT");
 
