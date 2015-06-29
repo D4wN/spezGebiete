@@ -14,13 +14,6 @@ Template.body.helpers({
     Folder: function () {
         return Session.get('Folder');
 
-    },
-    MessageList: function () {
-        var list = [
-            {_id: "Folder 1"},
-            {_id: "MYFolder"},
-            {_id: "Rolands Folder"}
-        ]
     }
 });
 
@@ -59,7 +52,6 @@ Template.folder.events({
         }
 
     },
-
     "submit .new-msg": function (event) {
         var folder = event.target.folder.value;
         var msg = event.target.msg.value;
@@ -75,17 +67,6 @@ Template.folder.events({
 
         // Prevent default form submit
         return false;
-    } ,
-    
-    "click .removeFolder": function (event) {
-    console.log("Remove Folder " + this._id);
-    //Folder.remove(this._id);
-    },
-    "submit .renameFolderForm": function (event) {
-        var text = event.target.text.value;
-        if(text === undefined || text == null || text == "")
-            return false;
-
     },
     "click .removeFolder": function (event) {
         console.log("Remove Folder: " + this._id);
