@@ -1,15 +1,18 @@
+Template.body.created = function () {
+    Meteor.call('folderList', function (error, result) {
+        if (error) {
+            console.log(error.reason);
+        }
+        else {
+            console.log("data recieved");
+            Session.set('Folder', result);
+        }
+    });
+};
+
 Template.body.helpers({
-    //TODO
     Folder: function () {
-
-        var list = [
-            {_id: "Folder 1"},
-            {_id: "MYFolder"},
-            {_id: "Rolands Folder"}
-        ]
-        console.log(list);
-
-        return list;
+        return Session.get('Folder');
     }
 });
 
@@ -49,11 +52,18 @@ Template.folder.events({
     },
     "click .removeFolder": function (event) {
         console.log("Remove Folder: " + this._id);
-        //Folder.remove(this._id);
+        Meteor.call('deleteFolder', function (error, result) {
+            if (error) {
+                console.log(error.reason);
+            }
+            else {
+                console.log("Delete Success");
+            }
+        });
     },
     "submit .renameFolderForm": function (event) {
         var text = event.target.text.value;
-        if(text === undefined || text == null || text == "")
+        if (text === undefined || text == null || text == "")
             return false;
 
         console.log("Rename " + this._id + " to " + text);
