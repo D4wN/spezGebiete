@@ -8,6 +8,20 @@ body
     .container
         header
             h1 Folder List
+            label.hide-completed
+                input(type="checkbox" checked="#{hideCompleted}")
+                | Hide Folder
+
+        fieldset
+            h2 Create a New Message
+            form(class="new-msg")
+                input(type="text" name="folder" placeholder="Type a Folder")
+                br
+                textarea(type="text" name="msg" placeholder="Type a New Message")
+
+                p
+                    button(class="btn btn-success") Submit Post
+
         ul
             +each Folder
                 +folder
