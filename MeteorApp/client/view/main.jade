@@ -1,20 +1,30 @@
 //
    Created by Niclas on 29.06.2015.
 head
-   title Folder Liste
+    title METEOR - Folder
+
+
 body
-   .container
-      header
-         h1 Folder List
-         label.hide-completed
-            input(type="checkbox" checked="#{hideCompleted}")
-            | Hide Folder
-      ul
-         +each Folder
-            +folder
+    .container
+        header
+            h1 Folder List
+            label.hide-completed
+                input(type="checkbox" checked="#{hideCompleted}")
+                | Hide Folder
+        ul
+            +each Folder
+                +folder
 
 template(name="folder")
-   li {{_id}}
+    li {{_id}}
+        br
+        button(class="hideButtonFolder")
+            | Show Mails
+        if hideFolderDiv
+            div
+                p Hallo Welt
+
+
 //template(name="folders")
    #items-view
       if loading
