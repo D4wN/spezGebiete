@@ -1,7 +1,11 @@
-db fill:        mongoimport --file mail.json --db meteor --port 3001
-
 jade:   meteor add mquandalle:jade
-db:     meteor add aldeed:simple-schema, aldeed:collection2
-aggregation support: meteor add meteorhacks:aggregate
+db:     meteor add aldeed:simple-schema
+        meteor add aldeed:collection2
+
+aggregation support:
+        meteor add meteorhacks:aggregate
+
+//vorher meteor starten >_>
+db fill:        mongoimport --file mail.json --db meteor --port 3001
 
 meteor db ul:   process.env.MONGO_URL
