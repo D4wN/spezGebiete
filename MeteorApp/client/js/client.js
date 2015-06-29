@@ -16,7 +16,7 @@ Template.body.helpers({
 Template.folder.helpers({
     hideFolderDiv: function () {
         var key = 'folder_' + this._id + 'show';
-        if (Session.get('folder_' + this._id + 'show')) {
+        if (Session.get(key)) {
             //console.log("ID(TRUE)= " + this._id);
             return true;
         } else {
@@ -27,7 +27,7 @@ Template.folder.helpers({
     MessageList: function () {
         console.log("ms liste");
         var list = [
-            {_id: "m 1"},
+            {_id: "m1"},
             {_id: "m2 "},
             {_id: "m3 "}
         ];
@@ -48,7 +48,7 @@ Template.folder.events({
         }
     },
     "click .removeFolder": function (event) {
-        console.log("Remove Folder " + this._id);
+        console.log("Remove Folder: " + this._id);
         //Folder.remove(this._id);
     },
     "submit .renameFolderForm": function (event) {
@@ -63,4 +63,35 @@ Template.folder.events({
     }
 });
 
+Template.message.helpers({
+    hideMessageDiv: function () {
+        var key = 'message_' + this._id + 'show';
+        if (Session.get(key)) {
+            //console.log("ID(TRUE)= " + this._id);
+            return true;
+        } else {
+            //console.log("ID(FALSE)= " + this._id);
+            return false;
+        }
+    },
+    MessageDetail: function () {
+        return {_id: "Detail", text: "Hallo Detail Welt, Du bist so schön!"};
+    }
+});
 
+Template.message.events({
+    "click .hideButtonMessage": function (event) {
+        //console.log("clicked! " + this._id);
+
+        var key = 'message_' + this._id + 'show';
+        if (Session.get(key)) {
+            Session.set(key, false);
+        } else {
+            Session.set(key, true);
+        }
+    },
+    "click .removeMessage": function (event) {
+        console.log("Remove Message: " + this._id);
+        //Folder.remove(this._id);
+    }
+});
