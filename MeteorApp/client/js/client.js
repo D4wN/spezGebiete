@@ -1,3 +1,9 @@
+var msgList =[
+    {_id: "m1"},
+    {_id: "m2 "},
+    {_id: "m3 "}
+];
+
 Template.body.created = function () {
     Meteor.call('folderList', function (error, result) {
         if (error) {
@@ -30,19 +36,17 @@ Template.folder.helpers({
     },
     MessageList: function () {
         console.log("ms liste");
-        var list = [
-            {_id: "m1"},
-            {_id: "m2 "},
-            {_id: "m3 "}
-        ];
 
-        return list;
+        return msgList;
     }
 });
 
 Template.folder.events({
     "click .hideButtonFolder": function (event) {
-        //console.log("clicked! " + this._id);
+        console.log("clicked! " + this._id);
+
+        //TODO MSGLIST
+        //msgList = Meteor.call("getMail", this._id);
 
         var key = 'folder_' + this._id + 'show';
         if (Session.get(key)) {
@@ -56,10 +60,7 @@ Template.folder.events({
         var folder = event.target.folder.value;
         var msg = event.target.msg.value;
 
-        Mail.save({
-            folder: folder,
-            text: msg
-        });
+        Method.call('addMessage', msg, folder);
 
         // Clear form
         event.target.msg.value = "";
