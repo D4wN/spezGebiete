@@ -13,10 +13,10 @@ Template.body.created = function () {
 Template.body.helpers({
     Folder: function () {
         return Session.get('Folder');
-
     }
 });
 
+//###############################################################FOLDER
 Template.folder.helpers({
     hideFolderDiv: function () {
         var key = 'folder_' + this._id + 'show';
@@ -24,7 +24,7 @@ Template.folder.helpers({
             //console.log("ID(TRUE)= " + this._id);
             return true;
         } else {
-            console.log("ID(FALSE)= " + this._id);
+            //console.log("ID(FALSE)= " + this._id);
             return false;
         }
     },
@@ -70,7 +70,7 @@ Template.folder.events({
     },
     "click .removeFolder": function (event) {
         console.log("Remove Folder: " + this._id);
-        Meteor.call('deleteFolder', function (error, result) {
+        Meteor.call('deleteFolder', this._id, function (error, result) {
             if (error) {
                 console.log(error.reason);
             }
@@ -89,6 +89,7 @@ Template.folder.events({
     }
 });
 
+//###############################################################MESSAGE
 Template.message.helpers({
     hideMessageDiv: function () {
         var key = 'message_' + this._id + 'show';
