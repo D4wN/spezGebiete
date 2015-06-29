@@ -1,16 +1,60 @@
+if (Meteor.isClient) {
+    console.log("CLIENT");
 
-Template.body.helpers({
-    //TODO
-    Folder: function() {
-        var list = Meteor.get('folderList');
-        console.log(list);
+    Template.body.helpers({
+        //TODO
+        Folder: function () {
+            //Meteor.get('folderList');
+            var list = [
+                {_id: "Folder 1"},
+                {_id: "MYFolder"},
+                {_id: "Rolands Folder"}
+            ]
+            console.log(list);
 
-        return  list;
-    }
-   //
-   //Folder:
-   //    [{ _id: "This is task 1" },
-   //     { _id: "This is task 2" },
-   //     { _id: "This is task 3" }
-   //     ]
-});
+            return list;
+        },
+        MessageList: function(){
+            var list = [
+                {_id: "Folder 1"},
+                {_id: "MYFolder"},
+                {_id: "Rolands Folder"}
+            ]
+        }
+    });
+
+    Template.folder.helpers({
+        hideFolderDiv: function () {
+            var key = 'folder_' + this._id + 'show';
+
+
+            if (Session.get('folder_' + this._id + 'show')) {
+                console.log("ID(TRUE)= " + this._id);
+                return true;
+            } else {
+                console.log("ID(FALSE)= " + this._id);
+                return false;
+            }
+        }
+    });
+
+    Template.folder.events({
+        "click .hideButtonFolder": function (event) {
+            //console.log("clicked! " + this._id);
+
+            var key = 'folder_' + this._id + 'show';
+            if (Session.get(key)) {
+                Session.set(key, false);
+            } else {
+                Session.set(key, true);
+            }
+        }
+    });
+
+} else {
+    //Server
+    console.log("SERVER");
+}
+
+
+
