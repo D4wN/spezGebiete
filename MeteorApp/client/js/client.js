@@ -68,8 +68,30 @@ Template.folder.events({
 
         // Prevent default form submit
         return false;
-    }
+    } ,
+    
+    "click .removeFolder": function (event) {
+    console.log("Remove Folder " + this._id);
+    //Folder.remove(this._id);
+    },
+    "submit .renameFolderForm": function (event) {
+        var text = event.target.text.value;
+        if(text === undefined || text == null || text == "")
+            return false;
 
+    },
+    "click .removeFolder": function (event) {
+        console.log("Remove Folder " + this._id);
+        //Folder.remove(this._id);
+    },
+    "submit .renameFolderForm": function (event) {
+        var text = event.target.text.value;
+        if(text === undefined || text == null || text == "")
+            return false;
+
+        event.target.text.value = "";
+        return false;
+    }
 });
 
 
