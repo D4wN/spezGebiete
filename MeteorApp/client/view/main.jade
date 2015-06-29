@@ -53,7 +53,21 @@ template(name="message")
             p
                 b {{_id}}
             p Parent: {{../_id}}
+            button(class="hideButtonMessage")
+                | Show Detail
+            if hideMessageDiv
+                +detail
 
+template(name="detail")
+    div
+        p More Stuff
+        table
+            tr
+                td  Hallo
+                td  Welt
+            tr
+                td  Meine
+                td  Zeile
 
 //template(name="folders")
    #items-view
