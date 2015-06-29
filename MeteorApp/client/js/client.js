@@ -1,81 +1,66 @@
-/**
- * REAL DATA GET
- *//*
 Template.body.helpers({
+    //TODO
     Folder: function () {
-        return Session.get('Folder');
+
+        var list = [
+            {_id: "Folder 1"},
+            {_id: "MYFolder"},
+            {_id: "Rolands Folder"}
+        ]
+        console.log(list);
+
+        return list;
     }
 });
 
-Template.body.created = function(){
-    Meteor.call('folderList', function (error, result) {
-        if (error) {
-            console.log(error.reason);
+Template.folder.helpers({
+    hideFolderDiv: function () {
+        var key = 'folder_' + this._id + 'show';
+        if (Session.get('folder_' + this._id + 'show')) {
+            //console.log("ID(TRUE)= " + this._id);
+            return true;
+        } else {
+            //console.log("ID(FALSE)= " + this._id);
+            return false;
         }
-        else {
-            console.log("data recieved");
-            Session.set('Folder', result);
+    },
+    MessageList: function () {
+        console.log("ms liste");
+        var list = [
+            {_id: "m 1"},
+            {_id: "m2 "},
+            {_id: "m3 "}
+        ];
+
+        return list;
+    }
+});
+
+Template.folder.events({
+    "click .hideButtonFolder": function (event) {
+        //console.log("clicked! " + this._id);
+
+        var key = 'folder_' + this._id + 'show';
+        if (Session.get(key)) {
+            Session.set(key, false);
+        } else {
+            Session.set(key, true);
         }
-    } );
-};
-*/
-if (Meteor.isClient) {
-    console.log("CLIENT");
+    },
+    "click .removeFolder": function (event) {
+        console.log("Remove Folder " + this._id);
+        //Folder.remove(this._id);
+    },
+    "submit .renameFolderForm": function (event) {
+        var text = event.target.text.value;
+        if(text === undefined || text == null || text == "")
+            return false;
 
-    Template.body.helpers({
-        //TODO
-        Folder: function () {
-            //Meteor.get('folderList');
-            var list = [
-                {_id: "Folder 1"},
-                {_id: "MYFolder"},
-                {_id: "Rolands Folder"}
-            ]
-            console.log(list);
+        console.log("Rename " + this._id + " to " + text);
 
-            return list;
-        },
-        MessageList: function(){
-            var list = [
-                {_id: "Folder 1"},
-                {_id: "MYFolder"},
-                {_id: "Rolands Folder"}
-            ]
-        }
-    });
-
-    Template.folder.helpers({
-        hideFolderDiv: function () {
-            var key = 'folder_' + this._id + 'show';
-
-
-            if (Session.get('folder_' + this._id + 'show')) {
-                console.log("ID(TRUE)= " + this._id);
-                return true;
-            } else {
-                console.log("ID(FALSE)= " + this._id);
-                return false;
-            }
-        }
-    });
-
-    Template.folder.events({
-        "click .hideButtonFolder": function (event) {
-            //console.log("clicked! " + this._id);
-
-            var key = 'folder_' + this._id + 'show';
-            if (Session.get(key)) {
-                Session.set(key, false);
-            } else {
-                Session.set(key, true);
-            }
-        }
-    });
-
-} else {
-    //Server
-    console.log("SERVER");
-}
-
+        event.target.text.value = "";
+        return false;
+    }
+});
 
 

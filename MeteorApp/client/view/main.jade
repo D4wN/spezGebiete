@@ -8,21 +8,37 @@ body
     .container
         header
             h1 Folder List
-            label.hide-completed
-                input(type="checkbox" checked="#{hideCompleted}")
-                | Hide Folder
         ul
             +each Folder
                 +folder
 
 template(name="folder")
     li {{_id}}
-        br
-        button(class="hideButtonFolder")
-            | Show Mails
-        if hideFolderDiv
-            div
-                p Hallo Welt
+        div
+            br
+            form(class="renameFolderForm")
+                input(type="text" name="text" placeholder="rename {{_id}}")
+                button
+                    |Rename Folder
+            br
+            button(class="removeFolder")
+                | Delete Folder
+            button(class="hideButtonFolder")
+                | Show Mails
+            if hideFolderDiv
+                div
+                    ul
+                        +each MessageList
+                            +message
+
+
+template(name="message")
+    li
+        fieldset
+
+            p
+                b {{_id}}
+            p Parent: {{../_id}}
 
 
 //template(name="folders")
