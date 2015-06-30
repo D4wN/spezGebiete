@@ -196,10 +196,17 @@ Template.newMessage.events({
             return;
         }
 
-        Method.call('addMessage', messageText, folderName);
-        $("#cnmFolderName").val("");
-        $("#cnmMessageText").val("");
+        Meteor.call('addMail', messageText, folderName, function (error, result) {
+            if (error) {
+                console.log(error.reason);
+            }
+            else {
+                // Clear form
+                $("#cnmFolderName").val("");
+                $("#cnmMessageText").val("");
 
-        $('#myModal').modal('hide');
+                $('#myModal').modal('hide');
+            }
+        });
     }
 })
