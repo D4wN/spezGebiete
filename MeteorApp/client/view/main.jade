@@ -32,10 +32,10 @@ template(name="folder")
                     input(type="text" name="text" class="form-control" placeholder="rename {{folder}}")
                     button(class="btn btn-primary" style="margin-left:10px")
                         |Rename Folder
+                    button(class="btn btn-danger removeFolder" style="margin-left:10px")
+                        | Delete Folder
             br
-            div(style="text-align:right")
-                button(class="btn btn-danger removeFolder" style="margin-bottom:10px;margin-left:10px")
-                    | Delete Folder
+            div(style="text-align:left")
                 button(class="btn btn-primary hideButtonFolder" style="margin-bottom:10px")
                     | Show Mails
             if hideFolderDiv
@@ -88,6 +88,16 @@ template(name="detail")
                 td
         textarea(type="text" rows="20" style="width:100%;resize: none" disabled="true")
             |{{text}}
+        br
+        div(class="form-group")
+            form(class="form-inline")
+                input(type="text" name="text" class="form-control" placeholder="rename {{folder}}")
+                button(class="btn btn-primary moveMessage" style="margin-left:10px")
+                    | Move Message
+                button(class="btn btn-danger removeMessage" style="margin-left:10px")
+                    | Delete Message
+
+
 
 //template(name="folders")
    #items-view
