@@ -47,9 +47,9 @@ template(name="folder")
                         +each MessageList
                             +message
             br
-            button(class="moreMessages")
+            button(class="btn btn-primary moreMessages")
                 | More
-            button(class="lessMessages")
+            button(class="btn btn-primary lessMessages")
                 | Less
 
 
@@ -60,7 +60,7 @@ template(name="message")
                 p
                     b {{subject}}
                 p Parent: {{folder}}
-                button(class="hideButtonMessage")
+                button(class="btn btn-primary hideButtonMessage")
                     | Show Detail
                 if hideMessageDiv
                     +detail
@@ -70,14 +70,23 @@ template(name="message")
 
 template(name="detail")
     div
-        p More Stuff
+        br
+        br
         table
             tr
-                td  Hallo
-                td  Welt
+                td
+                    strong ID:
+                td  {{_id}}
             tr
-                td  Meine
-                td  Zeile
+                td
+                    strong Subject:
+                td  {{subject}}
+            tr
+                td
+                    strong Text:
+                td
+        textarea(type="text" rows="20" style="width:100%" disabled="true")
+            |{{text}}
 
 //template(name="folders")
    #items-view
