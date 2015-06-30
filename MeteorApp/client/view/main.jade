@@ -14,40 +14,42 @@ body
 
         fieldset
             h2 Create a New Message
-            form(class="new-msg")
-                input(type="text" name="folder" placeholder="Type a Folder")
-                br
-                textarea(type="text" name="msg" placeholder="Type a New Message")
-
-                p
-                    button(class="btn btn-success") Submit Post
+            div
+                form(class="new-msg")
+                        input(type="text" name="folder" class="form-control" placeholder="Type a Folder")
+                        br
+                        textarea(type="text" name="msg" style="width:100%" placeholder="Type a New Message")
+                        div(style="text-align:right")
+                            button(class="btn btn-success" style="margin-top:10px") Submit Post
 
         ul
             +each Folder
                 +folder
 
 template(name="folder")
-    li {{folder}}
-        div
+    li
+        label {{folder}}
+        div(style="background-color:#FAFAFA")
+            div(class="form-group")
+                form(class="form-inline renameFolderForm")
+                    input(type="text" name="text" class="form-control" placeholder="rename {{folder}}")
+                    button(class="btn btn-warning" style="margin-left:10px")
+                        |Rename Folder
             br
-            form(class="renameFolderForm")
-                input(type="text" name="text" placeholder="rename {{folder}}")
-                button
-                    |Rename Folder
-            br
-            button(class="removeFolder")
-                | Delete Folder
-            button(class="hideButtonFolder")
-                | Show Mails
+            div(style="text-align:right")
+                button(class="btn btn-danger removeFolder" style="margin-bottom:10px;margin-left:10px")
+                    | Delete Folder
+                button(class="btn btn-primary hideButtonFolder" style="margin-bottom:10px")
+                    | Show Mails
             if hideFolderDiv
                 div
                     ul
                         +each MessageList
                             +message
             br
-            button(class="moreMessages")
+            button(class="btn btn-primary moreMessages")
                 | More
-            button(class="lessMessages")
+            button(class="btn btn-primary lessMessages")
                 | Less
 
 
@@ -58,7 +60,7 @@ template(name="message")
                 p
                     b {{subject}}
                 p Parent: {{folder}}
-                button(class="hideButtonMessage")
+                button(class="btn btn-primary hideButtonMessage")
                     | Show Detail
                 if hideMessageDiv
                     +detail
@@ -68,14 +70,23 @@ template(name="message")
 
 template(name="detail")
     div
-        p More Stuff
+        br
+        br
         table
             tr
-                td  Hallo
-                td  Welt
+                td
+                    strong ID:
+                td  {{_id}}
             tr
-                td  Meine
-                td  Zeile
+                td
+                    strong Subject:
+                td  {{subject}}
+            tr
+                td
+                    strong Text:
+                td
+        textarea(type="text" rows="20" style="width:100%" disabled="true")
+            |{{text}}
 
 //template(name="folders")
    #items-view

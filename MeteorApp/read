@@ -1,6 +1,7 @@
 jade:   meteor add mquandalle:jade
 db:     meteor add aldeed:simple-schema
         meteor add aldeed:collection2
+bootstrap: meteor add mizzao:bootstrap-3
 
 aggregation support:
         meteor add meteorhacks:aggregate

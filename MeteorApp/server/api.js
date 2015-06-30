@@ -5,3 +5,18 @@ Meteor.startup(function () {
 
 });
 
+Meteor.methods({
+    /*
+     * FolderList
+     *
+     * */
+    folderList: function () {
+        var folder = Mail.aggregate(
+            [
+                {$group: {_id: "$folder"}}
+            ]);
+
+        return folder;
+    }
+});
+
