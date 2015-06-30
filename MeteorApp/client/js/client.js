@@ -1,27 +1,21 @@
-Template.body.created = function () {
-    /* Meteor.call('folderList', function (error, result) {
-     if (error) {
-     console.log(error.reason);
-     }
-     else {
-     console.log("data recieved");
-     Session.set('Folder', result);
-     }
-     });*/
-};
+Meteor.subscribe("mails");
 
 Template.body.helpers({
     Folder: function () {
         //return Session.get('Folder');
 
-        Meteor.call("findFolder", function (error, result) {
-            if (error) {
-                console.log(error.reason);
-            }
-            else {
-                Session.set('Folder', result);
-            }
+        //Meteor.call("findFolder", function (error, result) {
+        //    if (error) {
+        //        console.log(error.reason);
+        //    }
+        //    else {
+        //        Session.set('Folder', result);
+        //    }
+        //});
+        var folderList = _.uniq(Mail.find().fetch(), false, function (mails) {
+            return mails.folder
         });
+        Session.set("Folder", folderList);
 
         return Session.get('Folder')
     }
@@ -46,7 +40,7 @@ Template.folder.helpers({
     },
 
     MessageList: function () {
-        var msg = Session.get("msgList");
+        var msg = Session.get("msgList"+ this.folder);
         return msg;
     }
 });
@@ -55,9 +49,16 @@ Template.folder.events({
     "click .hideButtonFolder": function (event) {
         console.log("clicked! " + this.folder);
 
-        Session.set('msgList', [{subject: 'loading'}]);
-        var limitValue = Template.instance()._limit;
+        //Session.set('msgList', [{subject: 'loading'}]);
+        var folderName = this.folder;
+        var limit = Template.instance()._limit;
 
+        var messageList = Mail.find({folder: folderName}, {limit: limit}).fetch();
+        console.log(messageList);
+
+        Session.set('msgList'+this.folder, messageList);
+
+        /*
         Meteor.call("getMail", {folder: this.folder}, {limit: limitValue}, function (error, result) {
             if (error) {
                 console.log(error.reason);
@@ -67,7 +68,7 @@ Template.folder.events({
                 console.log(result);
                 Session.set('msgList', result);
             }
-        });
+        });*/
 
         //var folderName = this.folder;
 
@@ -101,13 +102,16 @@ Template.folder.events({
             }
             else {
                 //TODO Refresh Folder
+                return true;
             }
         });
     },
     "submit .renameFolderForm": function (event) {
         var text = event.target.text.value;
         if (text === undefined || text == null || text == ""){
-            Meteor.call('renameFolder', {folder: this.folder}, {folder: text}, function (error, result) {
+           return false;
+        } else {
+            Meteor.call('renameFolder', {folder: this.folder},{$set: {folder: text}}, function (error, result) {
                 if (error) {
                     console.log(error.reason);
                 }
@@ -170,24 +174,35 @@ Template.message.events({
     },
     "click .removeMessage": function (event) {
         console.log("Remove Message: " + this._id);
+
+        Meteor.call('deleteMail', {_id: this._id}, function (error, result) {
+            if (error) {
+                console.log(error.reason);
+            }
+            else {
+                //TODO Refresh Mail Show
+                return true;
+            }
+        });
         //Folder.remove(this._id);
     },
 
     "click .moveMessage": function (event) {
         var text = event.target.text.value;
-        if (text === undefined || text == null || text == "")
-
-            Meteor.call('moveMessage', {_id: this._id}, {folder: text}, function (error, result) {
+        if (text === undefined || text == null || text == ""){
+            return false;
+        }else{
+            Meteor.call('moveMessage', {_id: this._id},{$set: {folder: text}}, function (error, result) {
                 if (error) {
                     console.log(error.reason);
                 }
                 else {
                     //TODO Refresh Folder
                     event.target.text.value = "";
+                    return true;
                 }
             });
-
-        return false;
+        }
     }
 });
 
