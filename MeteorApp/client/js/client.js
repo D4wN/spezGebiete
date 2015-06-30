@@ -24,6 +24,10 @@ Template.body.helpers({
 });
 
 //###############################################################FOLDER
+Template.folder.onCreated(function () {
+    this._limit = 5;
+});
+
 Template.folder.helpers({
     hideFolderDiv: function () {
         var key = 'folder_' + this.folder + 'show';
@@ -48,7 +52,10 @@ Template.folder.events({
 
         Session.set('msgList', [{subject: 'loading'}]);
 
-        //TODO MSGLIST LIMIT
+        //TODO MSGLIST
+
+        Template.instance()._limit; //TODO for Niclas!
+
         Meteor.call("getMail", {folder: this.folder}, function (error, result) {
             if (error) {
                 console.log(error.reason);
@@ -57,6 +64,9 @@ Template.folder.events({
                 Session.set('msgList', result);
             }
         });
+
+        //var folderName = this.folder;
+
         var key = 'folder_' + this.folder + 'show';
 
         if (Session.get(key)) {
@@ -99,6 +109,19 @@ Template.folder.events({
 
         event.target.text.value = "";
         return false;
+    },
+    "click .moreMessages": function (event) {
+        Template.instance()._limit += 5;
+        console.log(this.folder + "(_limit MORE): " + Template.instance()._limit);
+    },
+    "click .lessMessages": function (event) {
+        if (Template.instance()._limit > 5) {
+            Template.instance()._limit -= 5;
+        } else {
+            Template.instance()._limit = 5;
+        }
+
+        console.log(this.folder + "(_limit LESS): " + Template.instance()._limit);
     }
 });
 
@@ -106,8 +129,6 @@ Template.folder.events({
 Template.message.helpers({
     hideMessageDiv: function () {
         var key = 'message_' + this._id + 'show';
-
-
         if (Session.get(key)) {
             //console.log("ID(TRUE)= " + this._id);
             return true;
