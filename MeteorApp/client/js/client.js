@@ -13,10 +13,13 @@ Template.body.created = function () {
 Template.body.helpers({
     Folder: function () {
         //return Session.get('Folder');
-
-        return _.uniq(Mail.find().fetch(), false, function (mails) {
+        var folderList = _.uniq(Mail.find().fetch(), false, function (mails) {
             return mails.folder
         });
+
+        Session.set('Folder', folderList);
+
+        return Session.get('Folder')
     }
 });
 
@@ -43,13 +46,14 @@ Template.folder.events({
     "click .hideButtonFolder": function (event) {
         console.log("clicked! " + this.folder);
 
+        Session.set('msgList', [{subject: 'loading'}]);
+
         //TODO MSGLIST
         Meteor.call("getMail", {folder: this.folder}, function (error, result) {
             if (error) {
                 console.log(error.reason);
             }
             else {
-                console.log("data recieved");
                 Session.set('msgList', result);
             }
         });

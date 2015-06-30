@@ -50,8 +50,8 @@ template(name="message")
     li
         fieldset
             p
-                b {{_id}}
-            p Parent: {{../folder}}
+                b {{subject}}
+            p Parent: {{folder}}
             button(class="hideButtonMessage")
                 | Show Detail
             if hideMessageDiv
