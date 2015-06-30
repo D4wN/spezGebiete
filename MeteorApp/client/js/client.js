@@ -111,6 +111,16 @@ Template.folder.events({
     "click .moreMessages": function (event) {
         Template.instance()._limit += 5;
         console.log(this.folder + "(_limit MORE): " + Template.instance()._limit);
+
+        var folderName = this.folder;
+        var limit = Template.instance()._limit;
+
+        var messageList = Mail.find({folder: folderName}, {limit: limit}).fetch();
+        console.log(messageList);
+
+        Session.set('msgList' + this.folder, messageList);
+
+
     },
     "click .lessMessages": function (event) {
         if (Template.instance()._limit > 5) {
@@ -120,6 +130,14 @@ Template.folder.events({
         }
 
         console.log(this.folder + "(_limit LESS): " + Template.instance()._limit);
+
+        var folderName = this.folder;
+        var limit = Template.instance()._limit;
+
+        var messageList = Mail.find({folder: folderName}, {limit: limit}).fetch();
+        console.log(messageList);
+
+        Session.set('msgList' + this.folder, messageList);
     }
 });
 
@@ -176,6 +194,27 @@ Template.detail.events({
     },
     "click .moveMessage": function (event) {
         var text = event.target.text.value;
+        console.log(text)
+        if (text === undefined || text == null || text == "") {
+            return false;
+        } else {
+            Meteor.call('moveMessage', {_id: this._id}, {$set: {folder: text}}, function (error, result) {
+                if (error) {
+                    console.log(error.reason);
+                }
+                else {
+                    //TODO Refresh Folder
+                    event.target.text.value = "";
+                    return false;
+                }
+            });
+        }
+        return false;
+    }
+});
+Template.newMessage.events({
+    "click .saveNewMessage": function () {
+        console.log("Save new Message clicked!");
 
         var folderName = $("#cnmFolderName").val();
         var messageText = $("#cnmMessageText").val();
@@ -188,28 +227,7 @@ Template.detail.events({
         if (messageText === undefined || messageText == null || messageText == "") {
             console.log("MessageText was undifend/null/empty!");
             return;
-            console.log(text)
-            if (text === undefined || text == null || text == "") {
-                return false;
-            } else {
-                Meteor.call('moveMessage', {_id: this._id}, {$set: {folder: text}}, function (error, result) {
-                    if (error) {
-                        console.log(error.reason);
-                    }
-                    else {
-                        //TODO Refresh Folder
-                        event.target.text.value = "";
-                        return false;
-                    }
-                });
-            }
-            return false;
         }
-    }
-});
-Template.newMessage.events({
-    "click .saveNewMessage": function () {
-        console.log("Save new Message clicked!");
 
         Meteor.call('addMail', messageText, folderName, function (error, result) {
             if (error) {
