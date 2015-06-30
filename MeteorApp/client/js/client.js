@@ -100,17 +100,23 @@ Template.folder.events({
                 console.log(error.reason);
             }
             else {
-                    //TODO Refresh Folder
+                //TODO Refresh Folder
             }
         });
     },
     "submit .renameFolderForm": function (event) {
         var text = event.target.text.value;
-        if (text === undefined || text == null || text == "")
-            return false;
-
-        event.target.text.value = "";
-        return false;
+        if (text === undefined || text == null || text == ""){
+            Meteor.call('renameFolder', {folder: this.folder}, {folder: text}, function (error, result) {
+                if (error) {
+                    console.log(error.reason);
+                }
+                else {
+                    //TODO Refresh Folder
+                    event.target.text.value = "";
+                }
+            });
+        }
     },
     "click .moreMessages": function (event) {
         Template.instance()._limit += 5;
@@ -145,7 +151,7 @@ Template.message.events({
     "click .hideButtonMessage": function (event) {
         //console.log("clicked! " + this._id);
 
-        Meteor.call('findingMail',{_id : this._id}, function (error, result) {
+        Meteor.call('findingMail', {_id: this._id}, function (error, result) {
             if (error) {
                 console.log(error.reason);
             }
@@ -165,6 +171,23 @@ Template.message.events({
     "click .removeMessage": function (event) {
         console.log("Remove Message: " + this._id);
         //Folder.remove(this._id);
+    },
+
+    "click .moveMessage": function (event) {
+        var text = event.target.text.value;
+        if (text === undefined || text == null || text == "")
+
+            Meteor.call('moveMessage', {_id: this._id}, {folder: text}, function (error, result) {
+                if (error) {
+                    console.log(error.reason);
+                }
+                else {
+                    //TODO Refresh Folder
+                    event.target.text.value = "";
+                }
+            });
+
+        return false;
     }
 });
 

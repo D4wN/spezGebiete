@@ -96,20 +96,25 @@ Meteor.methods({
     /*
      * UPDATE BLOCK
      * */
-    updateFolder: function (taskId, setChecked) {
-        Mail.update(taskId, {$set: {checked: setChecked}});
+    renameFolder: function (folder, newName) {
+
+        console.log(folder);
+        console.log(newName);
+
+
+        var allDocumentsForName =  Mail.find(folder).fetch();
+
+        allDocumentsForName.forEach(function(email){
+            Mail.update(email._id, newName);
+        })
+
     },
     moveMail: function (mailID, folder) {
-        Mail.findOne({_id: mailID},
-
-            function (err, doc) {
-
-                if (err) throw err;
-                doc.folder = folder;
-                doc.save();
-
-            });
+       var mail =  Mail.findOne(mailID);
+        Mail.update(mail._id, folder);
     },
+
+
 
     getMail: function (folderName, limit) {
         console.log(limit);
