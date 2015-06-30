@@ -57,9 +57,12 @@ template(name="folder")
 template(name="message")
     li
         fieldset
-            if subject
+            if folder
                 p
-                    b {{subject}}
+                    if subject
+                        b {{subject}}
+                    else
+                        b No Subject
                 //p Parent: {{folder}}
                 button(class="btn btn-primary hideButtonMessage")
                     | Show Detail
