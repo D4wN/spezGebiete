@@ -7,7 +7,8 @@ head
 body
     .container
         header
-            h1 Folder List - Meteor Style
+            div(style="text-align: center")
+                h1 Meteor eMail Client
 
         fieldset
             //h2 Create a New Message
@@ -97,10 +98,10 @@ template(name="detail")
             |{{text}}
         br
         div(class="form-group")
-            form(class="form-inline")
+            form(class="form-inline moveMessage")
                 input(type="text" name="text" class="form-control" placeholder="rename {{folder}}")
-                button(class="btn btn-primary moveMessage" style="margin-left:10px")
-                    | Move Message
+                button(class="btn btn-primary" style="margin-left:10px")
+                    |Move Message
                 button(class="btn btn-danger removeMessage" style="margin-left:10px")
                     | Delete Message
 

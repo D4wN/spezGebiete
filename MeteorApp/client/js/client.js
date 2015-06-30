@@ -200,15 +200,15 @@ Template.detail.events({
         return false;
         //Folder.remove(this._id);
     },
-    "click .moveMessage": function (event) {
+    "submit .moveMessage": function (event) {
         var text = event.target.text.value;
-        console.log(text)
+        console.log("Move to: " + text)
         if (text === undefined || text == null || text == "") {
             return false;
         } else {
-            Meteor.call('moveMessage', {_id: this._id}, {$set: {folder: text}}, function (error, result) {
+            Meteor.call('moveMail', {_id: this._id}, {$set: {folder: text}}, function (error, result) {
                 if (error) {
-                    console.log(error.reason);
+                    console.log("Move-Error: " + error.reason);
                 }
                 else {
                     //TODO Refresh Folder
