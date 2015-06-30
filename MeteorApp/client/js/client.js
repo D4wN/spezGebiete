@@ -81,26 +81,6 @@ Template.folder.events({
         }
 
     },
-    "submit .new-msg": function (event) {
-        var folder = event.target.folder.value;
-        var msg = event.target.msg.value;
-
-        console.log("test");
-
-        Meteor.call('addMail', msg, folder, function (error, result) {
-            if (error) {
-                console.log(error.reason);
-            }
-            else {
-                // Clear form
-                event.target.msg.value = "";
-                event.target.folder.value = "";
-                return false;
-            }
-        });
-
-        return false;
-    },
     "click .removeFolder": function (event) {
         Meteor.call('deleteFolder', {folder: this.folder}, function (error, result) {
             if (error) {

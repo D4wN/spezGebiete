@@ -60,7 +60,7 @@ template(name="message")
             if subject
                 p
                     b {{subject}}
-                p Parent: {{folder}}
+                //p Parent: {{folder}}
                 button(class="btn btn-primary hideButtonMessage")
                     | Show Detail
                 if hideMessageDiv
@@ -104,7 +104,7 @@ template(name="detail")
 
 
 template(name="newMessage")
-    button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal")
+    button(type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal")
         |Create new Message
 
     div(class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
