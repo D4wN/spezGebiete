@@ -11,18 +11,12 @@ Meteor.methods({
      *
      * */
     folderList: function () {
-        var mails = Mail.find().fetch();
+        var folder = Mail.aggregate(
+            [
+                {$group: {_id: "$folder"}}
+            ]);
 
-        var groupedFolder = _.groupBy(_.pluck(mails, 'folder'));
-
-        var folderList = _.map(_.values(groupedFolder), function(folder) {
-            //console.log({Folder: folder[0], Total: folder.length});
-            return {_id: folder[0]}
-        });
-
-        console.log(folderList);
-
-        return folderList
+        return folder;
     }
 });
 

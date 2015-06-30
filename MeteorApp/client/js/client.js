@@ -1,5 +1,13 @@
+var msgList =[
+    {_id: "m1"},
+    {_id: "m2 "},
+    {_id: "m3 "}
+];
+
+
+
 Template.body.created = function () {
-    Meteor.call('folderList', function (error, result) {
+   /* Meteor.call('folderList', function (error, result) {
         if (error) {
             console.log(error.reason);
         }
@@ -7,19 +15,25 @@ Template.body.created = function () {
             console.log("data recieved");
             Session.set('Folder', result);
         }
-    });
+    });*/
 };
 
 Template.body.helpers({
     Folder: function () {
-        return Session.get('Folder');
+        //return Session.get('Folder');
+
+        return _.uniq(Mail.find().fetch(), false, function (mails) {
+            return mails.folder
+        });
+
     }
 });
 
 //###############################################################FOLDER
 Template.folder.helpers({
     hideFolderDiv: function () {
-        var key = 'folder_' + this._id + 'show';
+        var key = 'folder_' + this.folder + 'show';
+
         if (Session.get(key)) {
             //console.log("ID(TRUE)= " + this._id);
             return true;
@@ -27,24 +41,19 @@ Template.folder.helpers({
             //console.log("ID(FALSE)= " + this._id);
             return false;
         }
-    },
-    MessageList: function () {
-        console.log("ms liste");
-        var list = [
-            {_id: "m1"},
-            {_id: "m2 "},
-            {_id: "m3 "}
-        ];
-
-        return list;
     }
 });
 
 Template.folder.events({
     "click .hideButtonFolder": function (event) {
-        //console.log("clicked! " + this._id);
+        console.log("clicked! " + this.folder);
 
-        var key = 'folder_' + this._id + 'show';
+        //TODO MSGLIST
+        msgList = Meteor.call("getMail", {folder: this.folder});
+        //var folderName = this.folder;
+
+        var key = 'folder_' + this.folder + 'show';
+
         if (Session.get(key)) {
             Session.set(key, false);
         } else {
@@ -56,10 +65,8 @@ Template.folder.events({
         var folder = event.target.folder.value;
         var msg = event.target.msg.value;
 
-        Mail.save({
-            folder: folder,
-            text: msg
-        });
+
+        Method.call('addMessage', msg, folder);
 
         // Clear form
         event.target.msg.value = "";
@@ -69,8 +76,8 @@ Template.folder.events({
         return false;
     },
     "click .removeFolder": function (event) {
-        console.log("Remove Folder: " + this._id);
-        Meteor.call('deleteFolder', this._id, function (error, result) {
+        console.log("Remove Folder: " + this.folder);
+        Meteor.call('deleteFolder', this.folder, function (error, result) {
             if (error) {
                 console.log(error.reason);
             }

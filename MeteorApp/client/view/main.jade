@@ -27,11 +27,11 @@ body
                 +folder
 
 template(name="folder")
-    li {{_id}}
+    li {{folder}}
         div
             br
             form(class="renameFolderForm")
-                input(type="text" name="text" placeholder="rename {{_id}}")
+                input(type="text" name="text" placeholder="rename {{folder}}")
                 button
                     |Rename Folder
             br
@@ -51,8 +51,8 @@ template(name="message")
         fieldset
 
             p
-                b {{_id}}
-            p Parent: {{../_id}}
+                b {{folder}}
+            p Parent: {{../folder}}
             button(class="hideButtonMessage")
                 | Show Detail
             if hideMessageDiv

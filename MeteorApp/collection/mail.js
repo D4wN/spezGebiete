@@ -55,6 +55,8 @@ Meteor.methods({
      * CREATE BLOCK
      * */
     addMail: function (text, folder) {
+        console.log("add Message" + folder + " " + text);
+
         Mail.insert({
             text: text,
             folder: folder
@@ -68,6 +70,9 @@ Meteor.methods({
         Mail.remove(mailId);
     },
     deleteFolder: function (folder) {
+
+        //Finden duriteriern löschen TODO
+
         Mail.find({folder: folder}).remove(
             function (err) {
                 if (err) throw err;
@@ -90,5 +95,13 @@ Meteor.methods({
                 doc.save();
 
             });
+    },
+
+    getMail: function (folderName) {
+        console.log(folderName);
+        var messageList = Mail.find(folderName).fetch();
+
+        console.log(messageList.length);
+        return messageList;
     }
 });
