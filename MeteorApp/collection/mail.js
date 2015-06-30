@@ -70,6 +70,9 @@ Meteor.methods({
         Mail.remove(mailId);
     },
     deleteFolder: function (folder) {
+
+        //Finden duriteriern löschen TODO
+
         Mail.find({folder: folder}).remove(
             function (err) {
                 if (err) throw err;
@@ -94,30 +97,11 @@ Meteor.methods({
             });
     },
 
-    getMail: function(folderName){
+    getMail: function (folderName) {
+        console.log(folderName);
+        var messageList = Mail.find(folderName).fetch();
 
-        console.log("getMessage() client ");
-        var key = 'folder';
-        var  value = folderName;
-
-        var selector = {};
-        selector[key] = value;
-
-        var messageList = Mail.find(
-            selector
-        );
-
-        console.log(messageList);
-
+        console.log(messageList.length);
         return messageList;
-        /*Meteor.call("messageList", folderName ,function (error, result) {
-            if (error) {
-                console.log(error.reason);
-            }
-            else {
-                console.log("msg data recieved");
-                Session.set('msg', result);
-            }
-        });*/
     }
 });

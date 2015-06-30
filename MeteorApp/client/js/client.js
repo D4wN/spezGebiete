@@ -7,7 +7,7 @@ var msgList =[
 
 
 Template.body.created = function () {
-    Meteor.call('folderList', function (error, result) {
+   /* Meteor.call('folderList', function (error, result) {
         if (error) {
             console.log(error.reason);
         }
@@ -15,18 +15,16 @@ Template.body.created = function () {
             console.log("data recieved");
             Session.set('Folder', result);
         }
-    });
+    });*/
 };
 
 Template.body.helpers({
     Folder: function () {
         //return Session.get('Folder');
 
-        var eMails = Mail.find().fetch();
-
-        var uniqueMails = _.uniq(eMails, false, function(mails) {return mails.folder});
-
-        return uniqueMails;
+        return _.uniq(Mail.find().fetch(), false, function (mails) {
+            return mails.folder
+        });
 
     }
 });
@@ -43,21 +41,19 @@ Template.folder.helpers({
             //console.log("ID(FALSE)= " + this._id);
             return false;
         }
-    },
-    MessageList: function () {
-        console.log(Session.get(key));
-        return msgList;
     }
 });
 
 Template.folder.events({
     "click .hideButtonFolder": function (event) {
-        console.log("clicked! " + this._id);
+        console.log("clicked! " + this.folder);
 
         //TODO MSGLIST
-        //msgList = Meteor.call("getMail", this._id);
+        msgList = Meteor.call("getMail", {folder: this.folder});
+        //var folderName = this.folder;
 
-        var key = 'folder_' + this._id + 'show';
+        var key = 'folder_' + this.folder + 'show';
+
         if (Session.get(key)) {
             Session.set(key, false);
         } else {
@@ -69,6 +65,7 @@ Template.folder.events({
         var folder = event.target.folder.value;
         var msg = event.target.msg.value;
 
+
         Method.call('addMessage', msg, folder);
 
         // Clear form
@@ -79,8 +76,8 @@ Template.folder.events({
         return false;
     },
     "click .removeFolder": function (event) {
-        console.log("Remove Folder: " + this._id);
-        Meteor.call('deleteFolder', this._id, function (error, result) {
+        console.log("Remove Folder: " + this.folder);
+        Meteor.call('deleteFolder', this.folder, function (error, result) {
             if (error) {
                 console.log(error.reason);
             }
