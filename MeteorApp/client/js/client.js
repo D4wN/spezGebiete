@@ -99,11 +99,10 @@ Template.folder.events({
         Meteor.call('deleteFolder', {folder: this.folder}, function (error, result) {
             if (error) {
                 console.log(error.reason);
+            } else {
+                console.log("deleted folder!");
             }
-            else {
-                //TODO Refresh Folder
-                return false;
-            }
+            return false;
         });
     },
     "submit .renameFolderForm": function (event) {
