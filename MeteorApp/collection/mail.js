@@ -3,43 +3,54 @@ Mail = new Mongo.Collection('mail');
 Schema = {};
 Schema.mailType = new SimpleSchema({
     sender: {
-        type: String
+        type: String,
+        optional: true
     },
     recipients: {
-        type: [String]
+        type: [String],
+        optional: true
     },
     cc: {
-        type: [String]
+        type: [String],
+        optional: true
     },
     text: {
         type: String
     },
     mid: {
-        type: String
+        type: String,
+        optional: true
     },
     fpath: {
-        type: String
+        type: String,
+        optional: true
     },
     bcc: {
-        type: [String]
+        type: [String],
+        optional: true
     },
     to: {
-        type: [String]
+        type: [String],
+        optional: true
     },
     replyto: {
-        type: [String]
+        type: [String],
+        optional: true
     },
     ctype: {
-        type: String
+        type: String,
+        optional: true
     },
     date: {
-        type: String
+        type: String,
+        optional: true
     },
     folder: {
         type: String
     },
     subject: {
-        type: String
+        type: String,
+        optional: true
     }
 });
 
