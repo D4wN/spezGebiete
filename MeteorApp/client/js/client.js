@@ -178,6 +178,7 @@ Template.detail.helpers({
         return Session.get('actualMsg' + this._id);
     }
 });
+
 Template.detail.events({
     "click .removeMessage": function (event) {
         console.log("Remove Message: " + this._id);
@@ -224,7 +225,8 @@ Template.detail.events({
             }
             return false;
         }
-    });
+    }
+});
 Template.newMessage.events({
     "click .saveNewMessage": function () {
         console.log("Save new Message clicked!");
