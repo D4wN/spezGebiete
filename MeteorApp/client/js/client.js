@@ -48,7 +48,7 @@ Template.folder.events({
 
         Session.set('msgList', [{subject: 'loading'}]);
 
-        //TODO MSGLIST
+        //TODO MSGLIST LIMIT
         Meteor.call("getMail", {folder: this.folder}, function (error, result) {
             if (error) {
                 console.log(error.reason);
@@ -57,9 +57,6 @@ Template.folder.events({
                 Session.set('msgList', result);
             }
         });
-
-        //var folderName = this.folder;
-
         var key = 'folder_' + this.folder + 'show';
 
         if (Session.get(key)) {
@@ -109,6 +106,8 @@ Template.folder.events({
 Template.message.helpers({
     hideMessageDiv: function () {
         var key = 'message_' + this._id + 'show';
+
+
         if (Session.get(key)) {
             //console.log("ID(TRUE)= " + this._id);
             return true;
@@ -118,13 +117,23 @@ Template.message.helpers({
         }
     },
     MessageDetail: function () {
-        return {_id: "Detail", text: "Hallo Detail Welt, Du bist so schön!"};
+        return Session.get('actualMsg');//{_id: "Detail", text: "Hallo Detail Welt, Du bist so schön!"};
     }
 });
 
 Template.message.events({
     "click .hideButtonMessage": function (event) {
         //console.log("clicked! " + this._id);
+
+        Meteor.call('findingMail',{_id : this._id}, function (error, result) {
+            if (error) {
+                console.log(error.reason);
+            }
+            else {
+                console.log("Find succes");
+                Session.set("actualMsg", result);
+            }
+        });
 
         var key = 'message_' + this._id + 'show';
         if (Session.get(key)) {
