@@ -40,7 +40,7 @@ Template.folder.helpers({
     },
 
     MessageList: function () {
-        var msg = Session.get("msgList"+ this.folder);
+        var msg = Session.get("msgList" + this.folder);
         return msg;
     }
 });
@@ -56,19 +56,19 @@ Template.folder.events({
         var messageList = Mail.find({folder: folderName}, {limit: limit}).fetch();
         console.log(messageList);
 
-        Session.set('msgList'+this.folder, messageList);
+        Session.set('msgList' + this.folder, messageList);
 
         /*
-        Meteor.call("getMail", {folder: this.folder}, {limit: limitValue}, function (error, result) {
-            if (error) {
-                console.log(error.reason);
-            }
-            else {
-                console.log("results ");
-                console.log(result);
-                Session.set('msgList', result);
-            }
-        });*/
+         Meteor.call("getMail", {folder: this.folder}, {limit: limitValue}, function (error, result) {
+         if (error) {
+         console.log(error.reason);
+         }
+         else {
+         console.log("results ");
+         console.log(result);
+         Session.set('msgList', result);
+         }
+         });*/
 
         //var folderName = this.folder;
 
@@ -107,15 +107,14 @@ Template.folder.events({
     },
     "submit .renameFolderForm": function (event) {
         var text = event.target.text.value;
-        if (text === undefined || text == null || text == ""){
-           return false;
+        if (text === undefined || text == null || text == "") {
+            return false;
         } else {
-            Meteor.call('renameFolder', {folder: this.folder},{$set: {folder: text}}, function (error, result) {
+            Meteor.call('renameFolder', {folder: this.folder}, {$set: {folder: text}}, function (error, result) {
                 if (error) {
                     console.log(error.reason);
                 }
                 else {
-                    //TODO Refresh Folder
                     event.target.text.value = "";
                 }
             });
@@ -189,10 +188,10 @@ Template.message.events({
 
     "click .moveMessage": function (event) {
         var text = event.target.text.value;
-        if (text === undefined || text == null || text == ""){
+        if (text === undefined || text == null || text == "") {
             return false;
-        }else{
-            Meteor.call('moveMessage', {_id: this._id},{$set: {folder: text}}, function (error, result) {
+        } else {
+            Meteor.call('moveMessage', {_id: this._id}, {$set: {folder: text}}, function (error, result) {
                 if (error) {
                     console.log(error.reason);
                 }
@@ -213,3 +212,28 @@ Template.detail.helpers(
         }
     }
 );
+
+Template.newMessage.events({
+    "click .saveNewMessage": function () {
+        console.log("Save new Message clicked!");
+
+        var folderName = $("#cnmFolderName").val();
+        var messageText = $("#cnmMessageText").val();
+
+        if (folderName === undefined || folderName == null || folderName == "") {
+            console.log("FolderName was undifend/null/empty!");
+            return;
+        }
+
+        if (messageText === undefined || messageText == null || messageText == "") {
+            console.log("MessageText was undifend/null/empty!");
+            return;
+        }
+
+        Method.call('addMessage', messageText, folderName);
+        $("#cnmFolderName").val("");
+        $("#cnmMessageText").val("");
+
+        $('#myModal').modal('hide');
+    }
+})

@@ -7,17 +7,18 @@ head
 body
     .container
         header
-            h1 Folder List
+            h1 Folder List - Meteor Style
 
         fieldset
-            h2 Create a New Message
-            div
-                form(class="new-msg")
-                        input(type="text" name="folder" class="form-control" placeholder="Type a Folder")
-                        br
-                        textarea(type="text" name="msg" style="width:100%;resize: none"  placeholder="Type a New Message")
-                        div(style="text-align:right")
-                            button(class="btn btn-success" style="margin-top:10px") Submit Post
+            //h2 Create a New Message
+            +newMessage
+            //div
+            //    form(class="new-msg")
+            //            input(type="text" name="folder" class="form-control" placeholder="Type a Folder")
+            //            br
+            //            textarea(type="text" name="msg" style="width:100%;resize: none"  placeholder="Type a New Message")
+            //            div(style="text-align:right")
+            //                button(class="btn btn-success" style="margin-top:10px") Submit Post
 
         ul
             +each Folder
@@ -25,7 +26,7 @@ body
 
 template(name="folder")
     li
-        label {{folder}}
+        h3 {{folder}}
         div(style="background-color:#FAFAFA")
             div(class="form-group")
                 form(class="form-inline renameFolderForm")
@@ -92,34 +93,22 @@ template(name="detail")
         textarea(type="text" rows="20" style="width:100%" disabled="true")
             |{{text}}
 
-//template(name="folders")
-   #items-view
-      if loading
-         | Loading...
-      else
-         #new-todo-box
-            input#new-todo(type="text" placeholder="New item")
-         ul#item-list
-            each folders
-               +mail
+template(name="newMessage")
+    button(type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal")
+        |Create new Message
 
-//template(name="mail")
-   li.folder(class=done_class)
-      if editing
-         .edit
-            input#todo-input(type="text" value=text)
-      else
-         .destroy
-         .display
-            input.check(name="markdone" type="checkbox" checked=done)
-            .todo-text= text
-      .item-tags
-         each tag_objs
-            .tag.removable_tag
-               .name= tag
-               .remove
-         if adding_tag
-            .tag.edittag
-               input#edittag-input(type="text")
-         else
-            .tag.addtag +tag
+    div(class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel")
+        div(class="modal-dialog" role="document")
+            div(class="modal-content")
+                div(class="modal-header")
+                    h4(class="modal-title" id="myModalLabel")
+                        |Create new Message
+                div(class="modal-body")
+                    input(type="text" name="folder" id="cnmFolderName" class="form-control" placeholder="Type a Folder")
+                    br
+                    textarea(type="text" name="msg" id="cnmMessageText" style="width:100%;resize: none"  placeholder="Type a New Message")
+                div(class="modal-footer")
+                    button(type="button" class="btn btn-default" data-dismiss="modal")
+                        | Close
+                    button(type="button" class="btn btn-primary saveNewMessage")
+                        | Save
