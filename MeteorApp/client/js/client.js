@@ -158,10 +158,23 @@ Template.detail.helpers({
         return Session.get('actualMsg' + this._id);
     }
 });
-
-Template.newMessage.events({
-    "click .saveNewMessage": function () {
-        console.log("Save new Message clicked!");
+Template.detail.events({
+    "click .removeMessage": function (event) {
+        console.log("Remove Message: " + this._id);
+        /*
+         Meteor.call('deleteMail', {_id: this._id}, function (error, result) {
+         if (error) {
+         console.log(error.reason);
+         }
+         else {
+         //TODO Refresh Mail Show
+         return true;
+         }
+         });*/
+        //Folder.remove(this._id);
+    },
+    "click .moveMessage": function (event) {
+        var text = event.target.text.value;
 
         var folderName = $("#cnmFolderName").val();
         var messageText = $("#cnmMessageText").val();
@@ -174,7 +187,27 @@ Template.newMessage.events({
         if (messageText === undefined || messageText == null || messageText == "") {
             console.log("MessageText was undifend/null/empty!");
             return;
+            console.log(text)
+            if (text === undefined || text == null || text == "") {
+                return false;
+            } else {
+                Meteor.call('moveMessage', {_id: this._id}, {$set: {folder: text}}, function (error, result) {
+                    if (error) {
+                        console.log(error.reason);
+                    }
+                    else {
+                        //TODO Refresh Folder
+                        event.target.text.value = "";
+                        return false;
+                    }
+                });
+            }
+            return false;
         }
+    });
+Template.newMessage.events({
+    "click .saveNewMessage": function () {
+        console.log("Save new Message clicked!");
 
         Meteor.call('addMail', messageText, folderName, function (error, result) {
             if (error) {
