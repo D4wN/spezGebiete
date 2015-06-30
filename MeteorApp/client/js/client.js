@@ -13,11 +13,15 @@ Template.body.created = function () {
 Template.body.helpers({
     Folder: function () {
         //return Session.get('Folder');
-        var folderList = _.uniq(Mail.find().fetch(), false, function (mails) {
-            return mails.folder
-        });
 
-        Session.set('Folder', folderList);
+        Meteor.call("findFolder", function (error, result) {
+            if (error) {
+                console.log(error.reason);
+            }
+            else {
+                Session.set('Folder', result);
+            }
+        });
 
         return Session.get('Folder')
     }
@@ -42,7 +46,8 @@ Template.folder.helpers({
     },
 
     MessageList: function () {
-        return Session.get("msgList");
+        var msg = Session.get("msgList");
+        return msg;
     }
 });
 
@@ -51,16 +56,15 @@ Template.folder.events({
         console.log("clicked! " + this.folder);
 
         Session.set('msgList', [{subject: 'loading'}]);
-
-        //TODO MSGLIST
-
-        var limitValue = Template.instance()._limit; //TODO for Niclas!
+        var limitValue = Template.instance()._limit;
 
         Meteor.call("getMail", {folder: this.folder}, {limit: limitValue}, function (error, result) {
             if (error) {
                 console.log(error.reason);
             }
             else {
+                console.log("results ");
+                console.log(result);
                 Session.set('msgList', result);
             }
         });

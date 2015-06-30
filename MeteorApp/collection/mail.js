@@ -54,14 +54,14 @@ Meteor.methods({
     /*
      * CREATE BLOCK
      * */
-    //addMail: function (text, folder) {
-    //    console.log("add Message" + folder + " " + text);
-    //
-    //    Mail.insert({
-    //        text: text,
-    //        folder: folder
-    //    });
-    //},
+    addMail: function (text, folder) {
+        console.log("add Message" + folder + " " + text);
+
+        Mail.insert({
+            text: text,
+            folder: folder
+        });
+    },
 
     /*
      * CREATE BLOCK
@@ -110,7 +110,21 @@ Meteor.methods({
     },
 
     getMail: function (folderName, limit) {
+        console.log(limit);
+
         var messageList = Mail.find(folderName, limit).fetch();
+
+        console.log(messageList.length);
+
         return messageList;
+    },
+
+    findFolder: function () {
+        var folderList = _.uniq(Mail.find().fetch(), false, function (mails) {
+            return mails.folder
+        });
+
+        return folderList;
     }
+
 });
