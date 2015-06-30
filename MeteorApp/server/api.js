@@ -20,3 +20,6 @@ Meteor.methods({
     }
 });
 
+Meteor.publish("mails", function () {
+    return Mail.find();
+});
