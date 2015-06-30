@@ -54,9 +54,9 @@ Template.folder.events({
 
         //TODO MSGLIST
 
-        Template.instance()._limit; //TODO for Niclas!
+        var limitValue = Template.instance()._limit; //TODO for Niclas!
 
-        Meteor.call("getMail", {folder: this.folder}, function (error, result) {
+        Meteor.call("getMail", {folder: this.folder}, {limit: limitValue}, function (error, result) {
             if (error) {
                 console.log(error.reason);
             }
@@ -136,9 +136,6 @@ Template.message.helpers({
             //console.log("ID(FALSE)= " + this._id);
             return false;
         }
-    },
-    MessageDetail: function () {
-        return Session.get('actualMsg');//{_id: "Detail", text: "Hallo Detail Welt, Du bist so schön!"};
     }
 });
 
@@ -168,3 +165,11 @@ Template.message.events({
         //Folder.remove(this._id);
     }
 });
+
+Template.detail.helpers(
+    {
+        MessageDetail: function () {
+            return Session.get('actualMsg');//{_id: "Detail", text: "Hallo Detail Welt, Du bist so schön!"};
+        }
+    }
+);

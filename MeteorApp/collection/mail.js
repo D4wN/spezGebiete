@@ -109,8 +109,8 @@ Meteor.methods({
             });
     },
 
-    getMail: function (folderName) {
-        var messageList = Mail.find(folderName).fetch();
+    getMail: function (folderName, limit) {
+        var messageList = Mail.find(folderName, limit).fetch();
         return messageList;
     }
 });
