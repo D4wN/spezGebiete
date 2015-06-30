@@ -43,11 +43,14 @@ template(name="folder")
                     ul
                         +each MessageList
                             +message
-            br
-            button(class="btn btn-primary moreMessages")
-                | More
-            button(class="btn btn-primary lessMessages")
-                | Less
+                br
+                br
+                br
+                button(class="btn btn-primary lessMessages")
+                    | Less
+                button(class="btn btn-primary moreMessages")
+                    | More
+
 
 
 template(name="message")
