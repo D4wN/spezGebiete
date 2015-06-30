@@ -5,6 +5,26 @@ Meteor.startup(function () {
 
 });
 
+Meteor.publish('seenFolder', function() {
+    self = this;
+    console.log("seen");
+
+    var folderList = Mail.aggregate(
+        [
+            {$group: {_id: "$folder"}}
+        ]);
+
+    _(folderList).each(function(folder) {
+        if (folder._id) {
+            if (!Mail.findOne({folder: folder._id})) {
+                self.added('folders',Random.id, {Folder: folder._id});
+            }
+        }
+    });
+    //console.log(folderList);
+    return folderList;
+});
+
 Meteor.methods({
     /*
      * FolderList

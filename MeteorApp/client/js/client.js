@@ -4,6 +4,8 @@ var msgList =[
     {_id: "m3 "}
 ];
 
+
+
 Template.body.created = function () {
     Meteor.call('folderList', function (error, result) {
         if (error) {
@@ -18,14 +20,22 @@ Template.body.created = function () {
 
 Template.body.helpers({
     Folder: function () {
-        return Session.get('Folder');
+        //return Session.get('Folder');
+
+        var eMails = Mail.find().fetch();
+
+        var uniqueMails = _.uniq(eMails, false, function(mails) {return mails.folder});
+
+        return uniqueMails;
+
     }
 });
 
 //###############################################################FOLDER
 Template.folder.helpers({
     hideFolderDiv: function () {
-        var key = 'folder_' + this._id + 'show';
+        var key = 'folder_' + this.folder + 'show';
+
         if (Session.get(key)) {
             //console.log("ID(TRUE)= " + this._id);
             return true;
@@ -35,8 +45,7 @@ Template.folder.helpers({
         }
     },
     MessageList: function () {
-        console.log("ms liste");
-
+        console.log(Session.get(key));
         return msgList;
     }
 });
