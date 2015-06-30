@@ -57,23 +57,11 @@ Meteor.methods({
     addMail: function (text, folder) {
         console.log("add Message" + folder + " " + text);
 
-       /* Mail.insert({
-            text: text,
-            folder: folder
-        });*/
+        var selector = {text: text, folder: folder};
+
+        Mail.insert(selector);
     },
 
-    /*
-     * CREATE BLOCK
-     * */
-    findingMail: function (id) {
-        console.log("find Message" + id);
-
-        var mail = Mail.find(id).fetch();
-
-        console.log(mail);
-        return mail;
-    },
 
     /*
      * DELETE BLOCK
@@ -112,24 +100,6 @@ Meteor.methods({
     moveMail: function (mailID, folder) {
        var mail =  Mail.findOne(mailID);
         Mail.update(mail._id, folder);
-    },
-
-    getMail: function (folderName, limit) {
-        console.log(limit);
-
-        var messageList = Mail.find(folderName, limit).fetch();
-
-        console.log(messageList.length);
-
-        return messageList;
-    },
-
-    findFolder: function () {
-        var folderList = _.uniq(Mail.find().fetch(), false, function (mails) {
-            return mails.folder
-        });
-
-        return folderList;
     }
 
 });
