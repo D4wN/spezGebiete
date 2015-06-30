@@ -58,6 +58,19 @@ Template.folder.events({
 
         Session.set('msgList' + this.folder, messageList);
 
+        /*
+         Meteor.call("getMail", {folder: this.folder}, {limit: limitValue}, function (error, result) {
+         if (error) {
+         console.log(error.reason);
+         }
+         else {
+         console.log("results ");
+         console.log(result);
+         Session.set('msgList', result);
+         }
+         });*/
+
+        //var folderName = this.folder;
 
         var key = 'folder_' + this.folder + 'show';
 
@@ -92,11 +105,10 @@ Template.folder.events({
         Meteor.call('deleteFolder', {folder: this.folder}, function (error, result) {
             if (error) {
                 console.log(error.reason);
+            } else {
+                console.log("deleted folder!");
             }
-            else {
-                //TODO Refresh Folder
-                return false;
-            }
+            return false;
         });
     },
     "submit .renameFolderForm": function (event) {
@@ -109,7 +121,6 @@ Template.folder.events({
                     console.log(error.reason);
                 }
                 else {
-                    //TODO Refresh Folder
                     event.target.text.value = "";
                     return true;
                 }
@@ -162,46 +173,33 @@ Template.message.events({
     }
 });
 
-Template.detail.helpers(
-    {
-        MessageDetail: function () {
-            return Session.get('actualMsg' + this._id);
-        },
-
-        "click .removeMessage": function (event) {
-            console.log("Remove Message: " + this._id);
-
-            Meteor.call('deleteMail', {_id: this._id}, function (error, result) {
-                if (error) {
-                    console.log(error.reason);
-                }
-                else {
-                    //TODO Refresh Mail Show
-                    return true;
-                }
-            });
-            //Folder.remove(this._id);
-        },
-        "click .moveMessage": function (event) {
-            var text = event.target.text.value;
-
-            console.log(text)
-            if (text === undefined || text == null || text == "") {
-                return false;
-            } else {
-                Meteor.call('moveMessage', {_id: this._id}, {$set: {folder: text}}, function (error, result) {
-                    if (error) {
-                        console.log(error.reason);
-                    }
-                    else {
-                        //TODO Refresh Folder
-                        event.target.text.value = "";
-                        return false;
-                    }
-                });
-            }
-
-            return false;
-        }
+Template.detail.helpers({
+    MessageDetail: function () {
+        return Session.get('actualMsg' + this._id);
     }
-);
+});
+
+Template.newMessage.events({
+    "click .saveNewMessage": function () {
+        console.log("Save new Message clicked!");
+
+        var folderName = $("#cnmFolderName").val();
+        var messageText = $("#cnmMessageText").val();
+
+        if (folderName === undefined || folderName == null || folderName == "") {
+            console.log("FolderName was undifend/null/empty!");
+            return;
+        }
+
+        if (messageText === undefined || messageText == null || messageText == "") {
+            console.log("MessageText was undifend/null/empty!");
+            return;
+        }
+
+        Method.call('addMessage', messageText, folderName);
+        $("#cnmFolderName").val("");
+        $("#cnmMessageText").val("");
+
+        $('#myModal').modal('hide');
+    }
+})
