@@ -8,9 +8,6 @@ body
     .container
         header
             h1 Folder List
-            label.hide-completed
-                input(type="checkbox" checked="#{hideCompleted}")
-                | Hide Folder
 
         fieldset
             h2 Create a New Message
@@ -18,7 +15,7 @@ body
                 form(class="new-msg")
                         input(type="text" name="folder" class="form-control" placeholder="Type a Folder")
                         br
-                        textarea(type="text" name="msg" style="width:100%" placeholder="Type a New Message")
+                        textarea(type="text" name="msg" style="width:100%;resize: none"  placeholder="Type a New Message")
                         div(style="text-align:right")
                             button(class="btn btn-success" style="margin-top:10px") Submit Post
 
@@ -33,7 +30,7 @@ template(name="folder")
             div(class="form-group")
                 form(class="form-inline renameFolderForm")
                     input(type="text" name="text" class="form-control" placeholder="rename {{folder}}")
-                    button(class="btn btn-warning" style="margin-left:10px")
+                    button(class="btn btn-primary" style="margin-left:10px")
                         |Rename Folder
             br
             div(style="text-align:right")
@@ -81,6 +78,10 @@ template(name="detail")
                 td
                     strong Subject:
                 td  {{subject}}
+            tr
+                td
+                    strong Recipients:
+                td  
             tr
                 td
                     strong Text:
