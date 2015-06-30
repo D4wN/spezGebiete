@@ -98,6 +98,10 @@ Meteor.methods({
 
     },
     moveMail: function (mailID, folder) {
+
+        console.log(mailID);
+        console.log(folder);
+
        var mail =  Mail.findOne(mailID);
         Mail.update(mail._id, folder);
     }

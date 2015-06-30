@@ -159,38 +159,6 @@ Template.message.events({
         } else {
             Session.set(key, true);
         }
-    },
-    "click .removeMessage": function (event) {
-        console.log("Remove Message: " + this._id);
-
-        Meteor.call('deleteMail', {_id: this._id}, function (error, result) {
-            if (error) {
-                console.log(error.reason);
-            }
-            else {
-                //TODO Refresh Mail Show
-                return true;
-            }
-        });
-        //Folder.remove(this._id);
-    },
-
-    "click .moveMessage": function (event) {
-        var text = event.target.text.value;
-        if (text === undefined || text == null || text == "") {
-            return false;
-        } else {
-            Meteor.call('moveMessage', {_id: this._id}, {$set: {folder: text}}, function (error, result) {
-                if (error) {
-                    console.log(error.reason);
-                }
-                else {
-                    //TODO Refresh Folder
-                    event.target.text.value = "";
-                    return true;
-                }
-            });
-        }
     }
 });
 
@@ -198,6 +166,42 @@ Template.detail.helpers(
     {
         MessageDetail: function () {
             return Session.get('actualMsg' + this._id);
+        },
+
+        "click .removeMessage": function (event) {
+            console.log("Remove Message: " + this._id);
+
+            Meteor.call('deleteMail', {_id: this._id}, function (error, result) {
+                if (error) {
+                    console.log(error.reason);
+                }
+                else {
+                    //TODO Refresh Mail Show
+                    return true;
+                }
+            });
+            //Folder.remove(this._id);
+        },
+        "click .moveMessage": function (event) {
+            var text = event.target.text.value;
+
+            console.log(text)
+            if (text === undefined || text == null || text == "") {
+                return false;
+            } else {
+                Meteor.call('moveMessage', {_id: this._id}, {$set: {folder: text}}, function (error, result) {
+                    if (error) {
+                        console.log(error.reason);
+                    }
+                    else {
+                        //TODO Refresh Folder
+                        event.target.text.value = "";
+                        return false;
+                    }
+                });
+            }
+
+            return false;
         }
     }
 );
