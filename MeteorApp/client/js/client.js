@@ -73,7 +73,6 @@ Template.folder.events({
         //var folderName = this.folder;
 
         var key = 'folder_' + this.folder + 'show';
-
         if (Session.get(key)) {
             Session.set(key, false);
         } else {
@@ -180,16 +179,25 @@ Template.detail.helpers({
 Template.detail.events({
     "click .removeMessage": function (event) {
         console.log("Remove Message: " + this._id);
-        /*
-         Meteor.call('deleteMail', {_id: this._id}, function (error, result) {
-         if (error) {
-         console.log(error.reason);
-         }
-         else {
-         //TODO Refresh Mail Show
-         return true;
-         }
-         });*/
+        var oldFolder = this.folder;
+
+        Meteor.call('deleteMail', {_id: this._id}, function (error, result) {
+            if (error) {
+                console.log(error.reason);
+            }
+            else {
+                var messageList = Mail.find({folder: oldFolder}, {limit: 5}).fetch();
+                console.log(messageList);
+
+                Session.set('msgList' + oldFolder, messageList);
+
+                var key = 'folder_' + oldFolder + 'show';
+                Session.set(key, false);
+                Session.set(key, true);
+            }
+        });
+
+        return false;
         //Folder.remove(this._id);
     },
     "click .moveMessage": function (event) {

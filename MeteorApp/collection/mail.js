@@ -73,7 +73,6 @@ Meteor.methods({
         Mail.insert(selector);
     },
 
-
     /*
      * DELETE BLOCK
      * */
