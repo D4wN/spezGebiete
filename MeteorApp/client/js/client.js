@@ -53,6 +53,9 @@ Template.folder.events({
         Session.set('msgList', [{subject: 'loading'}]);
 
         //TODO MSGLIST
+
+        Template.instance()._limit; //TODO for Niclas!
+
         Meteor.call("getMail", {folder: this.folder}, function (error, result) {
             if (error) {
                 console.log(error.reason);
