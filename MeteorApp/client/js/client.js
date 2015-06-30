@@ -58,6 +58,19 @@ Template.folder.events({
 
         Session.set('msgList' + this.folder, messageList);
 
+        /*
+         Meteor.call("getMail", {folder: this.folder}, {limit: limitValue}, function (error, result) {
+         if (error) {
+         console.log(error.reason);
+         }
+         else {
+         console.log("results ");
+         console.log(result);
+         Session.set('msgList', result);
+         }
+         });*/
+
+        //var folderName = this.folder;
 
         var key = 'folder_' + this.folder + 'show';
 
@@ -216,14 +229,17 @@ Template.newMessage.events({
     "click .saveNewMessage": function () {
         console.log("Save new Message clicked!");
 
+        Meteor.call('addMail', messageText, folderName, function (error, result) {
+            if (error) {
+                console.log(error.reason);
+            }
+            else {
+                // Clear form
+                $("#cnmFolderName").val("");
+                $("#cnmMessageText").val("");
 
-        Method.call('addMessage', messageText, folderName);
-        $("#cnmFolderName").val("");
-        $("#cnmMessageText").val("");
-
-        $('#myModal').modal('hide');
-
-        return false;
+                $('#myModal').modal('hide');
+            }
+        });
     }
 })
-});
