@@ -1,31 +1,25 @@
-var msgList =[
-    {_id: "m1"},
-    {_id: "m2 "},
-    {_id: "m3 "}
-];
-
-
-
 Template.body.created = function () {
-   /* Meteor.call('folderList', function (error, result) {
-        if (error) {
-            console.log(error.reason);
-        }
-        else {
-            console.log("data recieved");
-            Session.set('Folder', result);
-        }
-    });*/
+    /* Meteor.call('folderList', function (error, result) {
+     if (error) {
+     console.log(error.reason);
+     }
+     else {
+     console.log("data recieved");
+     Session.set('Folder', result);
+     }
+     });*/
 };
 
 Template.body.helpers({
     Folder: function () {
         //return Session.get('Folder');
-
-        return _.uniq(Mail.find().fetch(), false, function (mails) {
+        var folderList = _.uniq(Mail.find().fetch(), false, function (mails) {
             return mails.folder
         });
 
+        Session.set('Folder', folderList);
+
+        return Session.get('Folder')
     }
 });
 
@@ -45,6 +39,10 @@ Template.folder.helpers({
             //console.log("ID(FALSE)= " + this._id);
             return false;
         }
+    },
+
+    MessageList: function () {
+        return Session.get("msgList");
     }
 });
 
@@ -52,8 +50,18 @@ Template.folder.events({
     "click .hideButtonFolder": function (event) {
         console.log("clicked! " + this.folder);
 
+        Session.set('msgList', [{subject: 'loading'}]);
+
         //TODO MSGLIST
-        msgList = Meteor.call("getMail", {folder: this.folder});
+        Meteor.call("getMail", {folder: this.folder}, function (error, result) {
+            if (error) {
+                console.log(error.reason);
+            }
+            else {
+                Session.set('msgList', result);
+            }
+        });
+
         //var folderName = this.folder;
 
         var key = 'folder_' + this.folder + 'show';
@@ -81,6 +89,7 @@ Template.folder.events({
     },
     "click .removeFolder": function (event) {
         console.log("Remove Folder: " + this.folder);
+
         Meteor.call('deleteFolder', this.folder, function (error, result) {
             if (error) {
                 console.log(error.reason);
