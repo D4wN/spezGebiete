@@ -102,7 +102,7 @@ Template.folder.events({
             }
             else {
                 //TODO Refresh Folder
-                return true;
+                return false;
             }
         });
     },
@@ -120,6 +120,7 @@ Template.folder.events({
                     event.target.text.value = "";
                 }
             });
+            return false;
         }
     },
     "click .moreMessages": function (event) {
