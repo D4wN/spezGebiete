@@ -203,6 +203,7 @@ Template.detail.events({
     "submit .moveMessage": function (event) {
         var text = event.target.text.value;
         console.log("Move to: " + text)
+        var oldFolder = this.folder;
         if (text === undefined || text == null || text == "") {
             return false;
         } else {
@@ -213,6 +214,8 @@ Template.detail.events({
                 else {
                     //TODO Refresh Folder
                     event.target.text.value = "";
+
+                    Session.set('folder_' + oldFolder + 'show', false);
                     return false;
                 }
             });
