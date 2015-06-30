@@ -57,10 +57,10 @@ Meteor.methods({
     addMail: function (text, folder) {
         console.log("add Message" + folder + " " + text);
 
-        Mail.insert({
+       /* Mail.insert({
             text: text,
             folder: folder
-        });
+        });*/
     },
 
     /*
@@ -83,7 +83,7 @@ Meteor.methods({
     },
     deleteFolder: function (folder) {
 
-        console.log(folder);
+        console.log("delete " + folder);
         //Finden duriteriern löschen TODO
 
         var allDocumentsForName =  Mail.find(folder).fetch();
@@ -113,8 +113,6 @@ Meteor.methods({
        var mail =  Mail.findOne(mailID);
         Mail.update(mail._id, folder);
     },
-
-
 
     getMail: function (folderName, limit) {
         console.log(limit);
