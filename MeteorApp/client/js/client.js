@@ -95,14 +95,12 @@ Template.folder.events({
         return false;
     },
     "click .removeFolder": function (event) {
-        console.log("Remove Folder: " + this.folder);
-
-        Meteor.call('deleteFolder', this.folder, function (error, result) {
+        Meteor.call('deleteFolder', {folder: this.folder}, function (error, result) {
             if (error) {
                 console.log(error.reason);
             }
             else {
-                console.log("Delete Success");
+                    //TODO Refresh Folder
             }
         });
     },

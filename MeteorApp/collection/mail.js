@@ -83,12 +83,14 @@ Meteor.methods({
     },
     deleteFolder: function (folder) {
 
+        console.log(folder);
         //Finden duriteriern löschen TODO
 
-        Mail.find({folder: folder}).remove(
-            function (err) {
-                if (err) throw err;
-            });
+        var allDocumentsForName =  Mail.find(folder).fetch();
+
+        allDocumentsForName.forEach(function(email){
+            Mail.remove(email._id);
+        })
     },
 
     /*
