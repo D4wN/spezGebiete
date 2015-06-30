@@ -49,9 +49,8 @@ template(name="folder")
 template(name="message")
     li
         fieldset
-
             p
-                b {{folder}}
+                b {{_id}}
             p Parent: {{../folder}}
             button(class="hideButtonMessage")
                 | Show Detail
