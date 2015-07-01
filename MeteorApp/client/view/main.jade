@@ -77,7 +77,7 @@ template(name="detail")
     div
         br
         br
-        table
+        table(style="width:100%")
             tr
                 td
                     strong ID:
@@ -85,13 +85,17 @@ template(name="detail")
             tr
                 td
                     strong Subject:
-                td  {{subject}}
+                td(colspan="2")
+                    textarea(type="text" style="width:100%;resize: none" disabled="true")
+                        |{{subject}}
+                td
             tr
                 td
                     strong Recipients:
-                td
+                td(colspan="2")
                     textarea(type="text" style="width:100%;resize: none" disabled="true")
                         |{{recipients}}
+                td
             tr
                 td
                     strong Text:
